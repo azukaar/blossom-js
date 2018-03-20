@@ -1,0 +1,33 @@
+{
+  "name": "blossom-js-monorepo",
+  "version": "0.0.1",
+  "description": "The web framework that will love you as much as you love it. Zero binding and 100% DOM powered.",
+  "main": "index.js",
+  "scripts": {
+    "bootstrap": "lerna bootstrap",
+    "test": "lerna run test",
+    "prepare": "lerna run prepare",
+    "clean": "rimraf packages/**/lib"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/azukaar/lyla-js.git"
+  },
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "keywords": [
+    "javascript",
+    "html",
+    "css",
+    "framework",
+    "data",
+    "template"
+  ],
+  "author": "Yann Stepienik",
+  "license": "ISC",
+  "devDependencies": {
+    "lerna": "^2.9.0"
+  }
+}

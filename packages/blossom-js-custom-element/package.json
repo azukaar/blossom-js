@@ -1,0 +1,23 @@
+{
+  "name": "blossom-js-custom-element",
+  "version": "0.0.1",
+  "description": "Blossom-js API to easily create custom element in JS (included in Blossom-js).",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm run test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/azukaar/blossom-js.git"
+  },
+  "keywords": [
+    "javascript",
+    "html",
+    "css",
+    "framework",
+    "data",
+    "template"
+  ],
+  "author": "Yann Stepienik",
+  "license": "ISC"
+}

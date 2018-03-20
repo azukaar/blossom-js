@@ -1,0 +1,23 @@
+{
+  "name": "blossom-js-html",
+  "version": "0.0.1",
+  "description": "Blossom-js addition DOM element for basic usage of data flow and network (included in Blossom-js).",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm run test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/azukaar/blossom-js.git"
+  },
+  "keywords": [
+    "javascript",
+    "html",
+    "css",
+    "framework",
+    "data",
+    "template"
+  ],
+  "author": "Yann Stepienik",
+  "license": "ISC"
+}
