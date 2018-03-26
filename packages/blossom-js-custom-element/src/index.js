@@ -91,7 +91,7 @@ class BlossomComponent extends HTMLElement {
 if(typeof module !== 'undefined' && module.exports) {
     module.exports = {BlossomComponent, BlossomRegister, BlossomResolveScope, BlossomInterpolate};
 }
-else if(window) {
+if(typeof window !== 'undefined') {
     window.BlossomComponent = BlossomComponent;
     window.BlossomRegister = BlossomRegister;
     window.BlossomResolveScope = BlossomResolveScope;
