@@ -10,14 +10,7 @@ const BlossomRouter = {
     }
 }
 
-
-if(typeof module !== 'undefined' && module.exports) {
-    module.exports = BlossomRouter;
-}
-
 if(typeof window !== 'undefined') {
-    window.BlossomRouter = BlossomRouter;
-
     window.onpopstate = function(event) {
         const oldPath = window._currentPath;
         const newPath = window.location.pathname;
@@ -29,3 +22,5 @@ if(typeof window !== 'undefined') {
         window._currentPath = newPath;
     };
 }
+
+export default BlossomRouter;

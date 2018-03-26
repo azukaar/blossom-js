@@ -2,7 +2,7 @@
  * @jest-environment node
  */
 
-const {document} = require('../src/index');
+require('../src/index');
 
 describe('Create virtual dom', () => {
     test('dom should exists', () => {

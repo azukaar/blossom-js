@@ -1,5 +1,5 @@
 require('blossom-js-server-side');
-require('../src/index')['l-preview'];
+require('../src/l-preview');
 
 
 describe('L-preview component', () => {

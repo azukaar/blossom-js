@@ -1,5 +1,5 @@
 require('blossom-js-server-side');
-require('../src/index')['l-if'];
+require('../src/l-if');
 
 
 describe('L-if component', () => {

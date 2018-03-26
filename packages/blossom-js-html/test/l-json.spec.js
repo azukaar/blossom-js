@@ -1,5 +1,6 @@
 require('blossom-js-server-side');
-require('../src/index')['l-json'];
+require('../src/l-js');
+require('../src/l-json');
 
 describe('L-json component', () => {
     test('Preview content on loading', () => {
@@ -35,7 +36,7 @@ describe('L-json component', () => {
     test('Correctly display template after loading', () => {
         template = `
             <l-json l-url='"./"'>
-                Hello <l-js>foo</l-js>
+                Hello <l-js>json.foo</l-js>
             </l-json>
         `;
 
@@ -48,6 +49,6 @@ describe('L-json component', () => {
         })});
         const rendered = BlossomRender(template);
 
-        expect(rendered.innerHTML).toMatch(/bar/);
+        expect(rendered.querySelector('l-js').innerHTML).toMatch(/bar/);
     });
 });

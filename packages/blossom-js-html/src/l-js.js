@@ -10,7 +10,3 @@ BlossomRegister({
     name : "l-js",
     element: JsComponent
 });
-
-if(typeof module !== 'undefined' && module.exports) {
-    module.exports = JsComponent;
-}

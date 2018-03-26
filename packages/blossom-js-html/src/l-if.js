@@ -13,7 +13,3 @@ BlossomRegister({
     name : "l-if",
     element: IfComponent
 });
-
-if(typeof module !== 'undefined' && module.exports) {
-    module.exports = IfComponent;
-}

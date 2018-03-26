@@ -1,11 +1,5 @@
-const required = {
-    "l-if": require('./l-if'),
-    "l-loop": require('./l-loop'),
-    "l-js": require('./l-js'),
-    "l-preview": require('./l-preview'),
-    "l-json": require('./l-json'),
-}
-
-if(typeof module !== 'undefined' && module.exports) {
-    module.exports = required;
-}
+require('./l-if');
+require('./l-loop');
+require('./l-js');
+require('./l-preview');
+require('./l-json');

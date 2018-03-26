@@ -1,5 +1,6 @@
 require('blossom-js-server-side');
-require('../src/index')['l-loop'];
+require('../src/l-js');
+require('../src/l-loop');
 
 
 describe('L-loop component', () => {

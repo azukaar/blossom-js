@@ -36,7 +36,3 @@ BlossomRegister({
     name : "l-preview",
     element: PreviewComponent
 });
-
-if(typeof module !== 'undefined' && module.exports) {
-    module.exports = PreviewComponent;
-}

@@ -1,5 +1,5 @@
 require('blossom-js-server-side');
-require('../src/index')['l-js'];
+require('../src/l-js');
 
 
 describe('L-js component', () => {

@@ -73,7 +73,3 @@ BlossomRegister({
     name : "l-route",
     element: RouteComponent
 });
-
-if(typeof module !== 'undefined' && module.exports) {
-    module.exports = RouteComponent;
-}

@@ -73,5 +73,3 @@ global.BlossomRender = function (template) {
 
     return brelement(domNodes);
 }
- 
-module.exports = {window, document, HTMLElement, BlossomRender};

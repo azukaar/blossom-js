@@ -26,7 +26,3 @@ BlossomRegister({
     name : "l-json",
     element: JsonComponent
 });
-
-if(typeof module !== 'undefined' && module.exports) {
-    module.exports = JsonComponent;
-}
