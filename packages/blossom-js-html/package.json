@@ -1,10 +1,10 @@
 {
   "name": "blossom-js-html",
-  "version": "0.0.2",
-  "description": "Blossom-js addition DOM element for basic usage of data flow and network (included in Blossom-js).",
+  "version": "0.1.0",
+  "description": "🌸 Blossom-js addition DOM element for basic usage of data flow and network (included in Blossom-js).",
   "main": "index.js",
   "scripts": {
-    "test": "npm run test"
+    "test": "echo 1"
   },
   "repository": {
     "type": "git",
@@ -18,6 +18,12 @@
     "data",
     "template"
   ],
+  "dependencies": {
+    "blossom-js-custom-element": "^0.1.0"
+  },
+  "devDependencies": {
+    "blossom-js-server-side": "^0.0.1"
+  },
   "author": "Yann Stepienik",
   "license": "ISC"
 }

@@ -1,10 +1,10 @@
 {
   "name": "blossom-js-router",
-  "version": "0.0.2",
-  "description": "Router for Blossom-js (included in Blossom-js).",
+  "version": "0.1.0",
+  "description": "🌸 Router for Blossom-js (included in Blossom-js).",
   "main": "index.js",
   "scripts": {
-    "test": "npm run test"
+    "test": "echo 1"
   },
   "repository": {
     "type": "git",
