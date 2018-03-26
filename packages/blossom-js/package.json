@@ -1,6 +1,6 @@
 {
   "name": "blossom-js",
-  "version": "0.3.2",
+  "version": "0.4.0",
   "description": "🌸 The web framework that will love you as much as you love it. Zero binding and 100% DOM powered.",
   "main": "index.js",
   "scripts": {
@@ -11,8 +11,8 @@
     "url": "git+https://github.com/azukaar/blossom-js.git"
   },
   "devDependencies": {
-    "blossom-js-custom-element": "^0.3.2",
-    "blossom-js-html": "^0.3.2",
+    "blossom-js-custom-element": "^0.4.0",
+    "blossom-js-html": "^0.4.0",
     "blossom-js-router": "^0.2.0"
   },
   "keywords": [
