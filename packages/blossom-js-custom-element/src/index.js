@@ -8,7 +8,7 @@ class BlossomComponent extends HTMLElement {
     }
 
     attributeChangedCallback() {
-    	this._render()
+    	this.refresh()
     }
     
     connectedCallback() {
@@ -40,7 +40,7 @@ class BlossomComponent extends HTMLElement {
             this.onMount();
         }
 
-        this._render();
+        this.refresh();
     }
 
     scopeString(value, defaultName) {
@@ -71,12 +71,14 @@ class BlossomComponent extends HTMLElement {
         return this.setAttribute('l-scope', JSON.stringify(scope));
     }
 
-    _render() {
+    refresh() {
         const scope = BlossomResolveScope(this);
         this.__scope = scope;
 
         if(this.render) {
-            this.innerHTML = this.render();
+            const result = this.render();
+            if(result)
+                this.innerHTML = result;
         }
         else {
             this.innerHTML = this.state.children;

@@ -10,10 +10,7 @@ class LoopComponent extends BlossomComponent {
 
 BlossomRegister({
     name : "l-loop",
-    element: LoopComponent,
-    attributes : [
-        "l-from"
-    ]
+    element: LoopComponent
 });
 
 if(typeof module !== 'undefined' && module.exports) {

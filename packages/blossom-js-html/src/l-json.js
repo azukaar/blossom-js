@@ -9,7 +9,7 @@ class JsonComponent extends BlossomComponent {
             .then((json) => {
                 this.state['l-loading'] = false;
                 this.setScope(json, 'json');
-                this._render();
+                this.refresh();
             });
     }
     render() {
@@ -24,10 +24,7 @@ class JsonComponent extends BlossomComponent {
 
 BlossomRegister({
     name : "l-json",
-    element: JsonComponent,
-    attributes : [
-        'l-url'
-    ]
+    element: JsonComponent
 });
 
 if(typeof module !== 'undefined' && module.exports) {

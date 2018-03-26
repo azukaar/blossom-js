@@ -4,13 +4,19 @@
   "description": "🌸 The web framework that will love you as much as you love it. Zero binding and 100% DOM powered.",
   "main": "index.js",
   "scripts": {
-    "test": "echo 1"
+    "test": "jest"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/azukaar/blossom-js.git"
   },
+  "devDependencies": {
+    "blossom-js-custom-element": "^0.2.0",
+    "blossom-js-html": "^0.2.0",
+    "blossom-js-router": "^0.2.0"
+  },
   "keywords": [
+    "blossom-js",
     "javascript",
     "html",
     "css",

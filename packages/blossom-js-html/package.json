@@ -4,13 +4,14 @@
   "description": "🌸 Blossom-js addition DOM element for basic usage of data flow and network (included in Blossom-js).",
   "main": "index.js",
   "scripts": {
-    "test": "echo 1"
+    "test": "jest"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/azukaar/blossom-js.git"
   },
   "keywords": [
+    "blossom-js",
     "javascript",
     "html",
     "css",

@@ -2,10 +2,7 @@ const {BlossomComponent, BlossomRegister} = require('blossom-js-custom-element')
 
 class IfComponent extends BlossomComponent {
     render() {
-        if(this.state['l-cond']) {
-            return this.state.children;
-        }
-        else return '';
+        return `<a onclick="event.preventDefault(); Router.navigateTo('${this.state['href']}')" href='${this.state['href']}'>${this.state['children']}</a>`;
     }
 };
 

@@ -34,9 +34,7 @@ class PreviewComponent extends BlossomComponent {
 
 BlossomRegister({
     name : "l-preview",
-    element: PreviewComponent,
-    attributes : [
-    ]
+    element: PreviewComponent
 });
 
 if(typeof module !== 'undefined' && module.exports) {

@@ -27,7 +27,7 @@ describe('Create component', () => {
         const ifComponent = document.createElement('l-if');
 
         expect(ifComponent.innerHTML).not.toBeUndefined();
-        expect(ifComponent._render).not.toBeUndefined();
+        expect(ifComponent.refresh).not.toBeUndefined();
         expect(ifComponent.connectedCallback).not.toBeUndefined();
     });
 
