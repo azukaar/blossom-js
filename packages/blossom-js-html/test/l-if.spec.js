@@ -1,10 +1,10 @@
-require('blossom-js-server-side');
-require('../src/l-if');
+import 'blossom-js-server-side';
+import '../modules/l-if';
 
 
 describe('L-if component', () => {
     test('Is able to hide/display content based on condition', () => {
-        template = `
+        const template = `
             <l-if l-cond="false">
                 I am not displayed
             </l-if>

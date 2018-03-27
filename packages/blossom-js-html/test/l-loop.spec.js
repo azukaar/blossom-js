@@ -1,11 +1,11 @@
-require('blossom-js-server-side');
-require('../src/l-js');
-require('../src/l-loop');
+import 'blossom-js-server-side';
+import '../modules/l-js';
+import '../modules/l-loop';
 
 
 describe('L-loop component', () => {
     test('Is able to repeat from an array', () => {
-        template = `
+        const template = `
             <div l-scope='{"test": [1,2,3]}'>
                 <l-loop l-from="test">
                     hey
@@ -19,7 +19,7 @@ describe('L-loop component', () => {
     });
 
     test('Is able to repeat a value', () => {
-        template = `
+        const template = `
             <div l-scope='{"test": [1,2,3]}'>
                 <l-loop l-from="test">
                     hey <l-js>loop</l-js>

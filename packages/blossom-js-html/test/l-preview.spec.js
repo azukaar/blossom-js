@@ -1,10 +1,9 @@
-require('blossom-js-server-side');
-require('../src/l-preview');
-
+import 'blossom-js-server-side';
+import '../modules/l-preview';
 
 describe('L-preview component', () => {
     test('Is able to change text to preview', () => {
-        template = `
+        const template = `
             <l-preview>
                 I am a preview
             </l-preview>

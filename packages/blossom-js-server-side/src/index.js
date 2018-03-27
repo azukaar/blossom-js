@@ -4,6 +4,9 @@ const dom = new JSDOM(`<!DOCTYPE html><body></body></html>`);
 global.window = dom.window;
 global.document = window.document;
 global.HTMLElement = class {
+    constructor() {
+    }
+
     attachShadow() {
         return document.createElement('div');
     }
@@ -34,7 +37,6 @@ document._createElement = document.createElement;
 document.createElement = (element) => {
     if(document._registerElementCache[element]) {
         const o = document._createElement(element);
-        o.tagName = element;
         Object.assign(o, manualExtends(new document._registerElementCache[element]()));
         return o;
     }

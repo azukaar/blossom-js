@@ -2,8 +2,8 @@
  * @jest-environment node
  */
 
-require('../../blossom-js-server-side/src/index');
-const {BlossomComponent, BlossomRegister} = require('../src/index');
+import 'blossom-js-server-side';
+import {BlossomComponent, BlossomRegister} from '../modules/index';
 
 class IfComponent extends BlossomComponent {
     render() {
@@ -42,7 +42,7 @@ describe('Create component', () => {
     });
 
     test('Component should render recursively', () => {
-        template = `
+        const template = `
             <l-if l-cond="true">
                 I am displayed
                 <l-if l-cond="false">
@@ -59,7 +59,7 @@ describe('Create component', () => {
 
 
     test('Component should read upper scope', () => {
-        template = `
+        const template = `
             <div l-scope='{"someBool": false, "someBool2": true}'>
                 <l-if l-cond="someBool">
                     I am not displayed
@@ -77,7 +77,7 @@ describe('Create component', () => {
     });
 
     test('Component should update class names', () => {
-        template = `
+        const template = `
             <l-if l-class='"blue"' l-cond="true">
                 <div l-class='"red"'>I am displayed</div>
             </l-if>

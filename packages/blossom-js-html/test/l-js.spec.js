@@ -1,10 +1,10 @@
-require('blossom-js-server-side');
-require('../src/l-js');
+import 'blossom-js-server-side';
+import '../modules/l-js';
 
 
 describe('L-js component', () => {
     test('Is able to hide/display content based on condition', () => {
-        template = `
+        const template = `
             <l-js>Math.sin(1)</l-js>
         `;
 

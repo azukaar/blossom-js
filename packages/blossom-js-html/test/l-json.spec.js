@@ -1,10 +1,10 @@
-require('blossom-js-server-side');
-require('../src/l-js');
-require('../src/l-json');
+import 'blossom-js-server-side';
+import '../modules/l-js';
+import '../modules/l-json';
 
 describe('L-json component', () => {
     test('Preview content on loading', () => {
-        template = `
+        const template = `
             <l-json l-url='"./"'>
                 Hello World!
             </l-json>
@@ -17,7 +17,7 @@ describe('L-json component', () => {
     });
 
     test('Replace preview after loading', () => {
-        template = `
+        const template = `
             <l-json l-url='"./"'>
                 Hello World!
             </l-json>
@@ -34,7 +34,7 @@ describe('L-json component', () => {
     });
 
     test('Correctly display template after loading', () => {
-        template = `
+        const template = `
             <l-json l-url='"./"'>
                 Hello <l-js>json.foo</l-js>
             </l-json>

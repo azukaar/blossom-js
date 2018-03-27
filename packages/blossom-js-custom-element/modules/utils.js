@@ -17,7 +17,7 @@ const hashCode = function() {
     if (this.length == 0) {
         return hash;
     }
-    for (var i = 0; i < this.length; i++) {
+    for (let i = 0; i < this.length; i++) {
         var char = this.charCodeAt(i);
         hash = ((hash<<5)-hash)+char;
         hash = hash & hash; // Convert to 32bit integer
@@ -25,7 +25,7 @@ const hashCode = function() {
     return hash;
 }
 
-setClassNames = function (element) {
+const setClassNames = function (element) {
     if(element.getAttribute('l-class')) {
         element.setAttribute('class', BlossomInterpolate(element.getAttribute('l-class')));
     }
@@ -36,7 +36,7 @@ setClassNames = function (element) {
     });
 }
 
-BlossomRegister =  function (settings) {
+const BlossomRegister =  function (settings) {
     if(typeof process !== 'undefined' && process.env.NODE_ENV !== 'production' && (!settings || !settings.name)) {
         throw new Error('Error: please set setting.name.');
     }
@@ -51,14 +51,14 @@ BlossomRegister =  function (settings) {
     return element;
 }
 
-BlossomResolveScope = function(element) {
+const BlossomResolveScope = function(element) {
     let scope = {};
 
     if(element.parentElement)
       scope = BlossomResolveScope(element.parentElement);
     if(element.getAttribute('l-scope')) {
       const elementScope = JSON.parse(element.getAttribute('l-scope'));
-      for(va in elementScope) {
+      for(let va in elementScope) {
         scope[va] = elementScope[va];
       }
     }
@@ -66,7 +66,7 @@ BlossomResolveScope = function(element) {
     return scope;
 }
 
-BlossomInterpolate = function(str, scope, from) {
+const BlossomInterpolate = function(str, scope, from) {
   const banedKeyWord = ['math', 'new', 'array', 'date', 'if', 'while', 'for', 'switch', 'case', 'break', 'continue', 'true', 'false'];
 
   const res = str.replace(/["'][\w\d \.\(\)\[\]]+["']|[\w\d\.\(\)\[\]]+/gmi, (match) => {

@@ -2,7 +2,7 @@
  * @jest-environment node
  */
 
-const {BlossomInterpolate} = require('../src/utils');
+import {BlossomInterpolate} from '../modules/utils';
 
 describe('Interpolate String', () => {
     test('Allow strings', () => {
