@@ -1,4 +1,4 @@
-const {BlossomComponent, BlossomRegister, BlossomInterpolate} = require('blossom-js-custom-element');
+import {BlossomComponent, BlossomRegister, BlossomInterpolate} from 'blossom-js-custom-element';
 
 class JsComponent extends BlossomComponent {
     render() {
