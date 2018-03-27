@@ -1,6 +1,6 @@
 {
   "name": "blossom-js-server-side",
-  "version": "0.8.0",
+  "version": "0.8.1",
   "description": "🌸 Blossom-js server side renderer (included in Blossom-js).",
   "main": "src/index.js",
   "scripts": {
@@ -14,7 +14,7 @@
     "jsdom": "11.6.2"
   },
   "files": [
-    "umd"
+    "src"
   ],
   "keywords": [
     "blossom-js",
