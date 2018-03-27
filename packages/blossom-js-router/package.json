@@ -2,7 +2,7 @@
   "name": "blossom-js-router",
   "version": "0.7.0",
   "description": "🌸 Router for Blossom-js (included in Blossom-js).",
-  "module": "src/index.js",
+  "module": "modules/index.js",
   "main": "umd/index.js",
   "scripts": {
     "test": "jest",
