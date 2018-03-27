@@ -1,6 +1,6 @@
 {
   "name": "blossom-js-router",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "description": "🌸 Router for Blossom-js (included in Blossom-js).",
   "module": "src/index.js",
   "main": "umd/index.js",
@@ -12,7 +12,9 @@
     "type": "git",
     "url": "git+https://github.com/azukaar/blossom-js.git"
   },
-  "files": ["umd"],
+  "files": [
+    "umd"
+  ],
   "keywords": [
     "blossom-js",
     "javascript",
