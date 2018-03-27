@@ -2,18 +2,20 @@
   "name": "blossom-js",
   "version": "0.4.0",
   "description": "🌸 The web framework that will love you as much as you love it. Zero binding and 100% DOM powered.",
-  "main": "index.js",
+  "module": "src/index.js",
+  "main": "umd/index.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "build": "webpack -p"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/azukaar/blossom-js.git"
   },
-  "devDependencies": {
+  "dependencies": {
     "blossom-js-custom-element": "^0.4.0",
     "blossom-js-html": "^0.4.0",
-    "blossom-js-router": "^0.2.0"
+    "blossom-js-router": "^0.4.0"
   },
   "keywords": [
     "blossom-js",
@@ -24,6 +26,7 @@
     "data",
     "template"
   ],
+  "files": ["umd"],
   "author": "Yann Stepienik",
   "license": "Apache 2.0"
 }

@@ -2,6 +2,4 @@ const {BlossomComponent, BlossomRegister, BlossomResolveScope, BlossomInterpolat
 const BlossomRouter = require('blossom-js-router');
 require('blossom-js-html');
 
-if(typeof module !== 'undefined' && module.exports) {
-    module.exports = {BlossomComponent, BlossomRegister, BlossomResolveScope, BlossomInterpolate, BlossomRouter};
-}
+export {BlossomComponent, BlossomRegister, BlossomResolveScope, BlossomInterpolate, BlossomRouter};

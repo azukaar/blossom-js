@@ -2,14 +2,17 @@
   "name": "blossom-js-router",
   "version": "0.4.0",
   "description": "🌸 Router for Blossom-js (included in Blossom-js).",
-  "main": "src/index.js",
+  "module": "src/index.js",
+  "main": "umd/index.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "build": "webpack -p"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/azukaar/blossom-js.git"
   },
+  "files": ["umd"],
   "keywords": [
     "blossom-js",
     "javascript",

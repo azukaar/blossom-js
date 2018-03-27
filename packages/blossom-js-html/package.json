@@ -2,9 +2,11 @@
   "name": "blossom-js-html",
   "version": "0.4.0",
   "description": "🌸 Blossom-js addition DOM element for basic usage of data flow and network (included in Blossom-js).",
-  "main": "index.js",
+  "module": "src/index.js",
+  "main": "umd/index.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "build": "webpack -p"
   },
   "repository": {
     "type": "git",
@@ -19,6 +21,7 @@
     "data",
     "template"
   ],
+  "files": ["umd"],
   "dependencies": {
     "blossom-js-custom-element": "^0.4.0"
   },
