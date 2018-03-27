@@ -7,6 +7,6 @@ class IfComponent extends BlossomComponent {
 };
 
 BlossomRegister({
-    name : "l-if",
+    name : "l-a",
     element: IfComponent
 });
