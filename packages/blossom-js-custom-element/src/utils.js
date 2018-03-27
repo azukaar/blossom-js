@@ -94,4 +94,4 @@ BlossomInterpolate = function(str, scope, from) {
   }
 }
 
-module.exports = {getStackTrace, hashCode, setClassNames, BlossomRegister, BlossomResolveScope, BlossomInterpolate};
+export {getStackTrace, hashCode, setClassNames, BlossomRegister, BlossomResolveScope, BlossomInterpolate};

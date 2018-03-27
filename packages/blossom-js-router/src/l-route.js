@@ -1,4 +1,4 @@
-const {BlossomComponent, BlossomRegister} = require('blossom-js-custom-element');
+import {BlossomComponent, BlossomRegister} from 'blossom-js-custom-element';
 
 class RouteComponent extends BlossomComponent {
   getFullPath(element) {

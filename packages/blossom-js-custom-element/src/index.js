@@ -1,4 +1,4 @@
-const {getStackTrace, hashCode, setClassNames, BlossomRegister, BlossomResolveScope, BlossomInterpolate} = require('./utils');
+import {getStackTrace, hashCode, setClassNames, BlossomRegister, BlossomResolveScope, BlossomInterpolate} from './utils';
 
 class BlossomComponent extends HTMLElement {
     constructor() {
@@ -88,6 +88,4 @@ class BlossomComponent extends HTMLElement {
     }
 }
 
-if(typeof module !== 'undefined' && module.exports) {
-    module.exports = {BlossomComponent, BlossomRegister, BlossomResolveScope, BlossomInterpolate};
-}
+export {BlossomComponent, BlossomRegister, BlossomResolveScope, BlossomInterpolate};

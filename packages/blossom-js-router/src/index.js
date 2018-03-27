@@ -1,3 +1,6 @@
+import './l-a';
+import './l-route';
+
 const BlossomRouter = {
     routeListeners: [],
     navigateTo(url) {

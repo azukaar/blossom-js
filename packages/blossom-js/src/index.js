@@ -1,5 +1,5 @@
-const {BlossomComponent, BlossomRegister, BlossomResolveScope, BlossomInterpolate} = require('blossom-js-custom-element');
-const BlossomRouter = require('blossom-js-router');
-require('blossom-js-html');
+import {BlossomComponent, BlossomRegister, BlossomResolveScope, BlossomInterpolate}  from 'blossom-js-custom-element';
+import BlossomRouter from 'blossom-js-router';
+import 'blossom-js-html';
 
 export {BlossomComponent, BlossomRegister, BlossomResolveScope, BlossomInterpolate, BlossomRouter};
