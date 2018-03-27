@@ -1,9 +1,8 @@
 {
   "name": "blossom-js-router",
-  "version": "0.8.1",
+  "version": "0.8.2",
   "description": "🌸 Router for Blossom-js (included in Blossom-js).",
-  "module": "modules/index.js",
-  "main": "umd/index.js",
+  "main": "modules/index.js",
   "scripts": {
     "test": "jest",
     "build": "webpack -p"
