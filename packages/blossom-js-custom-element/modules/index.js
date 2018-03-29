@@ -77,8 +77,9 @@ class BlossomComponent extends HTMLElement {
 
         if(this.render) {
             const result = this.render();
-            if(result)
+            if(result || result === '') {
                 this.innerHTML = result;
+            }
         }
         else {
             this.innerHTML = this.state.children;

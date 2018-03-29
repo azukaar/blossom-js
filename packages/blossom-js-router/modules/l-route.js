@@ -23,8 +23,7 @@ class RouteComponent extends BlossomComponent {
       return "(\\w+)";
     });
 
-    fullPath = fullPath.replace('/', '\/');
-
+    fullPath = fullPath.replace(/\/+/, '\/');
 
     const matches = currentPath.match(new RegExp(fullPath));
 
@@ -51,7 +50,7 @@ class RouteComponent extends BlossomComponent {
     if(match && !displayed) {
       const matches = JSON.stringify(match);
       this.setAttribute('l-scope', matches);
-      this.setAttribute('displayed', true);
+      this.state['l-displayed'] = true;
       return this.state.children;
     }
     else if(match && displayed) {
@@ -63,7 +62,7 @@ class RouteComponent extends BlossomComponent {
       }
     }
     else if(!match && displayed) {
-      this.setAttribute('displayed', false);
+      this.state['l-displayed'] = false;
       return '';
     }
   }

@@ -69,7 +69,7 @@ const BlossomResolveScope = function(element) {
 const BlossomInterpolate = function(str, scope, from) {
   const banedKeyWord = ['math', 'new', 'array', 'date', 'if', 'while', 'for', 'switch', 'case', 'break', 'continue', 'true', 'false'];
 
-  const res = str.replace(/["'][\w\d \.\(\)\[\]]+["']|[\w\d\.\(\)\[\]]+/gmi, (match) => {
+  const res = str.replace(/["'][\w\d \/\.\(\)\[\]]+["']|[\w\d\.\(\)\[\]]+/gmi, (match) => {
       if(!match.match(/^["']/) && !match.match(/["']$/) && match.match(/[a-zA-Z]+/) &&
           banedKeyWord.indexOf(match.split('.')[0].split('[')[0].split('(')[0].toLowerCase()) === -1) {
         return "scope."+match;

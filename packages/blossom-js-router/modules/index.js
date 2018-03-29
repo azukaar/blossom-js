@@ -9,9 +9,11 @@ if(typeof window !== 'undefined') {
     window.navigateTo = function (url) {
         const oldPath = window.location.pathname;
         window.history.pushState({},"", url);
-        for(r in BlossomRouter.routeListeners) {
-            BlossomRouter.routeListeners[r].refresh();
-        }
+        
+        Array.from(document.querySelectorAll('l-route')).forEach((route) => {
+            route.refresh();
+        });
+        
         window._currentPath = url;
     }
 

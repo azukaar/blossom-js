@@ -1,6 +1,6 @@
 import {BlossomComponent, BlossomRegister} from 'blossom-js-custom-element';
 
-class IfComponent extends BlossomComponent {
+class AComponent extends BlossomComponent {
     render() {
         return `<a onclick="event.preventDefault(); navigateTo('${this.state['href']}')" href='${this.state['href']}'>${this.state['children']}</a>`;
     }
@@ -8,5 +8,5 @@ class IfComponent extends BlossomComponent {
 
 BlossomRegister({
     name : "l-a",
-    element: IfComponent
+    element: AComponent
 });
