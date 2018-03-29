@@ -27,12 +27,15 @@ const hashCode = function() {
 
 const setClassNames = function (element) {
     if(element.getAttribute('l-class')) {
-        element.setAttribute('class', BlossomInterpolate(element.getAttribute('l-class')));
+      const scope = BlossomResolveScope(element);
+      element.setAttribute('class', BlossomInterpolate(element.getAttribute('l-class'), scope, element));
     }
     
     Array.from(element.querySelectorAll('*[l-class]')).forEach((subElement) => {
-        if(subElement.getAttribute('l-class'))
-            subElement.setAttribute('class', BlossomInterpolate(subElement.getAttribute('l-class'))) 
+        if(subElement.getAttribute('l-class')) {
+          const scope = BlossomResolveScope(subElement);
+          subElement.setAttribute('class', BlossomInterpolate(subElement.getAttribute('l-class'), scope, subElement)) 
+        }
     });
 }
 
@@ -69,7 +72,7 @@ const BlossomResolveScope = function(element) {
 const BlossomInterpolate = function(str, scope, from) {
   const banedKeyWord = ['math', 'new', 'array', 'date', 'if', 'while', 'for', 'switch', 'case', 'break', 'continue', 'true', 'false'];
 
-  const res = str.replace(/["'][\w\d \/\.\(\)\[\]]+["']|[\w\d\.\(\)\[\]]+/gmi, (match) => {
+  const res = str.replace(/["'][\w\d \/\.\(\)\[\]\%\?\#\$\:\|\;\}\{\*\@\+\`\~\,\!\£\&\^\-\=\_\\]+["']|[\w\d\.\_\(\)\[\]]+/gmi, (match) => {
       if(!match.match(/^["']/) && !match.match(/["']$/) && match.match(/[a-zA-Z]+/) &&
           banedKeyWord.indexOf(match.split('.')[0].split('[')[0].split('(')[0].toLowerCase()) === -1) {
         return "scope."+match;

@@ -3,8 +3,6 @@ import {getStackTrace, hashCode, setClassNames, BlossomRegister, BlossomResolveS
 class BlossomComponent extends HTMLElement {
     constructor() {
         super();
-        this.state = {};
-        this.shadow = {};
     }
 
     attributeChangedCallback() {
@@ -13,8 +11,9 @@ class BlossomComponent extends HTMLElement {
     
     connectedCallback() {
         this.setAttribute('children', this.innerHTML);
-        this.state.children = this.innerHTML;
+        const scope = BlossomResolveScope(this);
         this.innerHTML = '';
+        this.__scope = scope;
 
         this.state = new Proxy({},  {
             get: (obj, attr) => {

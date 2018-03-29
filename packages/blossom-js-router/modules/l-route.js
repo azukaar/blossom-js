@@ -33,7 +33,7 @@ class RouteComponent extends BlossomComponent {
     else {
       let mlist =  {match : {}};
       for(let m = 1; m < matches.length; m++) {
-        match = matches[m];
+        const match = matches[m];
         mlist.match[ listMatch[m-1] ] = match;
       }
 
