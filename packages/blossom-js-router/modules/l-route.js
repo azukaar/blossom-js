@@ -6,7 +6,7 @@ class RouteComponent extends BlossomComponent {
     if(element.tagName === 'L-ROUTE') r = element.getAttribute('l-path');
 
     if(element.parentElement)
-      return getFullPath(element.parentElement) + '/' + r;
+      return this.getFullPath(element.parentElement) + '/' + r;
     else 
       return '';
   }
@@ -17,7 +17,7 @@ class RouteComponent extends BlossomComponent {
     let fullPath = this.getFullPath(this);
     const listMatch = [];
 
-    fullUrl = "^" + fullUrl.replace(/\{\{(.*)\}\}/g, (match) => {
+    fullPath = "^" + fullPath.replace(/\{\{(.*)\}\}/g, (match) => {
       match = match.replace(/^\{\{/, '').replace(/\}\}$/, '');
       listMatch.push(match);
       return "(\\w+)";
@@ -26,7 +26,7 @@ class RouteComponent extends BlossomComponent {
     fullPath = fullPath.replace('/', '\/');
 
 
-    const matches = currentPath.match(new RegExp(fullUrl));
+    const matches = currentPath.match(new RegExp(fullPath));
 
     if(!matches) {
       return false;
@@ -44,7 +44,7 @@ class RouteComponent extends BlossomComponent {
 
   render() {
     const currentPath = window.location.pathname;
-    const url = this.state['l-path'];
+    const url = this.getAttribute('l-path');
     const displayed = this.state['l-displayed'];
     const match = this.match();
 

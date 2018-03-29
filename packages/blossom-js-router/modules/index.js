@@ -3,7 +3,10 @@ import './l-route';
 
 const BlossomRouter = {
     routeListeners: [],
-    navigateTo(url) {
+}
+
+if(typeof window !== 'undefined') {
+    window.navigateTo = function (url) {
         const oldPath = window.location.pathname;
         window.history.pushState({},"", url);
         for(r in BlossomRouter.routeListeners) {
@@ -11,10 +14,8 @@ const BlossomRouter = {
         }
         window._currentPath = url;
     }
-}
 
-if(typeof window !== 'undefined') {
-    window.onpopstate = function(event) {
+    window.onpopstate = function (event) {
         const oldPath = window._currentPath;
         const newPath = window.location.pathname;
 
