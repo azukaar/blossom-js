@@ -1,0 +1,139 @@
+<html>
+    <head>
+        <title>Hello World</title>
+        <link href="//fonts.googleapis.com/css?family=Open+Sans:300,400,600,700&amp;subset=latin" rel="stylesheet">
+        <style>
+            l-preview {
+                padding:5px;
+                display:inline-block;
+                transform-origin: 0%;
+                letter-spacing: -8px;
+                animation: loading 1s ease infinite;
+            }
+
+            @keyframes loading { 
+                0%{opacity:1}
+                50%{opacity:.5}
+                100%{opacity:1}
+            }
+
+            font-face {
+                font-family: 'Open Sans';
+                font-style: normal;
+                font-weight: 400;
+                src: local('Open Sans'), local('OpenSans'), url('http://themes.googleusercontent.com/static/fonts/opensans/v5/cJZKeOuBrn4kERxqtaUH3T8E0i7KZn-EPnyo3HZu7kw.woff') format('woff');
+            }
+            
+            body {
+                color: white;
+                font-size:120%;
+                text-align:center;
+                font-family: 'open sans';
+                text-shadow: 0px 2px 2px rgba(80, 80, 80, 1);
+                background-image: url('images/cloudy.jpg'); 
+                font-weight: 100;
+            }
+
+            a {
+                color: white;
+                font-size:120%;
+                text-align:center;
+                font-family: 'open sans';
+                font-weight: 100;
+                text-decoration: none;
+            }
+
+            .menu {
+                font-size:100%;
+                border-bottom: white 1px solid;
+                padding-bottom: 10px;
+            }
+
+            .menu a {
+                padding:5px;
+            }
+
+            h1,h2,h3 {
+                font-weight: 100;
+            }
+
+            body.Snow {
+                 background-image: url('images/Snow.jpg'); 
+                background-size: cover;
+            }
+
+            body.Cloudy {
+                 background-image: url('images/cloudy.jpg'); 
+                background-size: cover;
+            }
+
+            .subtitle {
+                font-size:80%;
+                margin-top:-30px;
+                margin-bottom: 20px;
+            }
+
+            l-loop {
+                margin-top:20px;
+                display : table;
+                width: 100%;
+            }
+            .day {
+                display : table-row;
+                width: 100%;
+                margin-top:10px;
+            }
+            .value {
+                display : table-cell;
+                width: 32%;
+            }
+            div.icon {
+                width:32px;
+                height:32px;
+                background-size: 100%;
+                display: inline-block;
+            }
+            div.icon.Rain {
+                background-image: url('icon/rain.png');
+            }
+            div.icon.Cloudy {
+                background-image: url('icon/cloudy.png');
+            }
+            div.icon.Snow {
+                background-image: url('icon/snow.png');
+            }
+    </style>
+    </head>
+    <body l-class="'weather'">
+        <div class="menu">
+            <l-a href="'/Paris'">Paris</l-a>
+            <l-a href="'/London'">London</l-a>
+        </div>
+
+        <l-route l-path="/{{city}}">
+            <l-json l-url="'https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20weather.forecast%20where%20woeid%20in%20(select%20woeid%20from%20geo.places(1)%20where%20text%3D%22' + match.city + '%2C%20ak%22)&format=json&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys'">
+                
+                <h1><l-js>match.city</l-js></h1>
+                <div class='subtitle'><l-js>json.query.results.channel.item.forecast[0].text</l-js></div>
+                <l-state weather="json.query.results.channel.item.forecast[0].text" />
+
+                <div class='sunrise'>
+                    <l-js>json.query.results.channel.astronomy.sunrise</l-js>
+                    <l-js>json.query.results.channel.astronomy.sunset</l-js>
+                </div>
+
+                <div class='forecast'>
+                    <l-loop l-from="json.query.results.channel.item.forecast">                        
+                        <div class='day'>
+                            <div class='value'><l-js>loop.date</l-js></div>
+                            <div class='value'><div l-class="'icon' + loop.text"></div></div>
+                            <div class='value'><l-js>loop.high</l-js></div>
+                        </div>
+                    </l-loop>
+                </div>
+            </l-json>
+        </l-route>
+
+        <script src='http://localhost:3000/packages/blossom-js/umd/index.js'></script>
+    </body>
+</html>
