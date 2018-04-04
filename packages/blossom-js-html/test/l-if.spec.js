@@ -3,8 +3,8 @@ import '../modules/l-if';
 
 
 describe('L-if component', () => {
-    test('Is able to hide/display content based on condition', () => {
-        const template = `
+  test('Is able to hide/display content based on condition', () => {
+    const template = `
             <l-if l-cond="false">
                 I am not displayed
             </l-if>
@@ -13,9 +13,9 @@ describe('L-if component', () => {
             </l-if>
         `;
 
-        const rendered = BlossomRender(template);
+    const rendered = BlossomRender(template);
 
-        expect(rendered.textContent).toMatch(/I am displayed/);
-        expect(rendered.textContent).not.toMatch(/I am not displayed/);
-    })
+    expect(rendered.textContent).toMatch(/I am displayed/);
+    expect(rendered.textContent).not.toMatch(/I am not displayed/);
+  });
 });

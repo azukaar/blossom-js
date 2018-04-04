@@ -2,10 +2,11 @@
   "name": "blossom-js-custom-element",
   "version": "0.12.0",
   "description": "🌸 Blossom-js API to easily create custom element in JS (included in Blossom-js).",
-  "main": "modules/index.js",
+  "main": "umd/index.js",
   "module": "modules/index.js",
   "scripts": {
     "test": "jest",
+    "lint": "eslint --fix ./modules ./test",
     "build": "webpack -p"
   },
   "repository": {

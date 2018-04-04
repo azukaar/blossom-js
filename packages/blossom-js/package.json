@@ -2,10 +2,11 @@
   "name": "blossom-js",
   "version": "0.12.0",
   "description": "🌸 The web framework that will love you as much as you love it. Zero binding and 100% DOM powered.",
-  "main": "modules/index.js",
+  "main": "umd/index.js",
   "module": "modules/index.js",
   "scripts": {
     "test": "jest",
+    "lint": "eslint --fix ./modules ./test",
     "build": "webpack -p"
   },
   "repository": {

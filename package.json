@@ -5,15 +5,16 @@
   "main": "index.js",
   "scripts": {
     "bootstrap": "lerna bootstrap --use-workspaces",
-    "test": "lerna run test",
+    "test": "lerna run lint; jest --coverage; cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js",
     "prepare": "lerna run prepare",
     "build": "lerna run build",
-    "publish": "lerna publish",
+    "publish": "npm run build; lerna publish",
+    "lint": "lerna run lint",
     "clean": "rimraf packages/**/lib"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/azukaar/lyla-js.git"
+    "url": "git+https://github.com/azukaar/blossom-js.git"
   },
   "private": true,
   "workspaces": [
@@ -37,6 +38,10 @@
   "devDependencies": {
     "babel-jest": "^22.4.3",
     "babel-preset-env": "^1.6.1",
+    "eslint": "^4.19.1",
+    "eslint-config-airbnb-base": "^12.1.0",
+    "eslint-plugin-import": "^2.10.0",
+    "eslint-plugin-jest": "^21.15.0",
     "jest": "^22.4.2",
     "lerna": "^2.9.0",
     "webpack": "^4.3.0",

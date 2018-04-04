@@ -4,7 +4,8 @@
   "description": "🌸 Blossom-js server side renderer (included in Blossom-js).",
   "main": "src/index.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "lint": "eslint --fix ./modules ./test"
   },
   "repository": {
     "type": "git",

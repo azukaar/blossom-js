@@ -2,31 +2,21 @@ import './l-a';
 import './l-route';
 
 const BlossomRouter = {
-    routeListeners: [],
-}
+  routeListeners: [],
+};
 
-if(typeof window !== 'undefined') {
-    window.navigateTo = function (url) {
-        const oldPath = window.location.pathname;
-        window.history.pushState({},"", url);
-        
-        Array.from(document.querySelectorAll('l-route')).forEach((route) => {
-            route.refresh();
-        });
-        
-        window._currentPath = url;
-    }
+if (typeof window !== 'undefined') {
+  window.navigateTo = function navigateTo(url) {
+    window.history.pushState({}, '', url);
 
-    window.onpopstate = function (event) {
-        const oldPath = window._currentPath;
-        const newPath = window.location.pathname;
+    Array.from(document.querySelectorAll('l-route')).forEach((route) => {
+      route.refresh();
+    });
+  };
 
-        for(r in BlossomRouter.routeListeners) {
-            BlossomRouter.routeListeners[r].refresh();
-        }
-
-        window._currentPath = newPath;
-    };
+  window.onpopstate = function onpopstate() {
+    BlossomRouter.routeListeners.map(route => route.refresh());
+  };
 }
 
 export default BlossomRouter;

@@ -1,12 +1,12 @@
-import {BlossomComponent, BlossomRegister} from 'blossom-js-custom-element';
+import { BlossomComponent, BlossomRegister } from 'blossom-js-custom-element';
 
 class AComponent extends BlossomComponent {
-    render() {
-        return `<a onclick="event.preventDefault(); navigateTo('${this.state['href']}')" href='${this.state['href']}'>${this.state['children']}</a>`;
-    }
-};
+  render() {
+    return `<a onclick="event.preventDefault(); navigateTo('${this.state.href}')" href='${this.state.href}'>${this.state.children}</a>`;
+  }
+}
 
 BlossomRegister({
-    name : "l-a",
-    element: AComponent
+  name: 'l-a',
+  element: AComponent,
 });

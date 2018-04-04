@@ -4,8 +4,8 @@ import '../modules/l-loop';
 
 
 describe('L-loop component', () => {
-    test('Is able to repeat from an array', () => {
-        const template = `
+  test('Is able to repeat from an array', () => {
+    const template = `
             <div l-scope='{"test": [1,2,3]}'>
                 <l-loop l-from="test">
                     hey
@@ -13,13 +13,13 @@ describe('L-loop component', () => {
             </div>
         `;
 
-        const rendered = BlossomRender(template);
+    const rendered = BlossomRender(template);
 
-        expect(rendered.textContent.split('hey').length).toBe(4);
-    });
+    expect(rendered.textContent.split('hey').length).toBe(4);
+  });
 
-    test('Is able to repeat a value', () => {
-        const template = `
+  test('Is able to repeat a value', () => {
+    const template = `
             <div l-scope='{"test": [1,2,3]}'>
                 <l-loop l-from="test">
                     hey <l-js>loop</l-js>
@@ -27,10 +27,10 @@ describe('L-loop component', () => {
             </div>
         `;
 
-        const rendered = BlossomRender(template);
+    const rendered = BlossomRender(template);
 
-        expect(rendered.textContent).toMatch(/1/);
-        expect(rendered.textContent).toMatch(/2/);
-        expect(rendered.textContent).toMatch(/3/);
-    })
+    expect(rendered.textContent).toMatch(/1/);
+    expect(rendered.textContent).toMatch(/2/);
+    expect(rendered.textContent).toMatch(/3/);
+  });
 });

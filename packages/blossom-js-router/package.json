@@ -2,10 +2,11 @@
   "name": "blossom-js-router",
   "version": "0.12.0",
   "description": "🌸 Router for Blossom-js (included in Blossom-js).",
-  "main": "modules/index.js",
+  "main": "umd/index.js",
   "module": "modules/index.js",
   "scripts": {
     "test": "jest",
+    "lint": "eslint --fix ./modules ./test",
     "build": "webpack -p"
   },
   "repository": {
