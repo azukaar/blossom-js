@@ -2,7 +2,7 @@
   "name": "blossom-js-html",
   "version": "0.13.0",
   "description": "🌸 Blossom-js addition DOM element for basic usage of data flow and network (included in Blossom-js).",
-  "main": "umd/index.js",
+  "main": "modules/index.js",
   "module": "modules/index.js",
   "scripts": {
     "test": "jest",
