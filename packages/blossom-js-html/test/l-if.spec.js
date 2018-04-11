@@ -1,7 +1,6 @@
 import 'blossom-js-server-side';
 import '../modules/l-if';
 
-
 describe('L-if component', () => {
   test('Is able to hide/display content based on condition', () => {
     const template = `

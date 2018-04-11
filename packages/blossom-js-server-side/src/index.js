@@ -46,7 +46,6 @@ document.createElement = (element) => {
     }
 }
 
-
 global.BlossomRender = function (template) {
     const domNodes = document.createElement('div');
     domNodes.innerHTML = template;
@@ -75,3 +74,5 @@ global.BlossomRender = function (template) {
 
     return brelement(domNodes);
 }
+
+window.__SERVERSIDE = true;

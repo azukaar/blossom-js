@@ -1,3 +1,13 @@
+let documentReady;
+const unloaded = {};
+
+if (typeof window !== 'undefined') {
+  documentReady = window.__SERVERSIDE ? Promise.resolve() : new Promise((resolve) => {
+    document.addEventListener('DOMContentLoaded', () =>
+      resolve());
+  });
+}
+
 
 function getStackTrace(element, notFirst = false) {
   let stack = '';
@@ -24,20 +34,34 @@ const hashCode = function hashCode() {
   return hash;
 };
 
+const BlossomCheckParentsAreLoaded = function BlossomCheckParentsAreLoaded(element) {
+  if (unloaded[element.tagName.toLowerCase()]) return false;
+
+  if (element.parentElement) return BlossomCheckParentsAreLoaded(element.parentElement);
+
+  return true;
+};
+
 const BlossomRegister = function BlossomRegister(settings) {
   if (typeof process !== 'undefined' && process.env.NODE_ENV !== 'production' && (!settings || !settings.name)) {
     throw new Error('Error: please set setting.name.');
   }
 
-  const { element } = settings;
-  // eslint-disable-next-line no-param-reassign
-  delete settings.element;
+  unloaded[settings.name] = true;
 
-  element.prototype.settings = settings;
+  documentReady.then(() => {
+    const { element } = settings;
+    // eslint-disable-next-line no-param-reassign
+    delete settings.element;
 
-  customElements.define(settings.name, element, {});
+    element.prototype.settings = settings;
 
-  return element;
+    customElements.define(settings.name, element, {});
+
+    unloaded[settings.name] = false;
+
+    return element;
+  });
 };
 
 const BlossomResolveScope = function BlossomResolveScope(element) {
@@ -79,7 +103,7 @@ const BlossomInterpolate = function BlossomInterpolate(str, scope, from) {
       console.error('Tried to evaluate : ', res);
       console.error(e.message, 'but no stacktrace available, provide target element to BlossomInterpolate as a third argument to display DOM position');
     }
-    return 'FAILED';
+    return undefined;
   }
   /* eslint-enable no-console */
 };
@@ -91,6 +115,9 @@ const setClassNames = function setClassNames(element) {
   }
 
   Array.from(element.querySelectorAll('*[l-class]')).forEach((subElement) => {
+    if (subElement.parentElement && !BlossomCheckParentsAreLoaded(subElement.parentElement)) {
+      return false;
+    }
     if (subElement.getAttribute('l-class')) {
       const scope = BlossomResolveScope(subElement);
       subElement.setAttribute('class', BlossomInterpolate(subElement.getAttribute('l-class'), scope, subElement));
@@ -105,4 +132,5 @@ export {
   BlossomRegister,
   BlossomResolveScope,
   BlossomInterpolate,
+  BlossomCheckParentsAreLoaded,
 };

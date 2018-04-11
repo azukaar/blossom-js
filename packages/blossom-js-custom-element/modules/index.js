@@ -1,4 +1,4 @@
-import { setClassNames, BlossomRegister, BlossomResolveScope, BlossomInterpolate } from './utils';
+import { setClassNames, BlossomRegister, BlossomResolveScope, BlossomInterpolate, BlossomCheckParentsAreLoaded } from './utils';
 
 class BlossomComponent extends HTMLElement {
   attributeChangedCallback() {
@@ -7,8 +7,11 @@ class BlossomComponent extends HTMLElement {
 
   connectedCallback() {
     this.setAttribute('children', this.innerHTML);
-    const scope = BlossomResolveScope(this);
     this.innerHTML = '';
+
+    if (this.parentElement && !BlossomCheckParentsAreLoaded(this.parentElement)) return false;
+
+    const scope = BlossomResolveScope(this);
     this.__scope = scope;
 
     this.state = new Proxy({}, {
