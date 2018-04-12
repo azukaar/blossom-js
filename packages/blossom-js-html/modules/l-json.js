@@ -2,18 +2,18 @@ import { BlossomComponent, BlossomRegister } from 'blossom-js-custom-element';
 
 class JsonComponent extends BlossomComponent {
   onMount() {
-    this.state['l-loading'] = true;
+    this.state.loading = true;
 
-    fetch(this.state['l-url'])
+    fetch(this.state.url)
       .then((res) => res.json())
       .then((json) => {
-        this.state['l-loading'] = false;
+        this.state.loading = false;
         this.setScope(json, 'json');
         this.refresh();
       });
   }
   render() {
-    if (this.state['l-loading']) {
+    if (this.state.loading) {
       return `<l-preview>${this.state.children}</l-preview>`;
     }
 

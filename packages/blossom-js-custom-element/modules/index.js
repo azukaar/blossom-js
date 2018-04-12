@@ -19,8 +19,24 @@ class BlossomComponent extends HTMLElement {
         if (attr === 'scope') return this.__scope;
         else if (attr === 'children') return this.getAttribute('children');
         else if (typeof attr === 'string') {
+          if (this.getAttribute(`l-${attr}`)) {
+            const result = BlossomInterpolate(this.getAttribute(`l-${attr}`), this.__scope, this);
+            this.setAttribute(attr, JSON.stringify(result));
+            return result;
+          }
+
           if (this.getAttribute(attr)) {
-            return BlossomInterpolate(this.getAttribute(attr), this.__scope, this);
+            const result = this.getAttribute(attr);
+            if (result === 'true') return true;
+            else if (result === 'false') return false;
+            else if (result.match(/^[\{\[]/) && result.match(/[\}\]]$/)) {
+              try {
+                return JSON.stringify(result);
+              } catch (e) {
+                return result;
+              }
+            } else if (typeof result === 'number') return Number(result);
+            return result;
           }
 
           return '';

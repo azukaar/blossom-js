@@ -8,7 +8,6 @@ if (typeof window !== 'undefined') {
   });
 }
 
-
 function getStackTrace(element, notFirst = false) {
   let stack = '';
   let Firststack = '';

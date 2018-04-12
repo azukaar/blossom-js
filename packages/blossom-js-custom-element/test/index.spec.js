@@ -7,7 +7,7 @@ import { BlossomComponent, BlossomRegister } from '../modules/index';
 
 class IfComponent extends BlossomComponent {
   render() {
-    if (this.state['l-cond']) {
+    if (this.state.cond) {
       return this.state.children;
     }
     return '';
