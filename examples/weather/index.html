@@ -107,6 +107,7 @@
     </head>
     <body l-class="state.weather">
         <l-state weather='Sunny'></l-state>
+
         <div class="menu">
             <l-a href="/Paris">Paris</l-a>
             <l-a href="/London">London</l-a>
@@ -114,10 +115,11 @@
 
         <l-route l-path="/{{city}}">
             <l-json l-url="'https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20weather.forecast%20where%20woeid%20in%20(select%20woeid%20from%20geo.places(1)%20where%20text%3D%22' + match.city + '%2C%20ak%22)&format=json&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys'">
+                <l-state l-weather="json.query.results.channel.item.forecast[0].text" />
                 
                 <h1><l-js>match.city</l-js></h1>
+
                 <div class='subtitle'><l-js>json.query.results.channel.item.forecast[0].text</l-js></div>
-                <l-state l-weather="json.query.results.channel.item.forecast[0].text" />
 
                 <div class='sunrise'>
                     <l-js>json.query.results.channel.astronomy.sunrise</l-js>
