@@ -1,4 +1,4 @@
-import { getStateProxy, patchDomAccess, setClassNames, BlossomRegister, BlossomResolveScope, BlossomInterpolate, BlossomCheckParentsAreLoaded } from './utils';
+import { getPropProxy, patchDomAccess, setClassNames, BlossomRegister, BlossomResolveScope, BlossomInterpolate, BlossomCheckParentsAreLoaded } from './utils';
 
 class BlossomComponent extends HTMLElement {
   attributeChangedCallback() {
@@ -14,7 +14,7 @@ class BlossomComponent extends HTMLElement {
     const scope = BlossomResolveScope(this);
     this.__scope = scope;
 
-    this.state = getStateProxy(this);
+    this.props = getPropProxy(this);
 
     patchDomAccess(this);
 
@@ -59,19 +59,25 @@ class BlossomComponent extends HTMLElement {
         this.innerHTML = result;
       }
     } else {
-      this.innerHTML = this.state.children;
+      this.innerHTML = this.prop.children;
     }
 
     setClassNames(this);
   }
 }
 
-function BlossomRefreshState() {
+function BlossomSetState(state, value) {
+  if (typeof window !== 'undefined' && !window.state) {
+    window.state = {};
+  }
+
+  window.state[state] = value;
+
   setClassNames(document.body);
 }
 
 export {
-  BlossomRefreshState,
+  BlossomSetState,
   BlossomComponent,
   BlossomRegister,
   BlossomResolveScope,

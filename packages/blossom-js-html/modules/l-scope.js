@@ -1,16 +1,11 @@
-import { BlossomComponent, BlossomRegister, BlossomInterpolate } from 'blossom-js-custom-element';
+import { BlossomComponent, BlossomRegister } from 'blossom-js-custom-element';
 
 class ScopeComponent extends BlossomComponent {
   render() {
-    let attrName = this.attributes[0].name;
-    let value = this.getAttribute(attrName);
+    Object.keys(this.props).forEach((name) => {
+      this.parentElement.state.scope[name] = this.props[name];
+    });
 
-    if (attrName.match(/^l-/)) {
-      attrName = attrName.slice(2);
-      value = BlossomInterpolate(value, this.state.scope, this);
-    }
-
-    this.parentElement.state.scope[attrName] = value;
     return '';
   }
 }

@@ -39,23 +39,23 @@ class RouteComponent extends BlossomComponent {
   }
 
   render() {
-    const displayed = this.state['l-displayed'];
+    const displayed = this.props['l-displayed'];
     const match = this.match();
 
     if (match && !displayed) {
       const matches = JSON.stringify(match);
       this.setAttribute('l-scope', matches);
-      this.state['l-displayed'] = true;
-      return this.state.children;
+      this.props['l-displayed'] = true;
+      return this.props.children;
     } else if (match && displayed) {
       const old = this.getAttribute('l-scope');
       const newC = JSON.stringify(match);
       if (old !== newC) {
         this.setAttribute('l-scope', newC);
-        return this.state.children;
+        return this.props.children;
       }
     } else if (!match && displayed) {
-      this.state['l-displayed'] = false;
+      this.props['l-displayed'] = false;
       return '';
     }
   }

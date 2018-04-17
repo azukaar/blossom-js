@@ -1,19 +1,11 @@
-import { BlossomRefreshState, BlossomComponent, BlossomRegister, BlossomInterpolate } from 'blossom-js-custom-element';
+import { BlossomSetState, BlossomComponent, BlossomRegister } from 'blossom-js-custom-element';
 
 class StateComponent extends BlossomComponent {
   render() {
-    if (!window.state) window.state = {};
-    let attrName = this.attributes[0].name;
-    let value = this.getAttribute(attrName);
+    Object.keys(this.props).forEach((name) => {
+      BlossomSetState(name, this.props[name]);
+    });
 
-    if (attrName.match(/^l-/)) {
-      attrName = attrName.slice(2);
-      value = BlossomInterpolate(value, this.state.scope, this);
-    }
-
-    window.state[attrName] = value;
-
-    BlossomRefreshState();
     return '';
   }
 }

@@ -25,12 +25,12 @@ class PreviewComponent extends BlossomComponent {
     };
 
     const _temp = document.createElement('div');
-    _temp.innerHTML = this.state.children;
-    this.state.children = toPreview(_temp).innerHTML;
+    _temp.innerHTML = this.props.children;
+    this.props.children = toPreview(_temp).innerHTML;
     /* eslint-enable no-param-reassign */
   }
   render() {
-    return this.state.children;
+    return this.props.children;
   }
 }
 

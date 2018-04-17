@@ -2,7 +2,7 @@ import { BlossomComponent, BlossomRegister } from 'blossom-js-custom-element';
 
 class AComponent extends BlossomComponent {
   render() {
-    return `<a onclick="event.preventDefault(); navigateTo('${this.state.href}')" href='${this.state.href}'>${this.state.children}</a>`;
+    return `<a onclick="event.preventDefault(); navigateTo('${this.props.href}')" href='${this.props.href}'>${this.props.children}</a>`;
   }
 }
 

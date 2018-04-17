@@ -2,22 +2,22 @@ import { BlossomComponent, BlossomRegister } from 'blossom-js-custom-element';
 
 class JsonComponent extends BlossomComponent {
   onMount() {
-    this.state.loading = true;
+    this.props.loading = true;
 
-    fetch(this.state.url)
+    fetch(this.props.url)
       .then((res) => res.json())
       .then((json) => {
-        this.state.loading = false;
+        this.props.loading = false;
         this.setAliasableScope(json, 'json');
         this.refresh();
       });
   }
   render() {
-    if (this.state.loading) {
-      return `<l-preview>${this.state.children}</l-preview>`;
+    if (this.props.loading) {
+      return `<l-preview>${this.props.children}</l-preview>`;
     }
 
-    return this.state.children;
+    return this.props.children;
   }
 }
 

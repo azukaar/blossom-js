@@ -79,14 +79,8 @@ const BlossomResolveScope = function BlossomResolveScope(element) {
 };
 
 const BlossomInterpolate = function BlossomInterpolate(str, scope, from) {
-  const banedKeyWord = ['math', 'new', 'array', 'date', 'if', 'while', 'for', 'switch', 'case', 'break', 'continue', 'true', 'false'];
+  const banedKeyWord = ['state', 'math', 'new', 'array', 'date', 'if', 'while', 'for', 'switch', 'case', 'break', 'continue', 'true', 'false'];
   // eslint-disable-next-line  no-unused-vars
-
-  if (typeof window !== 'undefined' && window.state) {
-    Object.defineProperty(scope, 'state', {
-      get: () => window.state,
-    });
-  }
 
   // eslint-disable-next-line no-useless-escape
   const res = str.replace(/["'][\w\d \/\.\(\)\[\]\%\?\#\$\:\|\;\}\{\*\@\+\`\~\,\!\£\&\^\-\=\_\\]+["']|[\w\d\.\_\(\)\[\]]+/gmi, (match) => {
@@ -132,12 +126,41 @@ const setClassNames = function setClassNames(element) {
 };
 
 /* eslint-disable no-param-reassign */
-function getStateProxy(mainElement) {
+function getPropProxy(mainElement) {
   return new Proxy({}, {
+    ownKeys: (target) => {
+      const attrs = [];
+
+      Array.from(mainElement.attributes)
+        .filter(e => e.name !== 'children' && e.name !== 'scope' && e.name !== 'l-scope' &&
+                e.name !== 'l-class' && e.name !== 'class' &&
+                e.name !== 'l-style' && e.name !== 'style')
+        .forEach(e => {
+          if (e.name.match(/^l-/)) {
+            const realName = e.name.slice(2);
+            if (attrs.indexOf(realName === -1)) attrs.push(realName);
+          } else if (!attrs.indexOf(e.name) === -1) {
+            attrs.push(e.value);
+          }
+        });
+
+      return attrs;
+    },
+    getOwnPropertyDescriptor: (oTarget, sKey) => ({
+      value: mainElement.props[sKey],
+      writable: true,
+      enumerable: true,
+      configurable: true,
+    }),
     get: (obj, attr) => {
       if (attr === 'scope') {
         return new Proxy({}, {
-          get: (scopeobj, scopeattr) => mainElement.__scope[scopeattr],
+          get: (scopeobj, scopeattr) => {
+            if (typeof scopeattr === 'string' && scopeattr.length > 0) {
+              return mainElement.__scope[scopeattr];
+            }
+            return mainElement.__scope;
+          },
           set: (scopeobj, scopeattr, value) => {
             if (mainElement.getAttribute('l-scope')) {
               const temp = JSON.parse(mainElement.getAttribute('l-scope'));
@@ -152,7 +175,7 @@ function getStateProxy(mainElement) {
           },
         });
       } else if (attr === 'children') return mainElement.getAttribute('children');
-      else if (typeof attr === 'string') {
+      else if (typeof attr === 'string' && attr.length > 0) {
         if (mainElement.getAttribute(`l-${attr}`)) {
           const result = BlossomInterpolate(mainElement.getAttribute(`l-${attr}`), mainElement.__scope, mainElement);
           mainElement.setAttribute(attr, JSON.stringify(result));
@@ -185,8 +208,8 @@ function getStateProxy(mainElement) {
 }
 
 function patchToBlossom(elementToPatch) {
-  if (elementToPatch && !elementToPatch.state) {
-    elementToPatch.state = getStateProxy(elementToPatch);
+  if (elementToPatch && !elementToPatch.prop) {
+    elementToPatch.prop = getPropProxy(elementToPatch);
   }
   if (elementToPatch && !elementToPatch.__scope) {
     elementToPatch.__scope = {};
@@ -209,7 +232,7 @@ export {
   hashCode,
   setClassNames,
   patchDomAccess,
-  getStateProxy,
+  getPropProxy,
   BlossomRegister,
   BlossomResolveScope,
   BlossomInterpolate,

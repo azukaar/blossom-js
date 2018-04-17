@@ -2,7 +2,7 @@ import { BlossomComponent, BlossomRegister, BlossomInterpolate } from 'blossom-j
 
 class JsComponent extends BlossomComponent {
   render() {
-    return BlossomInterpolate(this.state.children, this.state.scope, this);
+    return BlossomInterpolate(this.props.children, this.props.scope, this);
   }
 }
 

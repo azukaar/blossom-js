@@ -7,8 +7,8 @@ import { BlossomComponent, BlossomRegister } from '../modules/index';
 
 class IfComponent extends BlossomComponent {
   render() {
-    if (this.state.cond) {
-      return this.state.children;
+    if (this.props.cond) {
+      return this.props.children;
     }
     return '';
   }
@@ -95,6 +95,18 @@ describe('Create component', () => {
     expect(element.alisableScopeString('bar')).toContain('value');
     element.setAttribute('l-alias', 'testing');
     expect(element.alisableScopeString('bar', 'foo')).toContain('testing');
+  });
+
+  test('Allow listing props', () => {
+    const template = `
+            <l-if l-cond="true">
+                <div>I am displayed</div>
+            </l-if>
+        `;
+
+    const rendered = BlossomRender(template);
+
+    expect(rendered.children[0].props).toEqual({ cond: true });
   });
 });
 
