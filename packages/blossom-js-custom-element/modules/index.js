@@ -1,4 +1,4 @@
-import { setClassNames, BlossomRegister, BlossomResolveScope, BlossomInterpolate, BlossomCheckParentsAreLoaded } from './utils';
+import { getStateProxy, patchDomAccess, setClassNames, BlossomRegister, BlossomResolveScope, BlossomInterpolate, BlossomCheckParentsAreLoaded } from './utils';
 
 class BlossomComponent extends HTMLElement {
   attributeChangedCallback() {
@@ -14,40 +14,9 @@ class BlossomComponent extends HTMLElement {
     const scope = BlossomResolveScope(this);
     this.__scope = scope;
 
-    this.state = new Proxy({}, {
-      get: (obj, attr) => {
-        if (attr === 'scope') return this.__scope;
-        else if (attr === 'children') return this.getAttribute('children');
-        else if (typeof attr === 'string') {
-          if (this.getAttribute(`l-${attr}`)) {
-            const result = BlossomInterpolate(this.getAttribute(`l-${attr}`), this.__scope, this);
-            this.setAttribute(attr, JSON.stringify(result));
-            return result;
-          }
+    this.state = getStateProxy(this);
 
-          if (this.getAttribute(attr)) {
-            const result = this.getAttribute(attr);
-            if (result === 'true') return true;
-            else if (result === 'false') return false;
-            else if (result.match(/^[\{\[]/) && result.match(/[\}\]]$/)) {
-              try {
-                return JSON.stringify(result);
-              } catch (e) {
-                return result;
-              }
-            } else if (typeof result === 'number') return Number(result);
-            return result;
-          }
-
-          return '';
-        }
-      },
-      set: (obj, attr, value) => {
-        if (attr === 'scope') this.__scope = value;
-        else if (typeof attr === 'string') this.setAttribute(attr, JSON.stringify(value));
-        return true;
-      },
-    });
+    patchDomAccess(this);
 
     if (this.onMount) {
       this.onMount();
@@ -56,7 +25,7 @@ class BlossomComponent extends HTMLElement {
     this.refresh();
   }
 
-  scopeString(value, defaultName) {
+  alisableScopeString(value, defaultName) {
     const scope = {};
     if (this.getAttribute('l-alias')) {
       scope[this.getAttribute('l-alias')] = value;
@@ -68,7 +37,7 @@ class BlossomComponent extends HTMLElement {
     return `l-scope='${JSON.stringify(scope)}'`;
   }
 
-  setScope(value, defaultName) {
+  setAliasableScope(value, defaultName) {
     const scope = {};
     if (this.getAttribute('l-alias')) {
       scope[this.getAttribute('l-alias')] = value;
@@ -97,4 +66,14 @@ class BlossomComponent extends HTMLElement {
   }
 }
 
-export { BlossomComponent, BlossomRegister, BlossomResolveScope, BlossomInterpolate };
+function BlossomRefreshState() {
+  setClassNames(document.body);
+}
+
+export {
+  BlossomRefreshState,
+  BlossomComponent,
+  BlossomRegister,
+  BlossomResolveScope,
+  BlossomInterpolate,
+};

@@ -105,7 +105,8 @@
     </style>
     <script src='http://localhost:3000/packages/blossom-js/umd/index.js'></script>
     </head>
-    <body l-class="'weather'">
+    <body l-class="state.weather">
+        <l-state weather='Sunny'></l-state>
         <div class="menu">
             <l-a href="/Paris">Paris</l-a>
             <l-a href="/London">London</l-a>
@@ -116,7 +117,7 @@
                 
                 <h1><l-js>match.city</l-js></h1>
                 <div class='subtitle'><l-js>json.query.results.channel.item.forecast[0].text</l-js></div>
-                <l-state weather="json.query.results.channel.item.forecast[0].text" />
+                <l-state l-weather="json.query.results.channel.item.forecast[0].text" />
 
                 <div class='sunrise'>
                     <l-js>json.query.results.channel.astronomy.sunrise</l-js>

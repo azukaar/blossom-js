@@ -80,6 +80,13 @@ const BlossomResolveScope = function BlossomResolveScope(element) {
 
 const BlossomInterpolate = function BlossomInterpolate(str, scope, from) {
   const banedKeyWord = ['math', 'new', 'array', 'date', 'if', 'while', 'for', 'switch', 'case', 'break', 'continue', 'true', 'false'];
+  // eslint-disable-next-line  no-unused-vars
+
+  if (typeof window !== 'undefined' && window.state) {
+    Object.defineProperty(scope, 'state', {
+      get: () => window.state,
+    });
+  }
 
   // eslint-disable-next-line no-useless-escape
   const res = str.replace(/["'][\w\d \/\.\(\)\[\]\%\?\#\$\:\|\;\}\{\*\@\+\`\~\,\!\£\&\^\-\=\_\\]+["']|[\w\d\.\_\(\)\[\]]+/gmi, (match) => {
@@ -124,10 +131,85 @@ const setClassNames = function setClassNames(element) {
   });
 };
 
+/* eslint-disable no-param-reassign */
+function getStateProxy(mainElement) {
+  return new Proxy({}, {
+    get: (obj, attr) => {
+      if (attr === 'scope') {
+        return new Proxy({}, {
+          get: (scopeobj, scopeattr) => mainElement.__scope[scopeattr],
+          set: (scopeobj, scopeattr, value) => {
+            if (mainElement.getAttribute('l-scope')) {
+              const temp = JSON.parse(mainElement.getAttribute('l-scope'));
+              temp[scopeattr] = value;
+              mainElement.setAttribute('l-scope', JSON.stringify(temp));
+              mainElement.__scope[scopeattr] = value;
+            } else {
+              mainElement.__scope[scopeattr] = value;
+              mainElement.setAttribute('l-scope', JSON.stringify({ [scopeattr]: value }));
+            }
+            return true;
+          },
+        });
+      } else if (attr === 'children') return mainElement.getAttribute('children');
+      else if (typeof attr === 'string') {
+        if (mainElement.getAttribute(`l-${attr}`)) {
+          const result = BlossomInterpolate(mainElement.getAttribute(`l-${attr}`), mainElement.__scope, mainElement);
+          mainElement.setAttribute(attr, JSON.stringify(result));
+          return result;
+        }
+
+        if (mainElement.getAttribute(attr)) {
+          const result = mainElement.getAttribute(attr);
+          if (result === 'true') return true;
+          else if (result === 'false') return false;
+          else if (result.match(/^[\{\[]/) && result.match(/[\}\]]$/)) {
+            try {
+              return JSON.stringify(result);
+            } catch (e) {
+              return result;
+            }
+          } else if (typeof result === 'number') return Number(result);
+          return result;
+        }
+
+        return '';
+      }
+    },
+    set: (obj, attr, value) => {
+      if (attr === 'scope') mainElement.__scope = value;
+      else if (typeof attr === 'string') mainElement.setAttribute(attr, JSON.stringify(value));
+      return true;
+    },
+  });
+}
+
+function patchToBlossom(elementToPatch) {
+  if (elementToPatch && !elementToPatch.state) {
+    elementToPatch.state = getStateProxy(elementToPatch);
+  }
+  if (elementToPatch && !elementToPatch.__scope) {
+    elementToPatch.__scope = {};
+  }
+  return elementToPatch;
+}
+
+function patchDomAccess(element) {
+  element.nativeParentElement = element.parentElement;
+
+  Object.defineProperty(element, 'parentElement', {
+    get: () => patchToBlossom(element.nativeParentElement),
+  });
+}
+
+/* eslint-enable no-param-reassign */
+
 export {
   getStackTrace,
   hashCode,
   setClassNames,
+  patchDomAccess,
+  getStateProxy,
   BlossomRegister,
   BlossomResolveScope,
   BlossomInterpolate,

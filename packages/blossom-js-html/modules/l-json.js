@@ -8,7 +8,7 @@ class JsonComponent extends BlossomComponent {
       .then((res) => res.json())
       .then((json) => {
         this.state.loading = false;
-        this.setScope(json, 'json');
+        this.setAliasableScope(json, 'json');
         this.refresh();
       });
   }

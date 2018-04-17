@@ -91,10 +91,10 @@ describe('Create component', () => {
 
   test('Allow scoped scope names', () => {
     const element = document.createElement('l-if');
-    expect(element.scopeString('bar', 'foo')).toContain('foo');
-    expect(element.scopeString('bar')).toContain('value');
+    expect(element.alisableScopeString('bar', 'foo')).toContain('foo');
+    expect(element.alisableScopeString('bar')).toContain('value');
     element.setAttribute('l-alias', 'testing');
-    expect(element.scopeString('bar', 'foo')).toContain('testing');
+    expect(element.alisableScopeString('bar', 'foo')).toContain('testing');
   });
 });
 
