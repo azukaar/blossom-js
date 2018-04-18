@@ -1,4 +1,5 @@
 import 'blossom-js-server-side';
+import '../modules/l-if';
 import '../modules/l-js';
 import '../modules/l-scope';
 
@@ -42,7 +43,7 @@ describe('L-scope component', () => {
     expect(rendered.querySelector('l-js').innerHTML).toMatch('hello world');
   });
 
-  test.only('Can set scope function', () => {
+  test('Can set scope function', () => {
     const template = `
         <div>
           <l-scope l-message="() => 'hello world'"></l-scope>
@@ -53,5 +54,28 @@ describe('L-scope component', () => {
     const rendered = BlossomRender(template);
 
     expect(rendered.querySelector('l-js').innerHTML).toBe('hello world');
+  });
+
+  test('Set Evenet listeners', () => {
+    const template = `
+          <l-if cond='true'>
+            <l-scope message="Hello World"
+                     l-changemessage='() => {message += " and the universe"}'></l-scope>
+            <l-js>message</l-js>
+            <button l-onclick='changemessage()'>change</button>
+          </l-if>
+        `;
+
+    let rendered = BlossomRender(template);
+
+    const evt = document.createEvent('MouseEvents');
+    evt.initMouseEvent('click');
+    rendered.querySelector('button').dispatchEvent(evt);
+
+    console.log(rendered.innerHTML);
+    
+    rendered = BlossomRender(template);
+    
+    expect(rendered.querySelector('l-js').innerHTML).toBe('Hello World and the universe');
   });
 });

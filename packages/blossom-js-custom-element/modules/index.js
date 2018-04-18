@@ -1,4 +1,4 @@
-import { getPropProxy, patchDomAccess, setClassNamesParents, setClassNames, BlossomRegister, BlossomResolveScope, BlossomInterpolate, BlossomCheckParentsAreLoaded } from './utils';
+import { getPropProxy, patchDomAccess, setClassNamesParents, setEventListener, setClassNames, BlossomRegister, BlossomResolveScope, BlossomInterpolate, BlossomCheckParentsAreLoaded } from './utils';
 
 class BlossomComponent extends HTMLElement {
   attributeChangedCallback() {
@@ -57,12 +57,15 @@ class BlossomComponent extends HTMLElement {
       const result = this.render();
       if (result || result === '') {
         this.innerHTML = result;
+        this.props.children = result;
       }
     } else {
-      this.innerHTML = this.prop.children;
+      this.innerHTML = this.props.children;
+      this.props.children = this.innerHTML;
     }
 
     setClassNames(this);
+    setEventListener(this);
   }
 }
 

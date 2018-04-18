@@ -70,9 +70,7 @@ const BlossomResolveScope = function BlossomResolveScope(element) {
   if (element.getAttribute('l-scope')) {
     const elementScope = JSON.parse(element.getAttribute('l-scope'));
 
-    Object.keys(elementScope).forEach(va => {
-      scope[va] = elementScope[va];
-    });
+    // getScopeProxySetFunction(element)
 
     /* eslint-disable no-inner-declarations, guard-for-in, no-restricted-syntax, no-new-func, no-param-reassign */
     function searchFunctions(current) {
@@ -88,7 +86,39 @@ const BlossomResolveScope = function BlossomResolveScope(element) {
     }
     /* eslint-enable no-inner-declarations, guard-for-in, no-restricted-syntax, no-new-func, no-param-reassign */
 
-    searchFunctions(scope);
+    searchFunctions(elementScope);
+
+    Object.keys(elementScope).forEach(va => {
+      // scope[va] = elementScope[va];
+
+      Object.defineProperty(scope, va, {
+        get: () => elementScope[va],
+        set: (value) => {
+          if (va === '___RESULT') {
+            return true;
+          }
+          if (typeof value === 'function') {
+            value = `__FUNCTION__${value.toString()}`;
+          }
+          let needRefresh = false;
+          if (element.getAttribute('l-scope')) {
+            const temp = JSON.parse(element.getAttribute('l-scope'));
+            needRefresh = JSON.stringify(element.__scope[va]) !== JSON.stringify(value);
+            temp[va] = value;
+            element.setAttribute('l-scope', JSON.stringify(temp));
+          } else {
+            needRefresh = JSON.stringify(element.__scope[va]) !== JSON.stringify(value);
+            element.setAttribute('l-scope', JSON.stringify({ [va]: value }));
+          }
+      
+          if (needRefresh) {
+            element.refresh();
+          }
+      
+          return true;
+        },
+      });
+    });
   }
 
   return scope;
@@ -152,7 +182,69 @@ const setClassNames = function setClassNames(element) {
   });
 };
 
+const setEventListener = function setEventListener(element) {
+  if (element.getAttribute('l-onclick')) {
+    element.addEventListener('click', () => {
+      const scope = BlossomResolveScope(element);
+      BlossomInterpolate(element.getAttribute('l-onclick'), scope, element);
+    }, false);
+  }
+
+  Array.from(element.querySelectorAll('*[l-onclick]')).forEach((subElement) => {
+    if (subElement.parentElement && !BlossomCheckParentsAreLoaded(subElement.parentElement)) {
+      return false;
+    }
+    if (subElement.getAttribute('l-onclick')) {
+      subElement.addEventListener('click', () => {
+        const scope = BlossomResolveScope(subElement);
+        BlossomInterpolate(subElement.getAttribute('l-onclick'), scope, subElement);
+      }, false);
+    }
+  });
+};
+
 /* eslint-disable no-param-reassign */
+function getScopeProxySetFunction(mainElement) {
+  return (scopeobj, scopeattr, value) => {
+    if (scopeattr === '___RESULT') {
+      return true;
+    }
+    if (typeof value === 'function') {
+      value = `__FUNCTION__${value.toString()}`;
+    }
+    let needRefresh = false;
+    if (mainElement.getAttribute('l-scope')) {
+      const temp = JSON.parse(mainElement.getAttribute('l-scope'));
+      needRefresh = JSON.stringify(mainElement.__scope[scopeattr]) !== JSON.stringify(value);
+      temp[scopeattr] = value;
+      mainElement.setAttribute('l-scope', JSON.stringify(temp));
+      mainElement.__scope[scopeattr] = value;
+    } else {
+      needRefresh = JSON.stringify(mainElement.__scope[scopeattr]) !== JSON.stringify(value);
+      mainElement.__scope[scopeattr] = value;
+      mainElement.setAttribute('l-scope', JSON.stringify({ [scopeattr]: value }));
+    }
+
+    if (needRefresh) {
+      mainElement.refresh();
+    }
+
+    return true;
+  };
+}
+
+function getScopeProxy(mainElement) {
+  return new Proxy({}, {
+    get: (scopeobj, scopeattr) => {
+      if (typeof scopeattr === 'string' && scopeattr.length > 0) {
+        return mainElement.__scope[scopeattr];
+      }
+      return mainElement.__scope;
+    },
+    set: getScopeProxySetFunction(mainElement),
+  });
+}
+
 function getPropProxy(mainElement) {
   return new Proxy({}, {
     ownKeys: () => {
@@ -173,6 +265,16 @@ function getPropProxy(mainElement) {
 
       return attrs;
     },
+    deleteProperty(target, attr) {
+      if (attr === 'scope') {
+      } else if (typeof attr === 'string') {
+       if (mainElement.hasAttribute(attr))
+          mainElement.removeAttribute(attr);
+       if (mainElement.hasAttribute(`l-${attr}`))
+          mainElement.removeAttribute(`l-${attr}`);
+      }
+      return true;
+    },
     getOwnPropertyDescriptor: (oTarget, sKey) => ({
       value: mainElement.props[sKey],
       writable: true,
@@ -181,40 +283,7 @@ function getPropProxy(mainElement) {
     }),
     get: (obj, attr) => {
       if (attr === 'scope') {
-        return new Proxy({}, {
-          get: (scopeobj, scopeattr) => {
-            if (typeof scopeattr === 'string' && scopeattr.length > 0) {
-              return mainElement.__scope[scopeattr];
-            }
-            return mainElement.__scope;
-          },
-          set: (scopeobj, scopeattr, value) => {
-            if (scopeattr === '___RESULT') {
-              return true;
-            }
-            if (typeof value === 'function') {
-              value = `__FUNCTION__${value.toString()}`;
-            }
-            let needRefresh = false;
-            if (mainElement.getAttribute('l-scope')) {
-              const temp = JSON.parse(mainElement.getAttribute('l-scope'));
-              needRefresh = JSON.stringify(mainElement.__scope[scopeattr]) !== JSON.stringify(value);
-              temp[scopeattr] = value;
-              mainElement.setAttribute('l-scope', JSON.stringify(temp));
-              mainElement.__scope[scopeattr] = value;
-            } else {
-              needRefresh = JSON.stringify(mainElement.__scope[scopeattr]) !== JSON.stringify(value);
-              mainElement.__scope[scopeattr] = value;
-              mainElement.setAttribute('l-scope', JSON.stringify({ [scopeattr]: value }));
-            }
-
-            if (needRefresh) {
-              mainElement.refresh();
-            }
-
-            return true;
-          },
-        });
+        return getScopeProxy(mainElement);
       } else if (attr === 'children') return mainElement.getAttribute('children');
       else if (typeof attr === 'string' && attr.length > 0) {
         if (mainElement.getAttribute(`l-${attr}`)) {
@@ -283,6 +352,7 @@ export {
   hashCode,
   setClassNamesParents,
   setClassNames,
+  setEventListener,
   patchDomAccess,
   getPropProxy,
   BlossomRegister,
