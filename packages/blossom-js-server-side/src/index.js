@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 const jsdom = require("jsdom");
 const { JSDOM } = jsdom;
 const dom = new JSDOM(`<!DOCTYPE html><body></body></html>`);
@@ -46,18 +48,21 @@ document.createElement = (element) => {
     }
 }
 
-global.BlossomRender = function (template) {
+global.BlossomRender = function BlossomRender(template) {
     const domNodes = document.createElement('div');
     domNodes.innerHTML = template;
 
 
     function brelement(domNodes) {
-        Array.from(domNodes.children).forEach(function(element) {
+        for(let i = 0; i < domNodes.children.length; i++) {
+            const element = domNodes.children[i];
             if(document._registerElementCache[element.tagName.toLowerCase()]) {
                 let newElement = document.createElement(element.tagName.toLowerCase());
+
                 Array.from(element.attributes).map((attr) => {
                     newElement.setAttribute(attr.name, element.getAttribute(attr.name))
-                })
+                });
+
                 newElement.innerHTML = element.innerHTML;
                 domNodes.replaceChild(newElement, element);
                 newElement.connectedCallback();
@@ -67,7 +72,7 @@ global.BlossomRender = function (template) {
             else {
                 brelement(element);
             }
-        });
+        }
 
         return domNodes;
     }

@@ -6485,6 +6485,10 @@ vm-browserify@0.0.4:
   dependencies:
     indexof "0.0.1"
 
+vm-shim@^0.0.6:
+  version "0.0.6"
+  resolved "https://registry.yarnpkg.com/vm-shim/-/vm-shim-0.0.6.tgz#5ce167f067017ff4f6f4ff646e10e0a6b3dd4ea3"
+
 w3c-hr-time@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/w3c-hr-time/-/w3c-hr-time-1.0.1.tgz#82ac2bff63d950ea9e3189a58a65625fedf19045"

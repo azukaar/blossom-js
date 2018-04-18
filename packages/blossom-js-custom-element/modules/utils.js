@@ -73,16 +73,32 @@ const BlossomResolveScope = function BlossomResolveScope(element) {
     Object.keys(elementScope).forEach(va => {
       scope[va] = elementScope[va];
     });
+
+    /* eslint-disable no-inner-declarations, guard-for-in, no-restricted-syntax, no-new-func, no-param-reassign */
+    function searchFunctions(current) {
+      for (const index in current) {
+        if (current[index] && current[index].match && current[index].match(/^__FUNCTION__/)) {
+          current[index] = eval(current[index].slice(12));
+        }
+
+        if (current[index] !== null && typeof (current[index]) === 'object') {
+          searchFunctions(current[index]);
+        }
+      }
+    }
+    /* eslint-enable no-inner-declarations, guard-for-in, no-restricted-syntax, no-new-func, no-param-reassign */
+
+    searchFunctions(scope);
   }
 
   return scope;
 };
 
 const BlossomInterpolate = function BlossomInterpolate(str, scope, from) {
-  const banedKeyWord = ['state', 'math', 'new', 'array', 'date', 'if', 'while', 'for', 'switch', 'case', 'break', 'continue', 'true', 'false'];
-  // eslint-disable-next-line  no-unused-vars
+  const banedKeyWord = ['state', 'console', 'typeof', 'math', 'new', 'array', 'date', 'if', 'while', 'for', 'switch', 'case', 'break', 'continue', 'true', 'false'];
 
   // eslint-disable-next-line no-useless-escape
+
   const res = str.replace(/["'][\w\d \/\.\(\)\[\]\%\?\#\$\:\|\;\}\{\*\@\+\`\~\,\!\£\&\^\-\=\_\\]+["']|[\w\d\.\_\(\)\[\]]+/gmi, (match) => {
     if (!match.match(/^["']/) && !match.match(/["']$/) && match.match(/[a-zA-Z]+/) &&
           banedKeyWord.indexOf(match.split('.')[0].split('[')[0].split('(')[0].toLowerCase()) === -1) {
@@ -93,19 +109,20 @@ const BlossomInterpolate = function BlossomInterpolate(str, scope, from) {
   });
 
   /* eslint-disable no-console, no-eval */
+
   try {
     return eval(res);
   } catch (e) {
     if (from) {
-      console.error('Tried to evaluate : ', res);
+      console.error('Tried to evaluate : ', str);
       console.error(e.message, '\n', 'STACKTRACE', getStackTrace(from));
     } else {
-      console.error('Tried to evaluate : ', res);
+      console.error('Tried to evaluate : ', str);
       console.error(e.message, 'but no stacktrace available, provide target element to BlossomInterpolate as a third argument to display DOM position');
     }
     return undefined;
   }
-  /* eslint-enable no-console */
+  /* eslint-enable no-console, no-eval */
 };
 
 
@@ -172,6 +189,12 @@ function getPropProxy(mainElement) {
             return mainElement.__scope;
           },
           set: (scopeobj, scopeattr, value) => {
+            if (scopeattr === '___RESULT') {
+              return true;
+            }
+            if (typeof value === 'function') {
+              value = `__FUNCTION__${value.toString()}`;
+            }
             let needRefresh = false;
             if (mainElement.getAttribute('l-scope')) {
               const temp = JSON.parse(mainElement.getAttribute('l-scope'));
