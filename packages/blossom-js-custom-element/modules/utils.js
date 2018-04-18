@@ -108,6 +108,16 @@ const BlossomInterpolate = function BlossomInterpolate(str, scope, from) {
   /* eslint-enable no-console */
 };
 
+
+const setClassNamesParents = function setClassNamesParents(element) {
+  if (element.getAttribute && element.getAttribute('l-class')) {
+    const scope = BlossomResolveScope(element);
+    element.setAttribute('class', BlossomInterpolate(element.getAttribute('l-class'), scope, element));
+  }
+
+  if (element.parentElement) setClassNamesParents(element.parentElement);
+};
+
 const setClassNames = function setClassNames(element) {
   if (element.getAttribute('l-class')) {
     const scope = BlossomResolveScope(element);
@@ -128,7 +138,7 @@ const setClassNames = function setClassNames(element) {
 /* eslint-disable no-param-reassign */
 function getPropProxy(mainElement) {
   return new Proxy({}, {
-    ownKeys: (target) => {
+    ownKeys: () => {
       const attrs = [];
 
       Array.from(mainElement.attributes)
@@ -139,8 +149,8 @@ function getPropProxy(mainElement) {
           if (e.name.match(/^l-/)) {
             const realName = e.name.slice(2);
             if (attrs.indexOf(realName === -1)) attrs.push(realName);
-          } else if (!attrs.indexOf(e.name) === -1) {
-            attrs.push(e.value);
+          } else if (attrs.indexOf(e.name) === -1) {
+            attrs.push(e.name);
           }
         });
 
@@ -162,15 +172,23 @@ function getPropProxy(mainElement) {
             return mainElement.__scope;
           },
           set: (scopeobj, scopeattr, value) => {
+            let needRefresh = false;
             if (mainElement.getAttribute('l-scope')) {
               const temp = JSON.parse(mainElement.getAttribute('l-scope'));
+              needRefresh = JSON.stringify(mainElement.__scope[scopeattr]) !== JSON.stringify(value);
               temp[scopeattr] = value;
               mainElement.setAttribute('l-scope', JSON.stringify(temp));
               mainElement.__scope[scopeattr] = value;
             } else {
+              needRefresh = JSON.stringify(mainElement.__scope[scopeattr]) !== JSON.stringify(value);
               mainElement.__scope[scopeattr] = value;
               mainElement.setAttribute('l-scope', JSON.stringify({ [scopeattr]: value }));
             }
+
+            if (needRefresh) {
+              mainElement.refresh();
+            }
+
             return true;
           },
         });
@@ -200,19 +218,29 @@ function getPropProxy(mainElement) {
       }
     },
     set: (obj, attr, value) => {
-      if (attr === 'scope') mainElement.__scope = value;
-      else if (typeof attr === 'string') mainElement.setAttribute(attr, JSON.stringify(value));
+      if (attr === 'scope') {
+        const needRefresh = JSON.stringify(mainElement.__scope) !== JSON.stringify(value);
+
+        mainElement.__scope = value;
+
+        if (needRefresh) mainElement.refresh();
+      } else if (typeof attr === 'string') mainElement.setAttribute(attr, JSON.stringify(value));
       return true;
     },
   });
 }
 
 function patchToBlossom(elementToPatch) {
-  if (elementToPatch && !elementToPatch.prop) {
-    elementToPatch.prop = getPropProxy(elementToPatch);
+  if (elementToPatch && !elementToPatch.props) {
+    elementToPatch.props = getPropProxy(elementToPatch);
   }
   if (elementToPatch && !elementToPatch.__scope) {
     elementToPatch.__scope = {};
+  }
+  if (elementToPatch && !elementToPatch.refresh) {
+    elementToPatch.refresh = () => {
+      elementToPatch.innerHTML = elementToPatch.innerHTML;
+    };
   }
   return elementToPatch;
 }
@@ -230,6 +258,7 @@ function patchDomAccess(element) {
 export {
   getStackTrace,
   hashCode,
+  setClassNamesParents,
   setClassNames,
   patchDomAccess,
   getPropProxy,
