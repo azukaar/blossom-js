@@ -3,8 +3,11 @@ const unloaded = {};
 
 if (typeof window !== 'undefined') {
   documentReady = window.__SERVERSIDE ? Promise.resolve() : new Promise((resolve) => {
-    document.addEventListener('DOMContentLoaded', () =>
-      resolve());
+    document.addEventListener('DOMContentLoaded', () => {
+      resolve();
+      setClassNames(document.body);
+      setEventListener(document.body);
+    });
   });
 }
 
@@ -333,6 +336,9 @@ function patchToBlossom(elementToPatch) {
   if (elementToPatch && !elementToPatch.refresh) {
     elementToPatch.refresh = () => {
       elementToPatch.innerHTML = elementToPatch.innerHTML;
+      setClassNames(elementToPatch);
+      setEventListener(elementToPatch);
+      refreshParentChildren(elementToPatch);
     };
   }
   return elementToPatch;

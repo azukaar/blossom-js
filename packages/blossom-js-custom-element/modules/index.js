@@ -70,7 +70,7 @@ class BlossomComponent extends HTMLElement {
     addNeedRefresh(() => this.refreshTask());
   }
 
-  refreshTask() {
+  refreshTask() { 
     const scope = BlossomResolveScope(this);
     this.__scope = scope;
     
