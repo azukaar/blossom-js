@@ -58,24 +58,19 @@ describe('L-scope component', () => {
 
   test('Set Evenet listeners', () => {
     const template = `
-          <l-if cond='true'>
-            <l-scope message="Hello World"
-                     l-changemessage='() => {message += " and the universe"}'></l-scope>
+          <l-if l-scope="{&quot;message&quot;:&quot;Hello World&quot;}" cond='true'>
+            <l-scope l-changemessage='() => {message += " and the universe"}'></l-scope>
             <l-js>message</l-js>
             <button l-onclick='changemessage()'>change</button>
           </l-if>
         `;
 
-    let rendered = BlossomRender(template);
+    const rendered = BlossomRender(template);
 
     const evt = document.createEvent('MouseEvents');
     evt.initMouseEvent('click');
     rendered.querySelector('button').dispatchEvent(evt);
 
-    console.log(rendered.innerHTML);
-    
-    rendered = BlossomRender(template);
-    
-    expect(rendered.querySelector('l-js').innerHTML).toBe('Hello World and the universe');
+    expect(rendered.children[0].getAttribute('l-scope')).toMatch('Hello World and the universe');
   });
 });

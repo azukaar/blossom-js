@@ -1,0 +1,13 @@
+<html>
+  <head>
+    <title>Hello World</title>
+    <script src='http://localhost:3000/packages/blossom-js/umd/index.js'></script>
+  </head>
+  <body>
+      <l-if cond='true'>
+        <l-scope message='Hello world' l-changemessage='() => {message += " and the universe"}'></l-scope>
+        <l-js>message</l-js>
+        <button l-onclick='changemessage()'>change</button>
+      </l-if>
+  </body>
+</html>

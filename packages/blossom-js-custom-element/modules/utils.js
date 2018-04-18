@@ -273,6 +273,7 @@ function getPropProxy(mainElement) {
        if (mainElement.hasAttribute(`l-${attr}`))
           mainElement.removeAttribute(`l-${attr}`);
       }
+      mainElement.refresh();
       return true;
     },
     getOwnPropertyDescriptor: (oTarget, sKey) => ({
@@ -288,7 +289,7 @@ function getPropProxy(mainElement) {
       else if (typeof attr === 'string' && attr.length > 0) {
         if (mainElement.getAttribute(`l-${attr}`)) {
           const result = BlossomInterpolate(mainElement.getAttribute(`l-${attr}`), mainElement.__scope, mainElement);
-          mainElement.setAttribute(attr, JSON.stringify(result));
+          mainElement.setAttribute(attr, typeof result !== 'string' ? JSON.stringify(result) : result);
           return result;
         }
 
@@ -316,7 +317,7 @@ function getPropProxy(mainElement) {
         mainElement.__scope = value;
 
         if (needRefresh) mainElement.refresh();
-      } else if (typeof attr === 'string') mainElement.setAttribute(attr, JSON.stringify(value));
+      } else if (typeof attr === 'string') mainElement.setAttribute(attr, typeof value !== 'string' ? JSON.stringify(value) : value);
       return true;
     },
   });
@@ -345,6 +346,16 @@ function patchDomAccess(element) {
   });
 }
 
+function refreshParentChildren(element) {
+  if (element.parentElement) {
+    if (element.parentElement._updateChildren) {
+      element.parentElement._updateChildren(element.parentElement.innerHTML);
+    }
+
+    refreshParentChildren(element.parentElement);
+  }
+}
+
 /* eslint-enable no-param-reassign */
 
 export {
@@ -353,6 +364,7 @@ export {
   setClassNamesParents,
   setClassNames,
   setEventListener,
+  refreshParentChildren,
   patchDomAccess,
   getPropProxy,
   BlossomRegister,

@@ -1,12 +1,30 @@
-import { getPropProxy, patchDomAccess, setClassNamesParents, setEventListener, setClassNames, BlossomRegister, BlossomResolveScope, BlossomInterpolate, BlossomCheckParentsAreLoaded } from './utils';
+import { getPropProxy, refreshParentChildren, patchDomAccess, setClassNamesParents, setEventListener, setClassNames, BlossomRegister, BlossomResolveScope, BlossomInterpolate, BlossomCheckParentsAreLoaded } from './utils';
+
+const needRefresh = [];
+
+function needRefreshRunNext() {
+  needRefresh[0]();
+  needRefresh.shift();
+  if (needRefresh.length > 0) {
+    needRefreshRunNext();
+  }
+}
+
+function addNeedRefresh(task) {
+  const needStart = needRefresh.length === 0;
+  needRefresh.push(task);
+  if (needStart) {
+    needRefreshRunNext();
+  }
+}
+
 
 class BlossomComponent extends HTMLElement {
-  attributeChangedCallback() {
-    this.refresh();
-  }
-
   connectedCallback() {
-    this.setAttribute('children', this.innerHTML);
+    this.__scope = {};
+    this.props = getPropProxy(this);
+
+    this._updateChildren(this.innerHTML);
     this.innerHTML = '';
 
     if (this.parentElement && !BlossomCheckParentsAreLoaded(this.parentElement)) return false;
@@ -14,7 +32,6 @@ class BlossomComponent extends HTMLElement {
     const scope = BlossomResolveScope(this);
     this.__scope = scope;
 
-    this.props = getPropProxy(this);
 
     patchDomAccess(this);
 
@@ -50,22 +67,33 @@ class BlossomComponent extends HTMLElement {
   }
 
   refresh() {
+    addNeedRefresh(() => this.refreshTask());
+  }
+
+  refreshTask() {
     const scope = BlossomResolveScope(this);
     this.__scope = scope;
-
+    
     if (this.render) {
       const result = this.render();
       if (result || result === '') {
         this.innerHTML = result;
-        this.props.children = result;
       }
     } else {
       this.innerHTML = this.props.children;
-      this.props.children = this.innerHTML;
     }
 
     setClassNames(this);
     setEventListener(this);
+    refreshParentChildren(this);
+  }
+
+  _updateChildren(updated) {
+    if (this.updateChildren) {
+      this.updateChildren(updated);
+    } else {
+      this.setAttribute('children', this.innerHTML);
+    }
   }
 }
 
