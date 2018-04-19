@@ -13,7 +13,7 @@ describe('L-scope component', () => {
       `;
 
     const rendered = BlossomRender(template);
-
+    
     expect(rendered.children[0].getAttribute('l-scope')).toMatch('{"hello":"world"}');
   });
 
@@ -59,7 +59,7 @@ describe('L-scope component', () => {
   test('Set Evenet listeners', () => {
     const template = `
           <l-if l-scope="{&quot;message&quot;:&quot;Hello World&quot;}" cond='true'>
-            <l-scope l-changemessage='() => {message += " and the universe"}'></l-scope>
+            <l-scope l-changemessage="(message) => message += ' and the universe'"></l-scope>
             <l-js>message</l-js>
             <button l-onclick='changemessage()'>change</button>
           </l-if>

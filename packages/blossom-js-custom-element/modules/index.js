@@ -1,4 +1,4 @@
-import { getPropProxy, refreshParentChildren, patchDomAccess, setClassNamesParents, setEventListener, setClassNames, BlossomRegister, BlossomResolveScope, BlossomInterpolate, BlossomCheckParentsAreLoaded } from './utils';
+import { getPropProxy, refreshParentChildren, setClassNamesParents, setEventListener, setClassNames, BlossomRegister, BlossomResolveScope, BlossomInterpolate, BlossomCheckParentsAreLoaded } from './utils';
 
 const needRefresh = [];
 
@@ -16,6 +16,40 @@ function addNeedRefresh(task) {
   if (needStart) {
     needRefreshRunNext();
   }
+}
+
+
+function patchToBlossom(elementToPatch) {
+  if (elementToPatch && !elementToPatch.setScope) {
+    elementToPatch.setScope = BlossomComponent.prototype.setScope;
+  }
+
+  if (elementToPatch && !elementToPatch.props) {
+    elementToPatch.props = getPropProxy(elementToPatch);
+  }
+
+  if (elementToPatch && !elementToPatch.__scope) {
+    elementToPatch.__scope = BlossomResolveScope(elementToPatch, true);
+  }
+
+  if (elementToPatch && !elementToPatch.refresh) {
+    elementToPatch.refresh = () => {
+      elementToPatch.innerHTML = elementToPatch.innerHTML;
+      setClassNames(elementToPatch);
+      setEventListener(elementToPatch);
+      refreshParentChildren(elementToPatch);
+    };
+  }
+
+  return elementToPatch;
+}
+
+function patchDomAccess(element) {
+  element.nativeParentElement = element.parentElement;
+
+  Object.defineProperty(element, 'parentElement', {
+    get: () => patchToBlossom(element.nativeParentElement),
+  });
 }
 
 
@@ -70,7 +104,7 @@ class BlossomComponent extends HTMLElement {
     addNeedRefresh(() => this.refreshTask());
   }
 
-  refreshTask() { 
+  refreshTask() {
     const scope = BlossomResolveScope(this);
     this.__scope = scope;
     
@@ -93,6 +127,29 @@ class BlossomComponent extends HTMLElement {
       this.updateChildren(updated);
     } else {
       this.setAttribute('children', this.innerHTML);
+    }
+  }
+
+  setScope(key, value) {
+    if (key === '___RESULT') {
+      return true;
+    }
+    if (typeof value === 'function') {
+      value = `__FUNCTION__${value.toString()}`;
+    }
+    let willNeedRefresh = false;
+    if (this.getAttribute('l-scope')) {
+      const temp = JSON.parse(this.getAttribute('l-scope'));
+      willNeedRefresh = JSON.stringify(this.__scope[key]) !== JSON.stringify(value);
+      temp[key] = value;
+      this.setAttribute('l-scope', JSON.stringify(temp));
+    } else {
+      willNeedRefresh = JSON.stringify(this.__scope[key]) !== JSON.stringify(value);
+      this.setAttribute('l-scope', JSON.stringify({ [key]: value }));
+    }
+
+    if (willNeedRefresh) {
+      this.refresh();
     }
   }
 }
