@@ -33,7 +33,7 @@ describe('L-scope component', () => {
     const template = `
         <div>
           <l-scope message="hello world"></l-scope>
-          <l-js>message</l-js>
+          <l-js>this.message</l-js>
         </div>
       `;
 
@@ -47,7 +47,7 @@ describe('L-scope component', () => {
     const template = `
         <div>
           <l-scope l-message="() => 'hello world'"></l-scope>
-          <l-js>message()</l-js>
+          <l-js>this.message()</l-js>
         </div>
       `;
 
@@ -58,11 +58,12 @@ describe('L-scope component', () => {
 
   test('Set Evenet listeners', () => {
     const template = `
-          <l-if l-scope="{&quot;message&quot;:&quot;Hello World&quot;}" cond='true'>
-            <l-scope l-changemessage="(message) => message += ' and the universe'"></l-scope>
-            <l-js>message</l-js>
-            <button l-onclick='changemessage()'>change</button>
-          </l-if>
+          <div>
+            <l-scope message="Hello world"
+                     l-changemessage="() => this.message += ' and the universe'"></l-scope>
+            <l-js>this.message</l-js>
+            <button l-onclick="this.changemessage()">change</button>
+          </div>
         `;
 
     const rendered = BlossomRender(template);
@@ -71,6 +72,6 @@ describe('L-scope component', () => {
     evt.initMouseEvent('click');
     rendered.querySelector('button').dispatchEvent(evt);
 
-    expect(rendered.children[0].getAttribute('l-scope')).toMatch('Hello World and the universe');
+    expect(rendered.children[0].getAttribute('l-scope')).toMatch('Hello world and the universe');
   });
 });

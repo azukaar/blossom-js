@@ -1,3 +1,4 @@
+import {BlossomConvertElement} from './index';
 let documentReady;
 const unloaded = {};
 
@@ -103,7 +104,7 @@ const BlossomResolveScope = function BlossomResolveScope(element, preventRecursi
     set: (target, attr, value) => {
       target.realScope[attr] = value;
       if (!target.setFunctions[attr]) {
-        target.setFunctions[attr] = () => element.setScope(attr, value);
+        target.setFunctions[attr] = () => BlossomConvertElement(element).setScope(attr, value);
       }
       target.setFunctions[attr](value);
       return true;
@@ -122,7 +123,15 @@ const BlossomResolveScope = function BlossomResolveScope(element, preventRecursi
     function searchFunctions(current) {
       for (const index in current) {
         if (current[index] && current[index].match && current[index].match(/^__FUNCTION__/)) {
-          current[index] = eval(current[index].slice(12));
+          let tostring = current[index].slice(12);
+
+          if (!tostring.match(/^\s*function/)) {
+            tostring = `(function${tostring}})`;
+            tostring = tostring.replace('=>', '{return ');
+          }
+
+          current[index] = eval(tostring);
+          current[index].bind(element.__scope);
         }
 
         if (current[index] !== null && typeof (current[index]) === 'object') {
@@ -137,7 +146,7 @@ const BlossomResolveScope = function BlossomResolveScope(element, preventRecursi
     Object.keys(elementScope).forEach(va => {
       scope.realScope[va] = elementScope[va];
       scope.setFunctions[va] = (value) => {
-        element.setScope(va, value);
+        BlossomConvertElement(element).setScope(va, value);
       };
     });
   }
@@ -149,8 +158,8 @@ const BlossomResolveScope = function BlossomResolveScope(element, preventRecursi
 const BlossomInterpolate = function BlossomInterpolate(str, scope = {}, from) {
   /* eslint-disable no-console, no-eval,  no-new-func */
   try {
-    const func = new Function(...[...Object.keys(scope), `return ${str}`]);
-    return func(...Object.values(scope));
+    const func = new Function(`return ${str}`).bind(scope);
+    return func();
   } catch (e) {
     if (from) {
       console.error('Tried to evaluate : ', str);
@@ -206,7 +215,6 @@ const setEventListener = function setEventListener(element) {
     if (subElement.getAttribute('l-onclick')) {
       subElement.addEventListener('click', () => {
         const scope = BlossomResolveScope(subElement);
-        console.log(scope)
         BlossomInterpolate(subElement.getAttribute('l-onclick'), scope, subElement);
       }, false);
     }

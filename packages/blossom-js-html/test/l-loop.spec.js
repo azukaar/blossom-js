@@ -7,7 +7,7 @@ describe('L-loop component', () => {
   test('Is able to repeat from an array', () => {
     const template = `
             <div l-scope='{"test": [1,2,3]}'>
-                <l-loop l-from="test">
+                <l-loop l-from="this.test">
                     hey
                 </l-loop>
             </div>
@@ -21,8 +21,8 @@ describe('L-loop component', () => {
   test('Is able to repeat a value', () => {
     const template = `
             <div l-scope='{"test": [1,2,3]}'>
-                <l-loop l-from="test">
-                    hey <l-js>loop</l-js>
+                <l-loop l-from="this.test">
+                    hey <l-js>this.loop</l-js>
                 </l-loop>
             </div>
         `;

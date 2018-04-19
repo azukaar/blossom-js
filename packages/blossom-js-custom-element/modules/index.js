@@ -19,7 +19,7 @@ function addNeedRefresh(task) {
 }
 
 
-function patchToBlossom(elementToPatch) {
+function BlossomConvertElement(elementToPatch) {
   if (elementToPatch && !elementToPatch.setScope) {
     elementToPatch.setScope = BlossomComponent.prototype.setScope;
   }
@@ -48,7 +48,7 @@ function patchDomAccess(element) {
   element.nativeParentElement = element.parentElement;
 
   Object.defineProperty(element, 'parentElement', {
-    get: () => patchToBlossom(element.nativeParentElement),
+    get: () => BlossomConvertElement(element.nativeParentElement),
   });
 }
 
@@ -107,7 +107,7 @@ class BlossomComponent extends HTMLElement {
   refreshTask() {
     const scope = BlossomResolveScope(this);
     this.__scope = scope;
-    
+
     if (this.render) {
       const result = this.render();
       if (result || result === '') {
@@ -167,6 +167,7 @@ function BlossomSetState(element, state, value) {
 export {
   BlossomSetState,
   BlossomComponent,
+  BlossomConvertElement,
   BlossomRegister,
   BlossomResolveScope,
   BlossomInterpolate,
