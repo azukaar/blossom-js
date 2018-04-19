@@ -154,11 +154,11 @@ class BlossomComponent extends HTMLElement {
   }
 }
 
-function BlossomSetState(element, state, value) {
-  if (typeof window !== 'undefined' && !window.state) {
-    window.state = {};
-  }
+if (typeof window !== 'undefined' && !window.state) {
+  window.state = {};
+}
 
+function BlossomSetState(element, state, value) {
   window.state[state] = value;
 
   setClassNamesParents(element);
