@@ -1,9 +1,15 @@
 import {BlossomConvertElement} from './index';
-let documentReady;
+let BlossomDocumentReady;
+
+let _BlossomReady;
+let BlossomReady = new Promise((resolve) => {
+  _BlossomReady = resolve;
+});
+
 const unloaded = {};
 
 if (typeof window !== 'undefined') {
-  documentReady = window.__SERVERSIDE ? Promise.resolve() : new Promise((resolve) => {
+  BlossomDocumentReady = window.__SERVERSIDE ? Promise.resolve() : new Promise((resolve) => {
     document.addEventListener('DOMContentLoaded', () => {
       resolve();
       setClassNames(document.body);
@@ -52,16 +58,18 @@ const BlossomRegister = function BlossomRegister(settings) {
 
   unloaded[settings.name] = true;
 
-  documentReady.then(() => {
+  BlossomDocumentReady.then(() => {
     const { element } = settings;
     // eslint-disable-next-line no-param-reassign
     delete settings.element;
 
     element.prototype.settings = settings;
 
+    unloaded[settings.name] = false;
+
     customElements.define(settings.name, element, {});
 
-    unloaded[settings.name] = false;
+    if (Object.values(unloaded).filter(e => e).length === 0) _BlossomReady();
 
     return element;
   });
@@ -326,4 +334,5 @@ export {
   BlossomResolveScope,
   BlossomInterpolate,
   BlossomCheckParentsAreLoaded,
+  BlossomReady,
 };

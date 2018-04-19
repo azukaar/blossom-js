@@ -26,6 +26,9 @@
     "data",
     "template"
   ],
+  "dependencies": {
+    "blossom-js-custom-element": "^0.21.0"
+  },
   "author": "Yann Stepienik",
   "license": "Apache 2.0"
 }

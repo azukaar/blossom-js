@@ -11,7 +11,10 @@ class RouteComponent extends BlossomComponent {
 
   match() {
     const currentPath = window.location.pathname;
-    let fullPath = this.getFullPath(this);
+    let fullPath = this.getAttribute('l-path'); // this.getFullPath(this);
+    if (state.BlossomRouteBase) {
+      fullPath = state.BlossomRouteBase + fullPath;
+    }
     const listMatch = [];
 
     fullPath = `^${fullPath.replace(/\{\{(.*)\}\}/g, (match) => {
@@ -21,7 +24,7 @@ class RouteComponent extends BlossomComponent {
     })}`;
 
     // eslint-disable-next-line no-useless-escape
-    fullPath = fullPath.replace(/\/+/, '\/');
+    fullPath = fullPath.replace(/\/+/g, '\/') + '$';
 
     const matches = currentPath.match(new RegExp(fullPath));
 
@@ -39,25 +42,15 @@ class RouteComponent extends BlossomComponent {
   }
 
   render() {
-    const displayed = this.props['l-displayed'];
     const match = this.match();
 
-    if (match && !displayed) {
+    if (match) {
       const matches = JSON.stringify(match);
       this.setAttribute('l-scope', matches);
-      this.props['l-displayed'] = true;
       return this.props.children;
-    } else if (match && displayed) {
-      const old = this.getAttribute('l-scope');
-      const newC = JSON.stringify(match);
-      if (old !== newC) {
-        this.setAttribute('l-scope', newC);
-        return this.props.children;
-      }
-    } else if (!match && displayed) {
-      this.props['l-displayed'] = false;
-      return '';
     }
+
+    return '';
   }
 }
 

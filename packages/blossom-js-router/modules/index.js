@@ -1,4 +1,7 @@
+import { BlossomReady } from 'blossom-js-custom-element';
 import './l-a';
+import './l-redirect';
+import './l-meta-route';
 import './l-route';
 
 const BlossomRouter = {
@@ -7,10 +10,20 @@ const BlossomRouter = {
 
 if (typeof window !== 'undefined') {
   window.navigateTo = function navigateTo(url) {
-    window.history.pushState({}, '', url);
-
-    Array.from(document.querySelectorAll('l-route')).forEach((route) => {
-      route.refresh();
+    BlossomReady.then(() => {
+      if (url.match(/^\//)) {
+        let fullPath = url.slice(1);
+        if (state.BlossomRouteBase) {
+          fullPath = state.BlossomRouteBase + fullPath;
+        }
+        window.history.pushState({}, '', fullPath);
+      } else {
+        window.history.pushState({}, '', window.location.pathname + url);
+      }
+  
+      Array.from(document.querySelectorAll('l-route')).forEach((route) => {
+        route.refresh();
+      });
     });
   };
 

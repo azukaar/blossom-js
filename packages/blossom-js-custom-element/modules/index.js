@@ -1,4 +1,4 @@
-import { getPropProxy, refreshParentChildren, setClassNamesParents, setEventListener, setClassNames, BlossomRegister, BlossomResolveScope, BlossomInterpolate, BlossomCheckParentsAreLoaded } from './utils';
+import { BlossomReady, getPropProxy, refreshParentChildren, setClassNamesParents, setEventListener, setClassNames, BlossomRegister, BlossomResolveScope, BlossomInterpolate, BlossomCheckParentsAreLoaded } from './utils';
 
 const needRefresh = [];
 
@@ -57,11 +57,12 @@ class BlossomComponent extends HTMLElement {
   connectedCallback() {
     this.__scope = {};
     this.props = getPropProxy(this);
+    
+    if (this.parentElement && !BlossomCheckParentsAreLoaded(this.parentElement)) return false;
 
     this._updateChildren(this.innerHTML);
     this.innerHTML = '';
 
-    if (this.parentElement && !BlossomCheckParentsAreLoaded(this.parentElement)) return false;
 
     const scope = BlossomResolveScope(this);
     this.__scope = scope;
@@ -171,4 +172,5 @@ export {
   BlossomRegister,
   BlossomResolveScope,
   BlossomInterpolate,
+  BlossomReady,
 };
