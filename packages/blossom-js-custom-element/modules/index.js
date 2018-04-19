@@ -159,7 +159,7 @@ if (typeof window !== 'undefined' && !window.state) {
   window.state = {};
 }
 
-function BlossomSetState(element, state, value) {
+function BlossomSetState(state, value, element) {
   window.state[state] = value;
 
   setClassNamesParents(element);
