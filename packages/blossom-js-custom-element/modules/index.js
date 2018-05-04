@@ -57,7 +57,7 @@ class BlossomComponent extends HTMLElement {
   connectedCallback() {
     this.__scope = {};
     this.props = getPropProxy(this);
-    
+
     if (this.parentElement && !BlossomCheckParentsAreLoaded(this.parentElement)) return false;
 
     this._updateChildren(this.innerHTML);
@@ -75,6 +75,12 @@ class BlossomComponent extends HTMLElement {
     }
 
     this.refresh();
+  }
+
+  disconnectedCallback() {
+    if (this.onUnmount) {
+      this.onUnmount();
+    }
   }
 
   alisableScopeString(value, defaultName) {
