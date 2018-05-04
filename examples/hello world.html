@@ -5,7 +5,7 @@
   </head>
   <body>
       
-      <l-scope display="1" l-toggle="() => this.display = false">
+      <l-scope display="123" l-toggle="() => this.display = !this.display">
         <l-js>this.display</l-js>
         <l-if l-cond="this.display">
           <l-interval timer="1000">
