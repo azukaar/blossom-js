@@ -8,12 +8,12 @@ class ScopeComponent extends BlossomComponent {
 
         if (!this.hasAttribute('has_set_'+name) || this.getAttribute('has_set_'+name) !== hasValue) {
           this.setAttribute('has_set_'+name, hasValue);
-          this.parentElement.props.scope[name] = this.props[name];
+          this.setScope(name, this.props[name]);
         }
       }
     });
 
-    return '';
+    return this.props.children;
   }
 }
 
