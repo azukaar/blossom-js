@@ -89,16 +89,12 @@ class BlossomComponent extends HTMLElement {
     return `l-scope='${JSON.stringify(scope)}'`;
   }
 
-  setAliasableScope(value, defaultName) {
-    const scope = {};
+  setAliasableScope(defaultName, value) {
     if (this.getAttribute('l-alias')) {
-      scope[this.getAttribute('l-alias')] = value;
-    } else if (defaultName) {
-      scope[defaultName] = value;
+      this.setScope(this.getAttribute('l-alias'), value);
     } else {
-      scope.value = value;
+      this.setScope(defaultName, value);
     }
-    return this.setAttribute('l-scope', JSON.stringify(scope));
   }
 
   refresh() {

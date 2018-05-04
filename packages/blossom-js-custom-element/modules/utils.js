@@ -86,7 +86,7 @@ const BlossomResolveScope = function BlossomResolveScope(element, preventRecursi
       return true;
     },
     getOwnPropertyDescriptor: (target, attr) => {
-      if (attr === 'setFunctions' || attr === 'realScope') {
+      if (attr === 'setFunctions' || attr === 'realScope' || attr === 'originalElement') {
         return {
           value: target[attr],
           writable: true,
@@ -103,16 +103,20 @@ const BlossomResolveScope = function BlossomResolveScope(element, preventRecursi
       }
     },
     get: (target, attr) => {
-      if (attr === 'setFunctions' || attr === 'realScope') {
+      if (attr === 'setFunctions' || attr === 'realScope' || attr === 'originalElement') {
         return target[attr];
       }
       return target.realScope[attr];
     },
     /* eslint-disable no-param-reassign */
     set: (target, attr, value) => {
+      if (attr === 'setFunctions' || attr === 'realScope' || attr === 'originalElement') {
+        target[attr] = value;
+        return true;
+      }
       target.realScope[attr] = value;
       if (!target.setFunctions[attr]) {
-        target.setFunctions[attr] = () => BlossomConvertElement(element).setScope(attr, value);
+        target.setFunctions[attr] = () => BlossomConvertElement(target.originalElement).setScope(attr, value);
       }
       target.setFunctions[attr](value);
       return true;
@@ -122,6 +126,9 @@ const BlossomResolveScope = function BlossomResolveScope(element, preventRecursi
   if (element.parentElement && !preventRecursion) {
     scope = BlossomResolveScope(element.parentElement);
   }
+
+  scope.originalElement = element;
+
   if (element.getAttribute('l-scope')) {
     const elementScope = JSON.parse(element.getAttribute('l-scope'));
 
