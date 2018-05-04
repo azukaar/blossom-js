@@ -2,7 +2,12 @@ import { BlossomComponent, BlossomRegister } from 'blossom-js-custom-element';
 
 class IntervalComponent extends BlossomComponent {
   onMount() {
-    this.timer = setInterval(() => this.refresh(), this.props.timer);
+    this.timer = setInterval(() => {
+      if (this.props.ontick) {
+        this.props.ontick();
+      }
+      this.refresh();
+    }, this.props.timer);
   }
 
   onUnmount() {

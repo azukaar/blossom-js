@@ -6,8 +6,8 @@ class ScopeComponent extends BlossomComponent {
       if (!name.match(/^has_set_/)) {
         const hasValue = (typeof this.props[name] === 'function') ? this.props[name].toString() : this.props[name];
 
-        if (!this.hasAttribute('has_set_'+name) || this.getAttribute('has_set_'+name) !== hasValue) {
-          this.setAttribute('has_set_'+name, hasValue);
+        if (!this.hasAttribute('has_set_'+name) || this.getAttribute('has_set_'+name) !== JSON.stringify(hasValue)) {
+          this.setAttribute('has_set_'+name, JSON.stringify(hasValue));
           this.setScope(name, this.props[name]);
         }
       }

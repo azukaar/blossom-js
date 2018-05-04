@@ -4,20 +4,22 @@
     <script src='/packages/blossom-js/umd/index.js'></script>
   </head>
   <body>
-      
-      <l-scope display="123" l-toggle="() => this.display = !this.display">
-        <l-js>this.display</l-js>
-        <l-if l-cond="this.display">
-          <l-interval timer="1000">
-            <l-js>Date.now()</l-js>
-          </l-interval>
-        </l-if>
-        <button l-onclick="this.toggle()">toggle</button>
-      </l-scope>
+      <div>
+        <l-scope display="true" l-toggle="() => this.display = !this.display">
+          <l-if l-cond="this.display">
+            <l-interval timer="1000" l-ontick="() => console.log('clock ticking')">
+              <l-js>Date.now()</l-js>
+            </l-interval>
+          </l-if>
+          <button l-onclick="this.toggle()">toggle</button>
+        </l-scope>
+      </div>
 
-      <l-scope message="Hello world" l-changemessage="() => this.message += ' and the universe'">
-        <l-js>this.message</l-js>
-        <button l-onclick="this.changemessage()">change</button>
-      </l-scope>
+      <div>
+        <l-scope message="Hello world" l-changemessage="() => this.message += ' and the universe'">
+          <l-js>this.message</l-js>
+          <button l-onclick="this.changemessage()">change</button>
+        </l-scope>
+      </div>
   </body>
 </html>
