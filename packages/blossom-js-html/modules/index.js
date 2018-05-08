@@ -6,6 +6,7 @@ import './l-get';
 import './l-set';
 import './l-state';
 import './l-loop';
+import './l-script';
 import './l-js';
 import './l-preview';
 import './l-json';
