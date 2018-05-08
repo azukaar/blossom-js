@@ -14,6 +14,7 @@ if (typeof window !== 'undefined') {
       resolve();
       setClassNames(document.body);
       setEventListener(document.body);
+      BlossomConvertElement(document.body);
     });
   });
 }

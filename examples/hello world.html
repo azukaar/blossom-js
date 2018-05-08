@@ -5,6 +5,9 @@
   </head>
   <body>
       <div>
+        <l-get bodytest></l-get>
+      </div>
+      <div>
         <l-scope display="true" l-toggle="() => this.display = !this.display">
           <l-if l-cond="this.display">
             <l-interval timer="1000" l-ontick="() => console.log('clock ticking')">
@@ -26,17 +29,26 @@
       </div>
 
       <div>
-        <l-scope test="2">
-          <l-if l-cond="this.test == 1">1</l-if>
-          <l-elif l-cond="this.test == 2">2</l-elif>
-          <l-elif l-cond="this.test == 3">3</l-elif>
-          <l-else>none</l-else>
-        </l-scope>
-        <l-scope test="2">
-          <l-if l-cond="this.test == 1">1</l-if>
-          <l-elif l-cond="this.test == 2">2</l-elif>
-          <l-else>none</l-else>
-        </l-scope>
-      </div>
+          <l-scope test="2">
+            <l-if l-cond="this.test == 1">1</l-if>
+            <l-elif l-cond="this.test == 2">2</l-elif>
+            <l-elif l-cond="this.test == 3">3</l-elif>
+            <l-else>none</l-else>
+          </l-scope>
+          <l-scope test="2">
+            <l-if l-cond="this.test == 1">1</l-if>
+            <l-elif l-cond="this.test == 2">2</l-elif>
+            <l-else>none</l-else>
+          </l-scope>
+        </div>
+
+        <div>
+          <l-scope test="1">
+            <l-set test="2"></l-set>
+            <l-js>this.test</l-js>
+          </l-scope>
+        </div>
+
+        <l-set bodytest="2"></l-set>
   </body>
 </html>

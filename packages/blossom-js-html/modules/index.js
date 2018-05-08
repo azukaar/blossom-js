@@ -2,6 +2,8 @@ import './l-if';
 import './l-else';
 import './l-elif';
 import './l-scope';
+import './l-get';
+import './l-set';
 import './l-state';
 import './l-loop';
 import './l-js';
