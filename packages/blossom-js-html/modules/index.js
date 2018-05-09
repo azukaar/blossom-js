@@ -11,6 +11,7 @@ import './l-error';
 import './l-validation';
 import './l-form';
 import './l-js';
+import './l-include';
 import './l-preview';
 import './l-json';
 import './l-interval';
