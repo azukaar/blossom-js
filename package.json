@@ -35,7 +35,7 @@
     ]
   },
   "author": "Yann Stepienik",
-  "license": "Apache 2.0",
+  "license": "Apache-2.0",
   "devDependencies": {
     "@webcomponents/webcomponentsjs": "^2.0.0",
     "babel-jest": "^22.4.3",
