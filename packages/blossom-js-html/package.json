@@ -1,6 +1,6 @@
 {
   "name": "blossom-js-html",
-  "version": "0.27.0",
+  "version": "0.28.0",
   "description": "🌸 Blossom-js addition DOM element for basic usage of data flow and network (included in Blossom-js).",
   "main": "modules/index.js",
   "module": "modules/index.js",
