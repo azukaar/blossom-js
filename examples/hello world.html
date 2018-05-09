@@ -52,5 +52,18 @@
         <l-script>console.log(this.bodytest);</l-script>
         
         <l-set bodytest="3"></l-set>
+
+        <hr />
+
+        <div>
+          <l-form method="GET">
+            <div>
+              <label for="name">name : </label>
+              <input id="name" />
+              <l-validation for="name" l-test="(value) => value.length > 0">Error name must not be null</l-validation>
+            </div>
+            <input type="submit" />
+          </l-form>
+        </div>
   </body>
 </html>

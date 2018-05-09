@@ -108,26 +108,51 @@ class BlossomComponent extends HTMLElement {
   }
 
   refreshTask() {
-    const scope = BlossomResolveScope(this);
-    this.__scope = scope;
+    if (document.contains(this)) {
+      const scope = BlossomResolveScope(this);
+      this.__scope = scope;
 
-    if (this.render) {
-      const result = this.render();
-      if (result || result === '') {
-        this.innerHTML = result;
+      if (this.render) {
+        const result = this.render();
+        if (result || result === '') {
+          this.innerHTML = result;
+        }
       }
-    } else {
-      this.innerHTML = this.props.children;
-    }
 
-    setClassNames(this);
-    setEventListener(this);
-    refreshParentChildren(this);
+      setClassNames(this);
+      setEventListener(this);
+      refreshParentChildren(this);
+    }
   }
 
   _updateChildren(updated) {
     if (this.updateChildren) {
+      const str = updated;
+
+      str.__proto__.unwrap = function unwrap(query) {
+        const temp = document.createElement('div');
+        temp.innerHTML = this.toString();
+        if (temp.querySelector(query)) {
+          return temp.querySelector(query).innerHTML;
+        } else {
+          return updated;
+        }
+      };
+
+      str.__proto__.strip = function strip() {
+        const temp = document.createElement('div');
+        temp.innerHTML = this.toString();
+        if (temp.querySelector(query)) {
+          return temp.removeChild(temp.querySelector(query));
+        } else {
+          return updated;
+        }
+      };
+
       this.updateChildren(updated);
+
+      delete str.__proto__.unwrap;
+      delete str.__proto__.strip;
     } else {
       this.setAttribute('children', this.innerHTML);
     }

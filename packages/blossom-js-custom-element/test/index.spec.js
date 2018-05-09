@@ -35,7 +35,7 @@ describe('Create component', () => {
     const element = document.createElement('l-if');
     element.setAttribute('l-cond', 'true');
     element.innerHTML = 'I am displayed';
-
+    document.body.appendChild(element);
     element.connectedCallback();
 
     expect(element.innerHTML).toBe('I am displayed');

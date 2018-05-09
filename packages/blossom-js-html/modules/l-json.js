@@ -12,9 +12,8 @@ class JsonComponent extends BlossomComponent {
     fetch(this.props.url)
       .then((res) => res.json())
       .then((json) => {
-        this.props.loading = false;
         this.setAliasableScope('json', json);
-        this.refresh();
+        this.props.loading = false;
       });
   }
   render() {

@@ -1,6 +1,12 @@
 import { BlossomComponent, BlossomRegister } from 'blossom-js-custom-element';
 
 class RouteComponent extends BlossomComponent {
+  updateChildren(children) {
+    if (children.length) {
+      this.props.children = children;
+    }
+  }
+
   getFullPath(element) {
     let r = '';
     if (element.tagName === 'L-ROUTE') r = element.getAttribute('l-path');

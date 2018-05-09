@@ -79,7 +79,7 @@ const BlossomRegister = function BlossomRegister(settings) {
 const BlossomResolveScope = function BlossomResolveScope(element, preventRecursion) {
   let scope = new Proxy({
     realScope: {},
-    setFunctions: {},
+    setFunctions: {}
   }, {
     ownKeys: (target) => Reflect.ownKeys(target.realScope),
     deleteProperty(target, attr) {
@@ -132,8 +132,6 @@ const BlossomResolveScope = function BlossomResolveScope(element, preventRecursi
 
   if (element.getAttribute('l-scope')) {
     const elementScope = JSON.parse(element.getAttribute('l-scope'));
-
-    // getScopeProxySetFunction(element)
 
     /* eslint-disable no-inner-declarations, guard-for-in, no-restricted-syntax, no-eval */
     function searchFunctions(current) {
@@ -276,7 +274,26 @@ function getPropProxy(mainElement) {
       configurable: true,
     }),
     get: (obj, attr) => {
-      if (attr === 'scope') {
+      if (attr === 'spread') {
+        return () => {
+          const attrs = [];
+    
+          Array.from(mainElement.attributes)
+            .filter(e => e.name !== 'children' && e.name !== 'scope' && e.name !== 'l-scope' &&
+                    e.name !== 'l-class' && e.name !== 'class' &&
+                    e.name !== 'l-style' && e.name !== 'style')
+            .forEach(e => {
+              if (e.name.match(/^l-/)) {
+                const realName = e.name.slice(2);
+                if (attrs.indexOf(realName === -1)) attrs[realName] = mainElement.props[realName];
+              } else if (attrs.indexOf(e.name) === -1) {
+                attrs[e.name] = mainElement.props[e.name];
+              }
+            });
+
+          return Object.keys(attrs).map((key) => `${key}="${attrs[key]}"`).join(' ');
+        };
+      } else if (attr === 'scope') {
         return mainElement.__scope;
       } else if (attr === 'children') return mainElement.getAttribute('children');
       else if (typeof attr === 'string' && attr.length > 0) {
@@ -310,8 +327,14 @@ function getPropProxy(mainElement) {
 
         mainElement.__scope = value;
         if (needRefresh) mainElement.refresh();
-      } else if (typeof attr === 'string') {
+      } else if (attr === 'children') {
         mainElement.setAttribute(attr, typeof value !== 'string' ? JSON.stringify(value) : value);
+      } else if (typeof attr === 'string') {
+        const needRefresh = mainElement.getAttribute(attr) !== value.toString ? value.toString :
+          JSON.stringify(value);
+
+        mainElement.setAttribute(attr, typeof value !== 'string' ? JSON.stringify(value) : value);
+        if (needRefresh) mainElement.refresh();
       }
       return true;
     },

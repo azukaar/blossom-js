@@ -50,6 +50,10 @@ document.createElement = (element) => {
 
 global.BlossomRender = function BlossomRender(template) {
     const domNodes = document.createElement('div');
+    const originalContains = document.contains;
+    document.contains = (element) => {
+        return domNodes.contains(element);
+    }
     domNodes.innerHTML = template;
 
 
@@ -77,7 +81,9 @@ global.BlossomRender = function BlossomRender(template) {
         return domNodes;
     }
 
-    return brelement(domNodes);
+    const result = brelement(domNodes)
+    document.contains = originalContains;
+    return result;
 }
 
 window.__SERVERSIDE = true;
