@@ -1,6 +1,6 @@
 {
   "name": "blossom-js",
-  "version": "0.28.0",
+  "version": "0.29.0",
   "description": "🌸 The web framework that will love you as much as you love it. Zero binding and 100% DOM powered.",
   "main": "modules/index.js",
   "module": "modules/index.js",
