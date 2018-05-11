@@ -92,21 +92,33 @@ const setClassNames = function setClassNames(element) {
 };
 
 const setEventListener = function setEventListener(element) {
+  if (!element.eventCollection) {
+    // eslint-disable-next-line no-param-reassign
+    element.eventCollection = [];
+  }
+
   HTMLEvents.forEach(event => {
-    if (element.getAttribute(`l-on${event}`)) {
+    if (element.getAttribute(`l-on${event}`) && element.eventCollection.indexOf(event) === -1) {
       element.addEventListener(event, () => {
         BlossomInterpolate(element.getAttribute(`l-on${event}`), element);
       }, false);
+      element.eventCollection.push(event);
     }
 
     Array.from(element.querySelectorAll(`*[l-on${event}]`)).forEach((subElement) => {
+      if (!subElement.eventCollection) {
+        // eslint-disable-next-line no-param-reassign
+        subElement.eventCollection = [];
+      }
+
       if (subElement.parentElement && !BlossomCheckParentsAreLoaded(subElement.parentElement)) {
         return false;
       }
-      if (subElement.getAttribute(`l-on${event}`)) {
+      if (subElement.getAttribute(`l-on${event}`) && subElement.eventCollection.indexOf(event) === -1) {
         subElement.addEventListener(event, () => {
           BlossomInterpolate(subElement.getAttribute(`l-on${event}`), subElement);
         }, false);
+        subElement.eventCollection.push(event);
       }
     });
   });
