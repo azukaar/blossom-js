@@ -1,4 +1,5 @@
 import {BlossomConvertElement} from './index';
+import HTMLEvents from './htmlevents.json';
 let BlossomDocumentReady;
 
 let _BlossomReady;
@@ -192,49 +193,6 @@ const BlossomInterpolate = function BlossomInterpolate(str, from) {
   /* eslint-enable no-console, no-eval,  no-new-func */
 };
 
-
-const setClassNamesParents = function setClassNamesParents(element) {
-  if (element.getAttribute && element.getAttribute('l-class')) {
-    element.setAttribute('class', BlossomInterpolate(element.getAttribute('l-class'), element));
-  }
-
-  if (element.parentElement) setClassNamesParents(element.parentElement);
-};
-
-const setClassNames = function setClassNames(element) {
-  if (element.getAttribute('l-class')) {
-    element.setAttribute('class', BlossomInterpolate(element.getAttribute('l-class'), element));
-  }
-
-  Array.from(element.querySelectorAll('*[l-class]')).forEach((subElement) => {
-    if (subElement.parentElement && !BlossomCheckParentsAreLoaded(subElement.parentElement)) {
-      return false;
-    }
-    if (subElement.getAttribute('l-class')) {
-      subElement.setAttribute('class', BlossomInterpolate(subElement.getAttribute('l-class'), subElement));
-    }
-  });
-};
-
-const setEventListener = function setEventListener(element) {
-  if (element.getAttribute('l-onclick')) {
-    element.addEventListener('click', () => {
-      BlossomInterpolate(element.getAttribute('l-onclick'), element);
-    }, false);
-  }
-
-  Array.from(element.querySelectorAll('*[l-onclick]')).forEach((subElement) => {
-    if (subElement.parentElement && !BlossomCheckParentsAreLoaded(subElement.parentElement)) {
-      return false;
-    }
-    if (subElement.getAttribute('l-onclick')) {
-      subElement.addEventListener('click', () => {
-        BlossomInterpolate(subElement.getAttribute('l-onclick'), subElement);
-      }, false);
-    }
-  });
-};
-
 function getPropProxy(mainElement) {
   return new Proxy({}, {
     ownKeys: () => {
@@ -351,6 +309,50 @@ function getPropProxy(mainElement) {
     /* eslint-enable no-param-reassign */
   });
 }
+
+const setClassNamesParents = function setClassNamesParents(element) {
+  if (element.getAttribute && element.getAttribute('l-class')) {
+    element.setAttribute('class', BlossomInterpolate(element.getAttribute('l-class'), element));
+  }
+
+  if (element.parentElement) setClassNamesParents(element.parentElement);
+};
+
+const setClassNames = function setClassNames(element) {
+  if (element.getAttribute('l-class')) {
+    element.setAttribute('class', BlossomInterpolate(element.getAttribute('l-class'), element));
+  }
+
+  Array.from(element.querySelectorAll('*[l-class]')).forEach((subElement) => {
+    if (subElement.parentElement && !BlossomCheckParentsAreLoaded(subElement.parentElement)) {
+      return false;
+    }
+    if (subElement.getAttribute('l-class')) {
+      subElement.setAttribute('class', BlossomInterpolate(subElement.getAttribute('l-class'), subElement));
+    }
+  });
+};
+
+const setEventListener = function setEventListener(element) {
+  HTMLEvents.forEach(event => {
+    if (element.getAttribute('l-on'+event)) {
+      element.addEventListener(event, () => {
+        BlossomInterpolate(element.getAttribute('l-on'+event), element);
+      }, false);
+    }
+
+    Array.from(element.querySelectorAll('*[l-on'+event+']')).forEach((subElement) => {
+      if (subElement.parentElement && !BlossomCheckParentsAreLoaded(subElement.parentElement)) {
+        return false;
+      }
+      if (subElement.getAttribute('l-on'+event)) {
+        subElement.addEventListener(event, () => {
+          BlossomInterpolate(subElement.getAttribute('l-on'+event), subElement);
+        }, false);
+      }
+    });
+  });
+};
 
 function refreshParentChildren(element) {
   if (element.parentElement) {
