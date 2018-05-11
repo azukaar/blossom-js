@@ -7,7 +7,7 @@ class LoopComponent extends BlossomComponent {
     }
   }
   render() {
-    return this.props.from && this.props.from.map((value) => `<span ${this.alisableScopeString(value, 'loop')}>${this.props.children}</span>`).join('');
+    return this.props.from && this.props.from.map((value) => `<span ${this.alisableCtxString(value, 'loop')}>${this.props.children}</span>`).join('');
   }
 }
 

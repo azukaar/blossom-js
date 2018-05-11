@@ -1,48 +1,48 @@
 import 'blossom-js-server-side';
 import '../modules/l-if';
 import '../modules/l-js';
-import '../modules/l-scope';
+import '../modules/l-ctx';
 
-describe('L-scope component', () => {
-  test('Is able to set scope', () => {
+describe('L-ctx component', () => {
+  test('Is able to set ctx', () => {
     const template = `
-        <l-scope hello="world">
-        </l-scope>
+        <l-ctx hello="world">
+        </l-ctx>
       `;
 
     const rendered = BlossomRender(template);
 
-    expect(rendered.children[0].getAttribute('l-scope')).toMatch('{"hello":"world"}');
+    expect(rendered.children[0].getAttribute('l-ctx')).toMatch('{"hello":"world"}');
   });
 
-  test('Is able to set interpolate scope', () => {
+  test('Is able to set interpolate ctx', () => {
     const template = `
-        <l-scope l-hello="1+1"></l-scope>
+        <l-ctx l-hello="1+1"></l-ctx>
       `;
 
     const rendered = BlossomRender(template);
 
-    expect(rendered.children[0].getAttribute('l-scope')).toMatch('{"hello":2}');
+    expect(rendered.children[0].getAttribute('l-ctx')).toMatch('{"hello":2}');
   });
 
-  test('Propagate scope', () => {
+  test('Propagate ctx', () => {
     const template = `
-        <l-scope message="hello world">
-          <l-js>this.scope.message</l-js>
-        </l-scope>
+        <l-ctx message="hello world">
+          <l-js>this.ctx.message</l-js>
+        </l-ctx>
       `;
 
     const rendered = BlossomRender(template);
 
-    expect(rendered.children[0].getAttribute('l-scope')).toMatch('{"message":"hello world"}');
+    expect(rendered.children[0].getAttribute('l-ctx')).toMatch('{"message":"hello world"}');
     expect(rendered.querySelector('l-js').innerHTML).toMatch('hello world');
   });
 
-  test('Can set scope function', () => {
+  test('Can set ctx function', () => {
     const template = `
-        <l-scope l-message="() => 'hello world'">
-          <l-js>this.scope.message()</l-js>
-        </l-scope>
+        <l-ctx l-message="() => 'hello world'">
+          <l-js>this.ctx.message()</l-js>
+        </l-ctx>
       `;
 
     const rendered = BlossomRender(template);
@@ -52,11 +52,11 @@ describe('L-scope component', () => {
 
   test('Set Evenet listeners', () => {
     const template = `
-          <l-scope message="Hello world"
-                    l-changemessage="() => this.scope.message += ' and the universe'">
-            <l-js>this.scope.message</l-js>
-            <button l-onclick="this.scope.changemessage()">change</button>
-          </l-scope>
+          <l-ctx message="Hello world"
+                    l-changemessage="() => this.ctx.message += ' and the universe'">
+            <l-js>this.ctx.message</l-js>
+            <button l-onclick="this.ctx.changemessage()">change</button>
+          </l-ctx>
         `;
 
     const rendered = BlossomRender(template);
@@ -65,6 +65,6 @@ describe('L-scope component', () => {
     evt.initMouseEvent('click');
     rendered.querySelector('button').dispatchEvent(evt);
 
-    expect(rendered.children[0].getAttribute('l-scope')).toMatch('Hello world and the universe');
+    expect(rendered.children[0].getAttribute('l-ctx')).toMatch('Hello world and the universe');
   });
 });

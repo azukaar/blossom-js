@@ -1,6 +1,6 @@
 import { BlossomComponent, BlossomRegister } from 'blossom-js-custom-element';
 
-class ScopeComponent extends BlossomComponent {
+class CtxComponent extends BlossomComponent {
   render() {
     Object.keys(this.props).forEach((name) => {
       if (!name.match(/^has_set_/)) {
@@ -8,7 +8,7 @@ class ScopeComponent extends BlossomComponent {
 
         if (!this.hasAttribute('has_set_'+name) || this.getAttribute('has_set_'+name) !== JSON.stringify(hasValue)) {
           this.setAttribute('has_set_'+name, JSON.stringify(hasValue));
-          this.setScope(name, this.props[name]);
+          this.setCtx(name, this.props[name]);
         }
       }
     });
@@ -18,6 +18,6 @@ class ScopeComponent extends BlossomComponent {
 }
 
 BlossomRegister({
-  name: 'l-scope',
-  element: ScopeComponent,
+  name: 'l-ctx',
+  element: CtxComponent,
 });

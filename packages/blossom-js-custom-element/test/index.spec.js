@@ -58,13 +58,13 @@ describe('Create component', () => {
   });
 
 
-  test('Component should read upper scope', () => {
+  test('Component should read upper ctx', () => {
     const template = `
-            <div l-scope='{"someBool": false, "someBool2": true}'>
-                <l-if l-cond="this.scope.someBool">
+            <div l-ctx='{"someBool": false, "someBool2": true}'>
+                <l-if l-cond="this.ctx.someBool">
                     I am not displayed
                 </l-if>
-                <l-if l-cond="this.scope.someBool2">
+                <l-if l-cond="this.ctx.someBool2">
                     I am displayed
                 </l-if>
             </l-if>
@@ -89,12 +89,12 @@ describe('Create component', () => {
     expect(rendered.querySelector('div').className).toMatch(/^red$/);
   });
 
-  test('Allow scoped scope names', () => {
+  test('Allow ctxd ctx names', () => {
     const element = document.createElement('l-if');
-    expect(element.alisableScopeString('bar', 'foo')).toContain('foo');
-    expect(element.alisableScopeString('bar')).toContain('value');
+    expect(element.alisableCtxString('bar', 'foo')).toContain('foo');
+    expect(element.alisableCtxString('bar')).toContain('value');
     element.setAttribute('l-alias', 'testing');
-    expect(element.alisableScopeString('bar', 'foo')).toContain('testing');
+    expect(element.alisableCtxString('bar', 'foo')).toContain('testing');
   });
 
   test('Allow listing props', () => {

@@ -1,7 +1,7 @@
 import './l-if';
 import './l-else';
 import './l-elif';
-import './l-scope';
+import './l-ctx';
 import './l-get';
 import './l-set';
 import './l-state';

@@ -10,7 +10,7 @@ describe('Interpolate String', () => {
     expect(BlossomInterpolate('"red"')).toBe('red');
     expect(BlossomInterpolate("'red'")).toBe('red');
   });
-  test('Allow scoped var', () => {
+  test('Allow ctxd var', () => {
     expect(BlossomInterpolate('this.foo', { foo: 'bar' })).toBe('bar');
   });
   test('Allow operations', () => {

@@ -1,4 +1,4 @@
-import { BlossomReady, getPropProxy, refreshParentChildren, setClassNamesParents, setEventListener, setClassNames, BlossomRegister, BlossomResolveScope, BlossomInterpolate, BlossomCheckParentsAreLoaded } from './utils';
+import { BlossomReady, getPropProxy, refreshParentChildren, setClassNamesParents, setEventListener, setClassNames, BlossomRegister, BlossomResolveCtx, BlossomInterpolate, BlossomCheckParentsAreLoaded } from './utils';
 
 const needRefresh = [];
 
@@ -20,21 +20,21 @@ function addNeedRefresh(task) {
 
 
 function BlossomConvertElement(elementToPatch) {
-  if (elementToPatch && !elementToPatch.setScope) {
-    elementToPatch.setScope = BlossomComponent.prototype.setScope;
+  if (elementToPatch && !elementToPatch.setCtx) {
+    elementToPatch.setCtx = BlossomComponent.prototype.setCtx;
   }
 
-  if (elementToPatch && !elementToPatch.scope) {
-    elementToPatch.scope = BlossomResolveScope(elementToPatch, true);
+  if (elementToPatch && !elementToPatch.ctx) {
+    elementToPatch.ctx = BlossomResolveCtx(elementToPatch, true);
   }
 
   if (elementToPatch && !elementToPatch.props) {
     elementToPatch.props = getPropProxy(elementToPatch);
   }
 
-  if (elementToPatch && !elementToPatch.resolveScope) {
-    elementToPatch.resolveScope = () => {
-      elementToPatch.scope = BlossomResolveScope(elementToPatch, true);
+  if (elementToPatch && !elementToPatch.resolveCtx) {
+    elementToPatch.resolveCtx = () => {
+      elementToPatch.ctx = BlossomResolveCtx(elementToPatch, true);
     }
   }
 
@@ -61,7 +61,7 @@ function patchDomAccess(element) {
 
 class BlossomComponent extends HTMLElement {
   connectedCallback() {
-    this.scope = {};
+    this.ctx = {};
     this.props = getPropProxy(this);
 
     if (this.parentElement && !BlossomCheckParentsAreLoaded(this.parentElement)) return false;
@@ -70,8 +70,8 @@ class BlossomComponent extends HTMLElement {
     this.innerHTML = '';
 
 
-    const scope = BlossomResolveScope(this);
-    this.scope = scope;
+    const ctx = BlossomResolveCtx(this);
+    this.ctx = ctx;
 
 
     patchDomAccess(this);
@@ -89,27 +89,27 @@ class BlossomComponent extends HTMLElement {
     }
   }
 
-  resolveScope() {
-    this.scope = BlossomResolveScope(this);
+  resolveCtx() {
+    this.ctx = BlossomResolveCtx(this);
   }
 
-  alisableScopeString(value, defaultName) {
-    const scope = {};
+  alisableCtxString(value, defaultName) {
+    const ctx = {};
     if (this.getAttribute('l-alias')) {
-      scope[this.getAttribute('l-alias')] = value;
+      ctx[this.getAttribute('l-alias')] = value;
     } else if (defaultName) {
-      scope[defaultName] = value;
+      ctx[defaultName] = value;
     } else {
-      scope.value = value;
+      ctx.value = value;
     }
-    return `l-scope='${JSON.stringify(scope)}'`;
+    return `l-ctx='${JSON.stringify(ctx)}'`;
   }
 
-  setAliasableScope(defaultName, value) {
+  setAliasableCtx(defaultName, value) {
     if (this.getAttribute('l-alias')) {
-      this.setScope(this.getAttribute('l-alias'), value);
+      this.setCtx(this.getAttribute('l-alias'), value);
     } else {
-      this.setScope(defaultName, value);
+      this.setCtx(defaultName, value);
     }
   }
 
@@ -119,8 +119,8 @@ class BlossomComponent extends HTMLElement {
 
   refreshTask() {
     if (document.contains(this)) {
-      const scope = BlossomResolveScope(this);
-      this.scope = scope;
+      const ctx = BlossomResolveCtx(this);
+      this.ctx = ctx;
 
       if (this.render) {
         const result = this.render();
@@ -168,7 +168,7 @@ class BlossomComponent extends HTMLElement {
     }
   }
 
-  setScope(key, value) {
+  setCtx(key, value) {
     if (key === '___RESULT') {
       return true;
     }
@@ -176,14 +176,14 @@ class BlossomComponent extends HTMLElement {
       value = `__FUNCTION__${value.toString()}`;
     }
     let willNeedRefresh = false;
-    if (this.getAttribute('l-scope')) {
-      const temp = JSON.parse(this.getAttribute('l-scope'));
-      willNeedRefresh = JSON.stringify(this.scope[key]) !== JSON.stringify(value);
+    if (this.getAttribute('l-ctx')) {
+      const temp = JSON.parse(this.getAttribute('l-ctx'));
+      willNeedRefresh = JSON.stringify(this.ctx[key]) !== JSON.stringify(value);
       temp[key] = value;
-      this.setAttribute('l-scope', JSON.stringify(temp));
+      this.setAttribute('l-ctx', JSON.stringify(temp));
     } else {
-      willNeedRefresh = JSON.stringify(this.scope[key]) !== JSON.stringify(value);
-      this.setAttribute('l-scope', JSON.stringify({ [key]: value }));
+      willNeedRefresh = JSON.stringify(this.ctx[key]) !== JSON.stringify(value);
+      this.setAttribute('l-ctx', JSON.stringify({ [key]: value }));
     }
 
     if (willNeedRefresh) {
@@ -207,7 +207,7 @@ export {
   BlossomComponent,
   BlossomConvertElement,
   BlossomRegister,
-  BlossomResolveScope,
+  BlossomResolveCtx,
   BlossomInterpolate,
   BlossomReady,
 };

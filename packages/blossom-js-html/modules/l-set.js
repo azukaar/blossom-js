@@ -7,12 +7,12 @@ class SetComponent extends BlossomComponent {
         const hasValue = (typeof this.props[name] === 'function') ? this.props[name].toString() : this.props[name];
 
         if (!this.hasAttribute('has_set_'+name) || this.getAttribute('has_set_'+name) !== JSON.stringify(hasValue)) {
-          if (this.scope[name]) {
+          if (this.ctx[name]) {
             this.setAttribute('has_set_'+name, JSON.stringify(hasValue));
-            this.scope[name] = this.props[name];
+            this.ctx[name] = this.props[name];
           } else {
             this.setAttribute('has_set_'+name, JSON.stringify(hasValue));
-            document.body.setScope(name, this.props[name]);
+            document.body.setCtx(name, this.props[name]);
           }
         }
       }

@@ -76,18 +76,18 @@ const BlossomRegister = function BlossomRegister(settings) {
   });
 };
 
-const BlossomResolveScope = function BlossomResolveScope(element, preventRecursion) {
-  let scope = new Proxy({
-    realScope: {},
+const BlossomResolveCtx = function BlossomResolveCtx(element, preventRecursion) {
+  let ctx = new Proxy({
+    realCtx: {},
     setFunctions: {}
   }, {
-    ownKeys: (target) => Reflect.ownKeys(target.realScope),
+    ownKeys: (target) => Reflect.ownKeys(target.realCtx),
     deleteProperty(target, attr) {
       // TODO
       return true;
     },
     getOwnPropertyDescriptor: (target, attr) => {
-      if (attr === 'setFunctions' || attr === 'realScope' || attr === 'originalElement') {
+      if (attr === 'setFunctions' || attr === 'realCtx' || attr === 'originalElement') {
         return {
           value: target[attr],
           writable: true,
@@ -96,7 +96,7 @@ const BlossomResolveScope = function BlossomResolveScope(element, preventRecursi
         };
       } else if (typeof attr === 'string' && attr.length > 0) {
         return {
-          value: target.realScope[attr],
+          value: target.realCtx[attr],
           writable: true,
           enumerable: true,
           configurable: true,
@@ -104,20 +104,20 @@ const BlossomResolveScope = function BlossomResolveScope(element, preventRecursi
       }
     },
     get: (target, attr) => {
-      if (attr === 'setFunctions' || attr === 'realScope' || attr === 'originalElement') {
+      if (attr === 'setFunctions' || attr === 'realCtx' || attr === 'originalElement') {
         return target[attr];
       }
-      return target.realScope[attr];
+      return target.realCtx[attr];
     },
     /* eslint-disable no-param-reassign */
     set: (target, attr, value) => {
-      if (attr === 'setFunctions' || attr === 'realScope' || attr === 'originalElement') {
+      if (attr === 'setFunctions' || attr === 'realCtx' || attr === 'originalElement') {
         target[attr] = value;
         return true;
       }
-      target.realScope[attr] = value;
+      target.realCtx[attr] = value;
       if (!target.setFunctions[attr]) {
-        target.setFunctions[attr] = () => BlossomConvertElement(target.originalElement).setScope(attr, value);
+        target.setFunctions[attr] = () => BlossomConvertElement(target.originalElement).setCtx(attr, value);
       }
       target.setFunctions[attr](value);
       return true;
@@ -125,13 +125,13 @@ const BlossomResolveScope = function BlossomResolveScope(element, preventRecursi
   });
 
   if (element.parentElement && !preventRecursion) {
-    scope = BlossomResolveScope(element.parentElement);
+    ctx = BlossomResolveCtx(element.parentElement);
   }
 
-  scope.originalElement = element;
+  ctx.originalElement = element;
 
-  if (element.getAttribute('l-scope')) {
-    const elementScope = JSON.parse(element.getAttribute('l-scope'));
+  if (element.getAttribute('l-ctx')) {
+    const elementCtx = JSON.parse(element.getAttribute('l-ctx'));
 
     /* eslint-disable no-inner-declarations, guard-for-in, no-restricted-syntax, no-eval */
     function searchFunctions(current) {
@@ -155,17 +155,17 @@ const BlossomResolveScope = function BlossomResolveScope(element, preventRecursi
     }
     /* eslint-enable no-inner-declarations, guard-for-in, no-restricted-syntax, no-eval */
 
-    searchFunctions(elementScope);
+    searchFunctions(elementCtx);
 
-    Object.keys(elementScope).forEach(va => {
-      scope.realScope[va] = elementScope[va];
-      scope.setFunctions[va] = (value) => {
-        BlossomConvertElement(element).setScope(va, value);
+    Object.keys(elementCtx).forEach(va => {
+      ctx.realCtx[va] = elementCtx[va];
+      ctx.setFunctions[va] = (value) => {
+        BlossomConvertElement(element).setCtx(va, value);
       };
     });
   }
 
-  return scope;
+  return ctx;
 };
 /* eslint-enable no-param-reassign */
 
@@ -174,7 +174,7 @@ const BlossomInterpolate = function BlossomInterpolate(str, from) {
   try {
     if (from && typeof from.nodeName !== 'undefined' && typeof from.nodeType !== 'undefined' && from.nodeType === 1) {
       BlossomConvertElement(from)
-      from.scope = BlossomResolveScope(from);
+      from.ctx = BlossomResolveCtx(from);
     }
 
     const func = new Function(`return ${str}`).bind(from);
@@ -241,7 +241,7 @@ function getPropProxy(mainElement) {
       const attrs = [];
 
       Array.from(mainElement.attributes)
-        .filter(e => e.name !== 'children' && e.name !== 'scope' && e.name !== 'l-scope' &&
+        .filter(e => e.name !== 'children' && e.name !== 'ctx' && e.name !== 'l-ctx' &&
                 e.name !== 'l-class' && e.name !== 'class' &&
                 e.name !== 'l-style' && e.name !== 'style')
         .forEach(e => {
@@ -256,7 +256,7 @@ function getPropProxy(mainElement) {
       return attrs;
     },
     deleteProperty(target, attr) {
-      if (attr !== 'scope' && typeof attr === 'string') {
+      if (attr !== 'ctx' && typeof attr === 'string') {
         if (mainElement.hasAttribute(attr)) {
           mainElement.removeAttribute(attr);
         }
@@ -281,7 +281,7 @@ function getPropProxy(mainElement) {
           const attrs = [];
 
           Array.from(mainElement.attributes)
-            .filter(e => e.name !== 'children' && e.name !== 'scope' && e.name !== 'l-scope' &&
+            .filter(e => e.name !== 'children' && e.name !== 'ctx' && e.name !== 'l-ctx' &&
                     e.name !== 'l-class' && e.name !== 'class' &&
                     e.name !== 'l-style' && e.name !== 'style')
             .forEach(e => {
@@ -303,8 +303,8 @@ function getPropProxy(mainElement) {
 
           return Object.keys(attrs).map((key) => `${key}="${attrs[key]}"`).join(' ');
         };
-      } else if (attr === 'scope') {
-        return mainElement.scope;
+      } else if (attr === 'ctx') {
+        return mainElement.ctx;
       } else if (attr === 'children') return mainElement.getAttribute('children');
       else if (typeof attr === 'string' && attr.length > 0) {
         if (mainElement.getAttribute(`l-${attr}`)) {
@@ -332,10 +332,10 @@ function getPropProxy(mainElement) {
     },
     /* eslint-disable no-param-reassign */
     set: (obj, attr, value) => {
-      if (attr === 'scope') {
-        const needRefresh = JSON.stringify(mainElement.scope) !== JSON.stringify(value);
+      if (attr === 'ctx') {
+        const needRefresh = JSON.stringify(mainElement.ctx) !== JSON.stringify(value);
 
-        mainElement.scope = value;
+        mainElement.ctx = value;
         if (needRefresh) mainElement.refresh();
       } else if (attr === 'children') {
         mainElement.setAttribute(attr, typeof value !== 'string' ? JSON.stringify(value) : value);
@@ -372,7 +372,7 @@ export {
   refreshParentChildren,
   getPropProxy,
   BlossomRegister,
-  BlossomResolveScope,
+  BlossomResolveCtx,
   BlossomInterpolate,
   BlossomCheckParentsAreLoaded,
   BlossomReady,

@@ -9,8 +9,8 @@
         <l-get bodytest></l-get>
       </div>
       <div>
-        <l-scope display="true" l-toggle="() => this.display = !this.display">
-          <l-if l-cond="this.display">
+        <l-ctx display="true" l-toggle="() => this.ctx.display = !this.ctx.display">
+          <l-if l-cond="this.ctx.display">
             <l-interval timer="1000" l-ontick="() => console.log('clock ticking')">
               <l-js>Date.now()</l-js>
             </l-interval>
@@ -18,39 +18,39 @@
           <l-else>
             Clock stopped
           </l-else>
-          <button l-onclick="this.toggle()">toggle</button>
-        </l-scope>
+          <button l-onclick="this.ctx.toggle()">toggle</button>
+        </l-ctx>
       </div>
 
       <div>
-        <l-scope message="Hello world" l-changemessage="() => this.message += ' and the universe'">
-          <l-js>this.message</l-js>
-          <button l-onclick="this.changemessage()">change</button>
-        </l-scope>
+        <l-ctx message="Hello world" l-changemessage="() => this.ctx.message += ' and the universe'">
+          <l-js>this.ctx.message</l-js>
+          <button l-onclick="this.ctx.changemessage()">change</button>
+        </l-ctx>
       </div>
 
       <div>
-          <l-scope test="2">
-            <l-if l-cond="this.test == 1">1</l-if>
-            <l-elif l-cond="this.test == 2">2</l-elif>
-            <l-elif l-cond="this.test == 3">3</l-elif>
+          <l-ctx test="2">
+            <l-if l-cond="this.ctx.test == 1">1</l-if>
+            <l-elif l-cond="this.ctx.test == 2">2</l-elif>
+            <l-elif l-cond="this.ctx.test == 3">3</l-elif>
             <l-else>none</l-else>
-          </l-scope>
-          <l-scope test="2">
-            <l-if l-cond="this.test == 1">1</l-if>
-            <l-elif l-cond="this.test == 2">2</l-elif>
+          </l-ctx>
+          <l-ctx test="2">
+            <l-if l-cond="this.ctx.test == 1">1</l-if>
+            <l-elif l-cond="this.ctx.test == 2">2</l-elif>
             <l-else>none</l-else>
-          </l-scope>
+          </l-ctx>
         </div>
 
         <div>
-          <l-scope test="1">
+          <l-ctx test="1">
             <l-set test="2"></l-set>
-            <l-js>this.test</l-js>
-          </l-scope>
+            <l-js>this.ctx.test</l-js>
+          </l-ctx>
         </div>
 
-        <l-script>console.log(this.bodytest);</l-script>
+        <l-script>console.log(this.ctx.bodytest);</l-script>
         
         <l-set bodytest="3"></l-set>
 
