@@ -275,9 +275,9 @@ function getPropProxy(mainElement) {
     }),
     get: (obj, attr) => {
       if (attr === 'spread') {
-        return () => {
+        return (filterin) => {
           const attrs = [];
-    
+
           Array.from(mainElement.attributes)
             .filter(e => e.name !== 'children' && e.name !== 'scope' && e.name !== 'l-scope' &&
                     e.name !== 'l-class' && e.name !== 'class' &&
@@ -290,6 +290,14 @@ function getPropProxy(mainElement) {
                 attrs[e.name] = mainElement.props[e.name];
               }
             });
+
+          if (filterin) {
+            Object.keys(attrs).forEach(att => {
+              if (filterin.indexOf(att) === -1) {
+                delete attrs[att];
+              }
+            });
+          }
 
           return Object.keys(attrs).map((key) => `${key}="${attrs[key]}"`).join(' ');
         };
