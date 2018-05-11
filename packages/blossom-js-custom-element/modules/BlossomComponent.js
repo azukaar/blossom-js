@@ -114,23 +114,20 @@ class BlossomComponent extends HTMLElement {
   }
 
   setCtx(key, value) {
-    let realValue = value;
+    let willNeedRefresh = false;
 
     if (key === '___RESULT') {
       return true;
     }
-    if (typeof realValue === 'function') {
-      realValue = `__FUNCTION__${realValue.toString()}`;
-    }
-    let willNeedRefresh = false;
+
     if (this.getAttribute('l-ctx')) {
       const temp = BlossomDeserialise(this.getAttribute('l-ctx'), this);
-      willNeedRefresh = BlossomSerialise(this.ctx[key]) !== BlossomSerialise(realValue);
-      temp[key] = realValue;
+      willNeedRefresh = BlossomSerialise(this.ctx[key]) !== BlossomSerialise(value);
+      temp[key] = value;
       this.setAttribute('l-ctx', BlossomSerialise(temp));
     } else {
-      willNeedRefresh = BlossomSerialise(this.ctx[key]) !== BlossomSerialise(realValue);
-      this.setAttribute('l-ctx', BlossomSerialise({ [key]: realValue }));
+      willNeedRefresh = BlossomSerialise(this.ctx[key]) !== BlossomSerialise(value);
+      this.setAttribute('l-ctx', BlossomSerialise({ [key]: value }));
     }
 
     if (willNeedRefresh) {
