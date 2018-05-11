@@ -13,14 +13,14 @@ if (typeof window !== 'undefined') {
     BlossomReady.then(() => {
       if (url.match(/^\//)) {
         let fullPath = url.slice(1);
-        if (state.BlossomRouteBase) {
-          fullPath = state.BlossomRouteBase + fullPath;
+        if (document.querySelector('*').ctx.BlossomRouteBase) {
+          fullPath = document.querySelector('*').ctx.BlossomRouteBase + fullPath;
         }
         window.history.pushState({}, '', fullPath);
       } else {
         window.history.pushState({}, '', window.location.pathname + url);
       }
-  
+
       Array.from(document.querySelectorAll('l-route')).forEach((route) => {
         route.refresh();
       });

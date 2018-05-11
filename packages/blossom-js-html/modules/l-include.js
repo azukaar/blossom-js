@@ -14,7 +14,7 @@ class IncludeComponent extends BlossomComponent {
 
   render() {
     if (this.props.loading) {
-      return `Loading...`;
+      return '';
     }
 
     return this.props.children;

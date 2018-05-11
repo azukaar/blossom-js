@@ -6,7 +6,7 @@ class redirectComponent extends BlossomComponent {
     if (!url.match(/\/$/)) {
       url += '/';
     }
-    state.BlossomRouteBase = url;
+    document.querySelector('*').ctx.BlossomRouteBase = url;
     return '';
   }
 }

@@ -2,7 +2,7 @@ import { BlossomComponent, BlossomRegister } from 'blossom-js-custom-element';
 
 class redirectComponent extends BlossomComponent {
   render() {
-    navigateTo(this.props.to);
+    window.navigateTo(this.props.to);
   }
 }
 

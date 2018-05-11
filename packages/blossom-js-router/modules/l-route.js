@@ -18,8 +18,8 @@ class RouteComponent extends BlossomComponent {
   match() {
     const currentPath = window.location.pathname;
     let fullPath = this.getAttribute('l-path'); // this.getFullPath(this);
-    if (state.BlossomRouteBase) {
-      fullPath = state.BlossomRouteBase + fullPath;
+    if (this.ctx.BlossomRouteBase) {
+      fullPath = this.ctx.BlossomRouteBase + fullPath;
     }
     const listMatch = [];
 
@@ -30,7 +30,7 @@ class RouteComponent extends BlossomComponent {
     })}`;
 
     // eslint-disable-next-line no-useless-escape
-    fullPath = fullPath.replace(/\/+/g, '\/') + '$';
+    fullPath = `${fullPath.replace(/\/+/g, '\/')}$`;
 
     const matches = currentPath.match(new RegExp(fullPath));
 
