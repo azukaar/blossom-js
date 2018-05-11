@@ -1,4 +1,5 @@
 import { BlossomInterpolate } from '../utils';
+import { BlossomSerialise, BlossomDeserialise } from '../BlossomSerialise';
 
 export default function getPropProxy(mainElement) {
   return new Proxy({}, {
@@ -74,22 +75,10 @@ export default function getPropProxy(mainElement) {
       else if (typeof attr === 'string' && attr.length > 0) {
         if (mainElement.getAttribute(`l-${attr}`)) {
           const result = BlossomInterpolate(mainElement.getAttribute(`l-${attr}`), mainElement);
-          mainElement.setAttribute(attr, typeof result !== 'string' ? JSON.stringify(result) : result);
+          mainElement.setAttribute(attr, BlossomSerialise(result));
           return result;
-        }
-
-        if (mainElement.getAttribute(attr)) {
-          const result = mainElement.getAttribute(attr);
-          if (result === 'true') return true;
-          else if (result === 'false') return false;
-          else if (result.match(/^[{[]/) && result.match(/[}]]$/)) {
-            try {
-              return JSON.stringify(result);
-            } catch (e) {
-              return result;
-            }
-          } else if (typeof result === 'number') return Number(result);
-          return result;
+        } else if (mainElement.getAttribute(attr)) {
+          return BlossomDeserialise(mainElement.getAttribute(attr), mainElement);
         }
 
         return '';
@@ -98,17 +87,16 @@ export default function getPropProxy(mainElement) {
     /* eslint-disable no-param-reassign */
     set: (obj, attr, value) => {
       if (attr === 'ctx') {
-        const needRefresh = JSON.stringify(mainElement.ctx) !== JSON.stringify(value);
+        const needRefresh = BlossomSerialise(mainElement.ctx) !== BlossomSerialise(value);
 
         mainElement.ctx = value;
         if (needRefresh) mainElement.refresh();
       } else if (attr === 'children') {
-        mainElement.setAttribute(attr, typeof value !== 'string' ? JSON.stringify(value) : value);
+        mainElement.setAttribute(attr, typeof value !== 'string' ? BlossomSerialise(value) : value);
       } else if (typeof attr === 'string') {
-        const needRefresh = mainElement.getAttribute(attr) !== value.toString ? value.toString :
-          JSON.stringify(value);
+        const needRefresh = mainElement.getAttribute(attr) !== BlossomSerialise(value);
 
-        mainElement.setAttribute(attr, typeof value !== 'string' ? JSON.stringify(value) : value);
+        mainElement.setAttribute(attr, BlossomSerialise(value));
         if (needRefresh) mainElement.refresh();
       }
       return true;

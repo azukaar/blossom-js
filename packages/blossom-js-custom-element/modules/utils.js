@@ -99,10 +99,10 @@ const setEventListener = function setEventListener(element) {
 
   HTMLEvents.forEach(event => {
     if (element.getAttribute(`l-on${event}`) && element.eventCollection.indexOf(event) === -1) {
-      element.addEventListener(event, () => {
-        BlossomInterpolate(element.getAttribute(`l-on${event}`), element);
+      element.addEventListener(event, (eventValue) => {
+        BlossomConvertElement(element).props[`on${event}`](eventValue);
       }, false);
-      element.eventCollection.push(event);
+      BlossomConvertElement(element).eventCollection.push(event);
     }
 
     Array.from(element.querySelectorAll(`*[l-on${event}]`)).forEach((subElement) => {
@@ -115,8 +115,8 @@ const setEventListener = function setEventListener(element) {
         return false;
       }
       if (subElement.getAttribute(`l-on${event}`) && subElement.eventCollection.indexOf(event) === -1) {
-        subElement.addEventListener(event, () => {
-          BlossomInterpolate(subElement.getAttribute(`l-on${event}`), subElement);
+        subElement.addEventListener(event, (eventValue) => {
+          BlossomConvertElement(subElement).props[`on${event}`](eventValue);
         }, false);
         subElement.eventCollection.push(event);
       }

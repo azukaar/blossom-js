@@ -1,6 +1,8 @@
 import { BlossomCheckParentsAreLoaded, getPropProxy, refreshParentChildren, setEventListener, setClassNames, getCtxProxy } from './utils';
 import { patchDomAccess } from './BlossomConvertElement';
 import * as taskQueue from './taskQueue';
+import { BlossomSerialise, BlossomDeserialise } from './BlossomSerialise';
+
 
 class BlossomComponent extends HTMLElement {
   connectedCallback() {
@@ -45,7 +47,7 @@ class BlossomComponent extends HTMLElement {
     } else {
       ctx.value = value;
     }
-    return `l-ctx='${JSON.stringify(ctx)}'`;
+    return `l-ctx='${BlossomSerialise(ctx)}'`;
   }
 
   setAliasableCtx(defaultName, value) {
@@ -122,13 +124,13 @@ class BlossomComponent extends HTMLElement {
     }
     let willNeedRefresh = false;
     if (this.getAttribute('l-ctx')) {
-      const temp = JSON.parse(this.getAttribute('l-ctx'));
-      willNeedRefresh = JSON.stringify(this.ctx[key]) !== JSON.stringify(realValue);
+      const temp = BlossomDeserialise(this.getAttribute('l-ctx'), this);
+      willNeedRefresh = BlossomSerialise(this.ctx[key]) !== BlossomSerialise(realValue);
       temp[key] = realValue;
-      this.setAttribute('l-ctx', JSON.stringify(temp));
+      this.setAttribute('l-ctx', BlossomSerialise(temp));
     } else {
-      willNeedRefresh = JSON.stringify(this.ctx[key]) !== JSON.stringify(realValue);
-      this.setAttribute('l-ctx', JSON.stringify({ [key]: realValue }));
+      willNeedRefresh = BlossomSerialise(this.ctx[key]) !== BlossomSerialise(realValue);
+      this.setAttribute('l-ctx', BlossomSerialise({ [key]: realValue }));
     }
 
     if (willNeedRefresh) {

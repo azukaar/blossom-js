@@ -7,6 +7,7 @@
   "scripts": {
     "test": "jest",
     "lint": "eslint --fix ./modules ./test",
+    "test-build": "webpack",
     "build": "webpack -p"
   },
   "repository": {

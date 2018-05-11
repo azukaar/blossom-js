@@ -7,6 +7,7 @@
     "bootstrap": "lerna bootstrap --use-workspaces",
     "test": "lerna run lint; jest --coverage; cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js",
     "prepare": "lerna run prepare",
+    "test-build": "lerna run test-build",
     "build": "lerna run build",
     "publish": "npm run build; lerna publish",
     "lint": "lerna run lint",
