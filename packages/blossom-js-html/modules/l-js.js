@@ -8,7 +8,7 @@ class JsComponent extends BlossomComponent {
   }
 
   render() {
-    return BlossomInterpolate(this.props.children, this.props.scope, this);
+    return BlossomInterpolate(this.props.children, this);
   }
 }
 

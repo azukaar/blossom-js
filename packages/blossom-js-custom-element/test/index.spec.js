@@ -61,10 +61,10 @@ describe('Create component', () => {
   test('Component should read upper scope', () => {
     const template = `
             <div l-scope='{"someBool": false, "someBool2": true}'>
-                <l-if l-cond="this.someBool">
+                <l-if l-cond="this.props.scope.someBool">
                     I am not displayed
                 </l-if>
-                <l-if l-cond="this.someBool2">
+                <l-if l-cond="this.props.scope.someBool2">
                     I am displayed
                 </l-if>
             </l-if>

@@ -143,9 +143,9 @@ const BlossomResolveScope = function BlossomResolveScope(element, preventRecursi
             tostring = `(function${tostring}})`;
             tostring = tostring.replace('=>', '{return ');
           }
-
-          current[index] = eval(tostring);
-          current[index].bind(element.__scope);
+          // NEED DELETE ? 
+          BlossomConvertElement(element);
+          current[index] = eval(tostring).bind(element);
         }
 
         if (current[index] !== null && typeof (current[index]) === 'object') {
@@ -169,15 +169,20 @@ const BlossomResolveScope = function BlossomResolveScope(element, preventRecursi
 };
 /* eslint-enable no-param-reassign */
 
-const BlossomInterpolate = function BlossomInterpolate(str, scope = {}, from) {
+const BlossomInterpolate = function BlossomInterpolate(str, from) {
   /* eslint-disable no-console, no-eval,  no-new-func */
   try {
-    const func = new Function(`return ${str}`).bind(scope);
+    if (from && typeof from.nodeName !== 'undefined' && typeof from.nodeType !== 'undefined' && from.nodeType === 1) {
+      BlossomConvertElement(from)
+      from.__scope = BlossomResolveScope(from);
+    }
+
+    const func = new Function(`return ${str}`).bind(from);
     return func();
   } catch (e) {
     if (from) {
       console.error('Tried to evaluate : ', str);
-      console.error(e.message, '\n', 'STACKTRACE', getStackTrace(from));
+      console.error(e.message, '\n', 'STACKTRACE', from.parentElement ? getStackTrace(from) : from);
     } else {
       console.error('Tried to evaluate : ', str);
       console.error(e.message, 'but no stacktrace available, provide target element to BlossomInterpolate as a third argument to display DOM position');
@@ -190,8 +195,7 @@ const BlossomInterpolate = function BlossomInterpolate(str, scope = {}, from) {
 
 const setClassNamesParents = function setClassNamesParents(element) {
   if (element.getAttribute && element.getAttribute('l-class')) {
-    const scope = BlossomResolveScope(element);
-    element.setAttribute('class', BlossomInterpolate(element.getAttribute('l-class'), scope, element));
+    element.setAttribute('class', BlossomInterpolate(element.getAttribute('l-class'), element));
   }
 
   if (element.parentElement) setClassNamesParents(element.parentElement);
@@ -199,8 +203,7 @@ const setClassNamesParents = function setClassNamesParents(element) {
 
 const setClassNames = function setClassNames(element) {
   if (element.getAttribute('l-class')) {
-    const scope = BlossomResolveScope(element);
-    element.setAttribute('class', BlossomInterpolate(element.getAttribute('l-class'), scope, element));
+    element.setAttribute('class', BlossomInterpolate(element.getAttribute('l-class'), element));
   }
 
   Array.from(element.querySelectorAll('*[l-class]')).forEach((subElement) => {
@@ -208,8 +211,7 @@ const setClassNames = function setClassNames(element) {
       return false;
     }
     if (subElement.getAttribute('l-class')) {
-      const scope = BlossomResolveScope(subElement);
-      subElement.setAttribute('class', BlossomInterpolate(subElement.getAttribute('l-class'), scope, subElement));
+      subElement.setAttribute('class', BlossomInterpolate(subElement.getAttribute('l-class'), subElement));
     }
   });
 };
@@ -217,8 +219,7 @@ const setClassNames = function setClassNames(element) {
 const setEventListener = function setEventListener(element) {
   if (element.getAttribute('l-onclick')) {
     element.addEventListener('click', () => {
-      const scope = BlossomResolveScope(element);
-      BlossomInterpolate(element.getAttribute('l-onclick'), scope, element);
+      BlossomInterpolate(element.getAttribute('l-onclick'), element);
     }, false);
   }
 
@@ -228,8 +229,7 @@ const setEventListener = function setEventListener(element) {
     }
     if (subElement.getAttribute('l-onclick')) {
       subElement.addEventListener('click', () => {
-        const scope = BlossomResolveScope(subElement);
-        BlossomInterpolate(subElement.getAttribute('l-onclick'), scope, subElement);
+        BlossomInterpolate(subElement.getAttribute('l-onclick'), subElement);
       }, false);
     }
   });
@@ -267,12 +267,14 @@ function getPropProxy(mainElement) {
       mainElement.refresh();
       return true;
     },
+
     getOwnPropertyDescriptor: (oTarget, sKey) => ({
       value: mainElement.props[sKey],
       writable: true,
       enumerable: true,
       configurable: true,
     }),
+
     get: (obj, attr) => {
       if (attr === 'spread') {
         return (filterin) => {
@@ -306,7 +308,7 @@ function getPropProxy(mainElement) {
       } else if (attr === 'children') return mainElement.getAttribute('children');
       else if (typeof attr === 'string' && attr.length > 0) {
         if (mainElement.getAttribute(`l-${attr}`)) {
-          const result = BlossomInterpolate(mainElement.getAttribute(`l-${attr}`), mainElement.__scope, mainElement);
+          const result = BlossomInterpolate(mainElement.getAttribute(`l-${attr}`), mainElement);
           mainElement.setAttribute(attr, typeof result !== 'string' ? JSON.stringify(result) : result);
           return result;
         }

@@ -8,7 +8,7 @@ class ScriptComponent extends BlossomComponent {
   }
 
   render() {
-    BlossomInterpolate(this.props.children, this.props.scope, this);
+    BlossomInterpolate(this.props.children, this);
     return '';
   }
 }

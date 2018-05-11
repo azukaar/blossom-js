@@ -24,12 +24,18 @@ function BlossomConvertElement(elementToPatch) {
     elementToPatch.setScope = BlossomComponent.prototype.setScope;
   }
 
+  if (elementToPatch && !elementToPatch.__scope) {
+    elementToPatch.__scope = BlossomResolveScope(elementToPatch, true);
+  }
+
   if (elementToPatch && !elementToPatch.props) {
     elementToPatch.props = getPropProxy(elementToPatch);
   }
 
-  if (elementToPatch && !elementToPatch.__scope) {
-    elementToPatch.__scope = BlossomResolveScope(elementToPatch, true);
+  if (elementToPatch && !elementToPatch.resolveScope) {
+    elementToPatch.resolveScope = () => {
+      elementToPatch.__scope = BlossomResolveScope(elementToPatch, true);
+    }
   }
 
   if (elementToPatch && !elementToPatch.refresh) {
@@ -81,6 +87,10 @@ class BlossomComponent extends HTMLElement {
     if (this.onUnmount) {
       this.onUnmount();
     }
+  }
+
+  resolveScope() {
+    this.__scope = BlossomResolveScope(this);
   }
 
   alisableScopeString(value, defaultName) {
