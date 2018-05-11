@@ -25,7 +25,7 @@ function BlossomConvertElement(elementToPatch) {
   }
 
   if (elementToPatch && !elementToPatch.ctx) {
-    elementToPatch.ctx = BlossomResolveCtx(elementToPatch, true);
+    elementToPatch.ctx = BlossomResolveCtx(elementToPatch);
   }
 
   if (elementToPatch && !elementToPatch.props) {
@@ -34,7 +34,7 @@ function BlossomConvertElement(elementToPatch) {
 
   if (elementToPatch && !elementToPatch.resolveCtx) {
     elementToPatch.resolveCtx = () => {
-      elementToPatch.ctx = BlossomResolveCtx(elementToPatch, true);
+      elementToPatch.ctx = BlossomResolveCtx(elementToPatch);
     }
   }
 

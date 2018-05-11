@@ -174,8 +174,8 @@ const BlossomInterpolate = function BlossomInterpolate(str, from) {
   /* eslint-disable no-console, no-eval,  no-new-func */
   try {
     if (from && typeof from.nodeName !== 'undefined' && typeof from.nodeType !== 'undefined' && from.nodeType === 1) {
-      BlossomConvertElement(from)
-      from.ctx = BlossomResolveCtx(from);
+      BlossomConvertElement(from);
+      from.resolveCtx();
     }
 
     const func = new Function(`return ${str}`).bind(from);
