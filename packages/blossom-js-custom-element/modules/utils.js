@@ -174,7 +174,7 @@ const BlossomInterpolate = function BlossomInterpolate(str, from) {
   try {
     if (from && typeof from.nodeName !== 'undefined' && typeof from.nodeType !== 'undefined' && from.nodeType === 1) {
       BlossomConvertElement(from)
-      from.__scope = BlossomResolveScope(from);
+      from.scope = BlossomResolveScope(from);
     }
 
     const func = new Function(`return ${str}`).bind(from);
@@ -304,7 +304,7 @@ function getPropProxy(mainElement) {
           return Object.keys(attrs).map((key) => `${key}="${attrs[key]}"`).join(' ');
         };
       } else if (attr === 'scope') {
-        return mainElement.__scope;
+        return mainElement.scope;
       } else if (attr === 'children') return mainElement.getAttribute('children');
       else if (typeof attr === 'string' && attr.length > 0) {
         if (mainElement.getAttribute(`l-${attr}`)) {
@@ -333,9 +333,9 @@ function getPropProxy(mainElement) {
     /* eslint-disable no-param-reassign */
     set: (obj, attr, value) => {
       if (attr === 'scope') {
-        const needRefresh = JSON.stringify(mainElement.__scope) !== JSON.stringify(value);
+        const needRefresh = JSON.stringify(mainElement.scope) !== JSON.stringify(value);
 
-        mainElement.__scope = value;
+        mainElement.scope = value;
         if (needRefresh) mainElement.refresh();
       } else if (attr === 'children') {
         mainElement.setAttribute(attr, typeof value !== 'string' ? JSON.stringify(value) : value);

@@ -39,7 +39,7 @@ describe('L-json component', () => {
   test('Correctly display template after loading', () => {
     const template = `
             <l-json l-url='"./"'>
-                Hello <l-js>this.props.scope.json.foo</l-js>
+                Hello <l-js>this.scope.json.foo</l-js>
             </l-json>
         `;
 

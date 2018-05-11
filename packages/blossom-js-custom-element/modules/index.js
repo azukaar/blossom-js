@@ -24,8 +24,8 @@ function BlossomConvertElement(elementToPatch) {
     elementToPatch.setScope = BlossomComponent.prototype.setScope;
   }
 
-  if (elementToPatch && !elementToPatch.__scope) {
-    elementToPatch.__scope = BlossomResolveScope(elementToPatch, true);
+  if (elementToPatch && !elementToPatch.scope) {
+    elementToPatch.scope = BlossomResolveScope(elementToPatch, true);
   }
 
   if (elementToPatch && !elementToPatch.props) {
@@ -34,7 +34,7 @@ function BlossomConvertElement(elementToPatch) {
 
   if (elementToPatch && !elementToPatch.resolveScope) {
     elementToPatch.resolveScope = () => {
-      elementToPatch.__scope = BlossomResolveScope(elementToPatch, true);
+      elementToPatch.scope = BlossomResolveScope(elementToPatch, true);
     }
   }
 
@@ -61,7 +61,7 @@ function patchDomAccess(element) {
 
 class BlossomComponent extends HTMLElement {
   connectedCallback() {
-    this.__scope = {};
+    this.scope = {};
     this.props = getPropProxy(this);
 
     if (this.parentElement && !BlossomCheckParentsAreLoaded(this.parentElement)) return false;
@@ -71,7 +71,7 @@ class BlossomComponent extends HTMLElement {
 
 
     const scope = BlossomResolveScope(this);
-    this.__scope = scope;
+    this.scope = scope;
 
 
     patchDomAccess(this);
@@ -90,7 +90,7 @@ class BlossomComponent extends HTMLElement {
   }
 
   resolveScope() {
-    this.__scope = BlossomResolveScope(this);
+    this.scope = BlossomResolveScope(this);
   }
 
   alisableScopeString(value, defaultName) {
@@ -120,7 +120,7 @@ class BlossomComponent extends HTMLElement {
   refreshTask() {
     if (document.contains(this)) {
       const scope = BlossomResolveScope(this);
-      this.__scope = scope;
+      this.scope = scope;
 
       if (this.render) {
         const result = this.render();
@@ -178,11 +178,11 @@ class BlossomComponent extends HTMLElement {
     let willNeedRefresh = false;
     if (this.getAttribute('l-scope')) {
       const temp = JSON.parse(this.getAttribute('l-scope'));
-      willNeedRefresh = JSON.stringify(this.__scope[key]) !== JSON.stringify(value);
+      willNeedRefresh = JSON.stringify(this.scope[key]) !== JSON.stringify(value);
       temp[key] = value;
       this.setAttribute('l-scope', JSON.stringify(temp));
     } else {
-      willNeedRefresh = JSON.stringify(this.__scope[key]) !== JSON.stringify(value);
+      willNeedRefresh = JSON.stringify(this.scope[key]) !== JSON.stringify(value);
       this.setAttribute('l-scope', JSON.stringify({ [key]: value }));
     }
 

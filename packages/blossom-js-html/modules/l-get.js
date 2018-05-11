@@ -4,7 +4,7 @@ class GetComponent extends BlossomComponent {
   render() {
     let result = '';
     Object.keys(this.props).forEach((name) => {
-      result += ' ' + this.props.scope[name];
+      result += ' ' + this.scope[name];
     });
 
     return result;

@@ -28,7 +28,7 @@ describe('L-scope component', () => {
   test('Propagate scope', () => {
     const template = `
         <l-scope message="hello world">
-          <l-js>this.props.scope.message</l-js>
+          <l-js>this.scope.message</l-js>
         </l-scope>
       `;
 
@@ -41,7 +41,7 @@ describe('L-scope component', () => {
   test('Can set scope function', () => {
     const template = `
         <l-scope l-message="() => 'hello world'">
-          <l-js>this.props.scope.message()</l-js>
+          <l-js>this.scope.message()</l-js>
         </l-scope>
       `;
 
@@ -53,9 +53,9 @@ describe('L-scope component', () => {
   test('Set Evenet listeners', () => {
     const template = `
           <l-scope message="Hello world"
-                    l-changemessage="() => this.props.scope.message += ' and the universe'">
-            <l-js>this.props.scope.message</l-js>
-            <button l-onclick="this.props.scope.changemessage()">change</button>
+                    l-changemessage="() => this.scope.message += ' and the universe'">
+            <l-js>this.scope.message</l-js>
+            <button l-onclick="this.scope.changemessage()">change</button>
           </l-scope>
         `;
 

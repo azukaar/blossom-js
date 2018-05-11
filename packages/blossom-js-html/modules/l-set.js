@@ -7,9 +7,9 @@ class SetComponent extends BlossomComponent {
         const hasValue = (typeof this.props[name] === 'function') ? this.props[name].toString() : this.props[name];
 
         if (!this.hasAttribute('has_set_'+name) || this.getAttribute('has_set_'+name) !== JSON.stringify(hasValue)) {
-          if (this.props.scope[name]) {
+          if (this.scope[name]) {
             this.setAttribute('has_set_'+name, JSON.stringify(hasValue));
-            this.props.scope[name] = this.props[name];
+            this.scope[name] = this.props[name];
           } else {
             this.setAttribute('has_set_'+name, JSON.stringify(hasValue));
             document.body.setScope(name, this.props[name]);
