@@ -7,30 +7,37 @@
   </head>
 
   <body class="learn-bar">
-    <l-set todos="['lol']"></l-set>
+    <l-set todos='[{"title": "Some test task", "done": "true"}]'></l-set>
     <section class="todoapp">
       <div>
           <header class="header">
             <h1>todos</h1>
-            <l-form l-onsubmit="(event) => event.preventDefault() + console.log(this.ctx.todos.length) + this.ctx.todos.push('test');">
-              <input class="new-todo" placeholder="What needs to be done?" value="">
-            </l-form>
+              <l-form l-onsubmit="(event) => {
+                  event.preventDefault();
+                  this.ctx.todos = [...this.ctx.todos, { title: this.querySelector('input').value, done: false }];
+                }">
+                  <input class="new-todo" placeholder="What needs to be done?" value="">
+              </l-form>
           </header>
           <section class="main">
             <input class="toggle-all" type="checkbox">
             <ul class="todo-list">
-                <li class="">
-                  <div class="view">
-                    <input class="toggle" type="checkbox">
-                    <label>Hey</label>
-                    <button class="destroy"></button>
-                  </div>
-                  <input class="edit" value="Hey" >
-                </li>
+                <l-loop l-from="this.ctx.todos">
+                  <li class="">
+                    <div class="view">
+                      <input  l-value="this.ctx.loop.done" 
+                              class="toggle"
+                              type="checkbox"
+                              l-onclick="() => this.ctx.loop.done = !this.ctx.loop.done">
+                      <label><l-js>this.ctx.loop.title</l-js></label>
+                      <button class="destroy" l-onclick="() => delete this.ctx.loop"></button>
+                    </div>
+                  </li>
+                </l-loop>
             </ul>
           </section>
           <footer class="footer" data-reactid=".0.2">
-            <span class="todo-count"><strong>2 </strong>items left</span>
+            <span class="todo-count"><strong><l-js>this.ctx.todos.length</l-js></strong> Tasks</span>
             <ul class="filters" data-reactid=".0.2.1">
                 <li ><a href="#/" class="selected">All</a></li>
                 <span > </span>

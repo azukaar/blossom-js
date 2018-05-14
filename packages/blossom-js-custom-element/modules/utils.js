@@ -53,7 +53,7 @@ const BlossomRegister = function BlossomRegister(settings) {
   });
 };
 
-const BlossomInterpolate = function BlossomInterpolate(str, from) {
+const BlossomInterpolate = function BlossomInterpolate(input, from) {
   /* eslint-disable no-console, no-eval,  no-new-func */
   try {
     if (from && typeof from.nodeName !== 'undefined' && typeof from.nodeType !== 'undefined' && from.nodeType === 1) {
@@ -61,14 +61,23 @@ const BlossomInterpolate = function BlossomInterpolate(str, from) {
       from.resolveCtx();
     }
 
-    const func = new Function(`return ${str}`).bind(from);
-    return func();
+    if (typeof input === 'string') {
+      const func = new Function(`return ${input}`).bind(from);
+
+      return func();
+    } else if (typeof input === 'function') {
+      const func = input.bind(from);
+
+      return func;
+    }
+
+    return input;
   } catch (e) {
     if (from) {
-      console.error('Tried to evaluate : ', str);
+      console.error('Tried to evaluate : ', input);
       console.error(e.message, '\n', 'STACKTRACE', from.parentElement ? getStackTrace(from) : from);
     } else {
-      console.error('Tried to evaluate : ', str);
+      console.error('Tried to evaluate : ', input);
       console.error(e.message, 'but no stacktrace available, provide target element to BlossomInterpolate as a third argument to display DOM position');
     }
     return undefined;

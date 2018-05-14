@@ -1,6 +1,6 @@
 function _BlossomSerialise(element) {
   if (typeof element === 'function') {
-    return `__FUNCTION__${element.toString()}`;
+    return element.toString();
   } else if (typeof element === 'object' && element instanceof Array) {
     return element.map(entry => _BlossomSerialise(entry));
   } else if (typeof element === 'object') {
@@ -30,41 +30,42 @@ function BlossomDeserialise(element, bindFunctionTo) {
   if (element === 'true') return true;
   else if (element === 'false') return false;
   else if (element.match && element.match(/^{/) && element.match(/}$/)) {
+    let result;
+
     try {
-      const result = JSON.parse(element);
-      Object.entries(result).map(entry => {
-        result[entry[0]] = BlossomDeserialise(entry[1], bindFunctionTo);
-        return entry;
-      });
-      return result;
+      result = JSON.parse(element);
     } catch (e) {
       return element;
     }
-  } else if (element.match && element.match(/^\[/) && element.match(/\]$/)) {
-    try {
-      let result = JSON.parse(element);
-      result = result.map(entry => BlossomDeserialise(entry, bindFunctionTo));
-      return result;
-    } catch (e) {
-      return element;
-    }
-  } else if (typeof element === 'object' && element instanceof Array) {
-    return element.map(entry => BlossomDeserialise(entry, bindFunctionTo));
-  } else if (typeof element === 'object') {
-    const result = {};
-    Object.entries(element).map(entry => {
+
+    Object.entries(result).map(entry => {
       result[entry[0]] = BlossomDeserialise(entry[1], bindFunctionTo);
       return entry;
     });
     return result;
-  } else if (!isNaN(element)) {
-    return Number(element);
-  } else if (element.match(/^__FUNCTION__/)) {
-    let tostring = element.slice(12);
+  } else if (element.match && element.match(/^\[/) && element.match(/\]$/)) {
+    let result;
+
+    try {
+      result = JSON.parse(element);
+    } catch (e) {
+      return element;
+    }
+
+    result = result.map(entry => BlossomDeserialise(entry, bindFunctionTo));
+    return result;
+  } else if (element.match && element.match(/^\(/) && element.match(/=>/)) {
+    let tostring = element.slice();
 
     if (!tostring.match(/^\s*function/)) {
-      tostring = `(function${tostring}})`;
-      tostring = tostring.replace('=>', '{return ');
+      tostring = `(function${tostring}`;
+      if (tostring.match(/=>\s+{/)) {
+        tostring = tostring.replace(/=>\s+{/, '{');
+        tostring += ')';
+      } else {
+        tostring = tostring.replace('=>', '{return ');
+        tostring += '})';
+      }
     } else {
       tostring = `(${tostring})`;
     }
@@ -76,6 +77,17 @@ function BlossomDeserialise(element, bindFunctionTo) {
 
     // eslint-disable-next-line no-eval
     return eval(tostring);
+  } else if (typeof element === 'object' && element instanceof Array) {
+    return element.map(entry => BlossomDeserialise(entry, bindFunctionTo));
+  } else if (typeof element === 'object') {
+    const result = {};
+    Object.entries(element).map(entry => {
+      result[entry[0]] = BlossomDeserialise(entry[1], bindFunctionTo);
+      return entry;
+    });
+    return result;
+  } else if (!isNaN(element)) {
+    return Number(element);
   }
 
   return element;

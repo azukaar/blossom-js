@@ -12,7 +12,7 @@ class FormComponent extends BlossomComponent {
   }
 
   render() {
-    return `<form ${this.props.spread(['action', 'method', 'onsubmit', 'accept', 'autocomplete', 'enctype', 'name', 'target'])}>${this.props.children}</form>`;
+    return `<form ${this.props.spread(['action', 'method', 'accept', 'autocomplete', 'enctype', 'name', 'target'])}>${this.props.children}</form>`;
   }
 }
 
