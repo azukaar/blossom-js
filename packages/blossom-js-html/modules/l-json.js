@@ -1,11 +1,6 @@
 import { BlossomComponent, BlossomRegister } from 'blossom-js-custom-element';
 
 class JsonComponent extends BlossomComponent {
-  updateChildren(children) {
-    if (!this.props.loading) {
-      this.props.children = children;
-    }
-  }
   onMount() {
     this.props.loading = true;
 

@@ -75,7 +75,6 @@ export default function getPropProxy(mainElement) {
       else if (typeof attr === 'string' && attr.length > 0) {
         if (mainElement.getAttribute(`l-${attr}`)) {
           const result = BlossomInterpolate(BlossomDeserialise(mainElement.getAttribute(`l-${attr}`), mainElement), mainElement);
-          // mainElement.setAttribute(attr, BlossomSerialise(result));
           return result;
         } else if (mainElement.getAttribute(attr)) {
           return BlossomDeserialise(mainElement.getAttribute(attr), mainElement);

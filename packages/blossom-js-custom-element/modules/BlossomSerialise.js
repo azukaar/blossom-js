@@ -26,7 +26,7 @@ function BlossomSerialise(element) {
 }
 
 
-function BlossomDeserialise(element, bindFunctionTo) {
+function BlossomDeserialise(element, bindTo) {
   if (element === 'true') return true;
   else if (element === 'false') return false;
   else if (element.match && element.match(/^{/) && element.match(/}$/)) {
@@ -39,7 +39,7 @@ function BlossomDeserialise(element, bindFunctionTo) {
     }
 
     Object.entries(result).map(entry => {
-      result[entry[0]] = BlossomDeserialise(entry[1], bindFunctionTo);
+      result[entry[0]] = BlossomDeserialise(entry[1], bindTo);
       return entry;
     });
     return result;
@@ -52,9 +52,9 @@ function BlossomDeserialise(element, bindFunctionTo) {
       return element;
     }
 
-    result = result.map(entry => BlossomDeserialise(entry, bindFunctionTo));
+    result = result.map(entry => BlossomDeserialise(entry, bindTo));
     return result;
-  } else if (element.match && element.match(/^\(/) && element.match(/=>/)) {
+  } else if (element.match && (element.match(/^\s*function\s*\(/) || (element.match(/^\(/) && element.match(/=>/)))) {
     let tostring = element.slice();
 
     if (!tostring.match(/^\s*function/)) {
@@ -70,19 +70,22 @@ function BlossomDeserialise(element, bindFunctionTo) {
       tostring = `(${tostring})`;
     }
 
-    if (bindFunctionTo) {
-      // eslint-disable-next-line no-eval
-      return eval(tostring).bind(bindFunctionTo);
+    if (bindTo) {
+      // eslint-disable-next-line no-eval      
+      const input = eval(tostring);
+      const func = input.bind(bindTo);
+      func.toString = () => input.toString();
+      return func;
     }
 
     // eslint-disable-next-line no-eval
     return eval(tostring);
   } else if (typeof element === 'object' && element instanceof Array) {
-    return element.map(entry => BlossomDeserialise(entry, bindFunctionTo));
+    return element.map(entry => BlossomDeserialise(entry, bindTo));
   } else if (typeof element === 'object') {
     const result = {};
     Object.entries(element).map(entry => {
-      result[entry[0]] = BlossomDeserialise(entry[1], bindFunctionTo);
+      result[entry[0]] = BlossomDeserialise(entry[1], bindTo);
       return entry;
     });
     return result;

@@ -1,10 +1,6 @@
 import { BlossomComponent, BlossomRegister } from 'blossom-js-custom-element';
 
 class ValidationComponent extends BlossomComponent {
-  updateChildren(children) {
-    this.props.children = children.unwrap('l-error');
-  }
-
   onMount() {
     const element = document.getElementById(this.props.for);
     element.addEventListener('change', () => this.refresh());

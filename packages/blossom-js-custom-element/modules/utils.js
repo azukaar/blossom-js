@@ -65,10 +65,6 @@ const BlossomInterpolate = function BlossomInterpolate(input, from) {
       const func = new Function(`return ${input}`).bind(from);
 
       return func();
-    } else if (typeof input === 'function') {
-      const func = input.bind(from);
-
-      return func;
     }
 
     return input;
@@ -133,16 +129,6 @@ const setEventListener = function setEventListener(element) {
   });
 };
 
-const refreshParentChildren = function refreshParentChildren(element) {
-  if (element.parentElement) {
-    if (element.parentElement._updateChildren) {
-      element.parentElement._updateChildren(element.parentElement.innerHTML);
-    }
-
-    refreshParentChildren(element.parentElement);
-  }
-};
-
 if (typeof window !== 'undefined') {
   BlossomDocumentReady = window.__SERVERSIDE ? Promise.resolve() : new Promise((resolve) => {
     document.addEventListener('DOMContentLoaded', () => {
@@ -163,7 +149,6 @@ export {
   getStackTrace,
   setClassNames,
   setEventListener,
-  refreshParentChildren,
   getPropProxy,
   BlossomRegister,
   getCtxProxy,

@@ -1,12 +1,6 @@
 import { BlossomComponent, BlossomRegister, BlossomInterpolate } from 'blossom-js-custom-element';
 
 class ScriptComponent extends BlossomComponent {
-  updateChildren(children) {
-    if (!this.props.children) {
-      this.props.children = children;
-    }
-  }
-
   render() {
     BlossomInterpolate(this.props.children, this);
     return '';

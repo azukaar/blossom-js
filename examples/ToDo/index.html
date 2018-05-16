@@ -22,23 +22,23 @@
           <section class="main">
             <input class="toggle-all" type="checkbox">
             <ul class="todo-list">
-                <l-loop l-from="this.ctx.todos">
-                  <li class="">
-                    <div class="view">
-                      <input  l-value="this.ctx.loop.done" 
-                              class="toggle"
-                              type="checkbox"
-                              l-onclick="() => this.ctx.loop.done = !this.ctx.loop.done">
-                      <label><l-js>this.ctx.loop.title</l-js></label>
-                      <button class="destroy" l-onclick="() => delete this.ctx.loop"></button>
-                    </div>
-                  </li>
+                <l-loop l-from="this.ctx.todos" l-alias="todo">
+                    <li class="">
+                      <div class="view">
+                        <input  l-value="this.todo.done" 
+                                class="toggle"
+                                type="checkbox"
+                                l-onclick="() => this.ctx.toggle(this.todo)">
+                        <label><l-js>this.ctx.todo.title</l-js></label>
+                        <button class="destroy" l-onclick="() => this.todo.delete(this.todo)"></button>
+                      </div>
+                    </li>
                 </l-loop>
             </ul>
           </section>
-          <footer class="footer" data-reactid=".0.2">
+          <footer class="footer" >
             <span class="todo-count"><strong><l-js>this.ctx.todos.length</l-js></strong> Tasks</span>
-            <ul class="filters" data-reactid=".0.2.1">
+            <ul class="filters">
                 <li ><a href="#/" class="selected">All</a></li>
                 <span > </span>
                 <li ><a href="#/active" class="">Active</a></li>

@@ -1,11 +1,6 @@
 import { BlossomComponent, BlossomRegister } from 'blossom-js-custom-element';
 
 class ElseComponent extends BlossomComponent {
-  updateChildren(children) {
-    if (children.length) {
-      this.props.children = children;
-    }
-  }
   render() {
     function canDraw(element) {
       if (element.previousElementSibling && element.previousElementSibling.tagName === 'L-IF') {

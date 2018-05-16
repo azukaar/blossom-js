@@ -1,10 +1,9 @@
 <html>
     <head>
         <script src='/packages/blossom-js/umd/index.js'></script>
-        <l-meta-route base="/examples/weather"></l-meta-route>
         <meta name="viewport" content="width=device-width, initial-scale=1">        
         <title>Weather App</title>
-        <link href="//fonts.googleapis.com/css?family=Open+Sans:300,400,600,700&amp;subset=latin" rel="stylesheet">
+        <link href="//fonts.googleapis.com/css?family=Open+Sans:300,400,600,700&amp;subset=latin" rel="stylesheet"></link>
         <!-- Icons from https://www.flaticon.com/packs/weather-53 -->
         <style>
             l-preview {
@@ -113,6 +112,7 @@
                 background-image: url('icon/wind.png');
             }
     </style>
+    <l-meta-route base="/examples/weather"></l-meta-route>
     </head>
     <body l-class="this.ctx.weather">
         <l-set weather='Sunny'></l-set>

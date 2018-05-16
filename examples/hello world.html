@@ -4,67 +4,11 @@
     <script src='/packages/blossom-js/umd/index.js'></script>
   </head>
   <body>
-      <l-include url="header.html"></l-include>
-      <div>
-        <l-get bodytest></l-get>
-      </div>
-      <div>
-        <l-ctx display="true" l-toggle="() => this.ctx.display = !this.ctx.display">
-          <l-if l-cond="this.ctx.display">
-            <l-interval timer="1000" l-ontick="() => console.log('clock ticking')">
-              <l-js>Date.now()</l-js>
-            </l-interval>
-          </l-if>
-          <l-else>
-            Clock stopped
-          </l-else>
-          <button l-onclick="this.ctx.toggle()">toggle</button>
-        </l-ctx>
-      </div>
-
-      <div>
-        <l-ctx message="Hello world" l-changemessage="() => this.ctx.message += ' and the universe'">
-          <l-js>this.ctx.message</l-js>
-          <button l-onclick="this.ctx.changemessage()">change</button>
-        </l-ctx>
-      </div>
-
-      <div>
-          <l-ctx test="2">
-            <l-if l-cond="this.ctx.test == 1">1</l-if>
-            <l-elif l-cond="this.ctx.test == 2">2</l-elif>
-            <l-elif l-cond="this.ctx.test == 3">3</l-elif>
-            <l-else>none</l-else>
-          </l-ctx>
-          <l-ctx test="2">
-            <l-if l-cond="this.ctx.test == 1">1</l-if>
-            <l-elif l-cond="this.ctx.test == 2">2</l-elif>
-            <l-else>none</l-else>
-          </l-ctx>
-        </div>
-
-        <div>
-          <l-ctx test="1">
-            <l-set test="2"></l-set>
-            <l-js>this.ctx.test</l-js>
-          </l-ctx>
-        </div>
-
-        <l-script>console.log(this.ctx.bodytest);</l-script>
-        
-        <l-set bodytest="3"></l-set>
-
-        <hr />
-
-        <div>
-          <l-form method="GET">
-            <div>
-              <label for="name">name : </label>
-              <input id="name" />
-              <l-validation for="name" l-test="(value) => value.length > 0">Error name must not be null</l-validation>
-            </div>
-            <input type="submit" />
-          </l-form>
-        </div>
+    <div>
+      <l-ctx message="Hello world" l-changemessage="() => this.ctx.message += ' and the universe'">
+        <l-js>this.ctx.message</l-js>
+        <button l-onclick="() => this.ctx.changemessage()">change</button>
+      </l-ctx>
+    </div>
   </body>
 </html>

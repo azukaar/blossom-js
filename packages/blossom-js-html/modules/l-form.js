@@ -1,9 +1,7 @@
 import { BlossomComponent, BlossomRegister } from 'blossom-js-custom-element';
 
 class FormComponent extends BlossomComponent {
-  updateChildren(children) {
-    this.props.children = children.unwrap('form');
-
+  updateChildren() {
     if (this.querySelectorAll('l-error').length > 0) {
       Array.from(this.querySelectorAll('input[type="submit"]')).map(e => e.setAttribute('disabled', true));
     } else {
