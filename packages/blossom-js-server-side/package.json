@@ -1,6 +1,6 @@
 {
   "name": "blossom-js-server-side",
-  "version": "0.29.1",
+  "version": "0.35.0",
   "description": "🌸 Blossom-js server side renderer (included in Blossom-js).",
   "main": "src/index.js",
   "scripts": {
