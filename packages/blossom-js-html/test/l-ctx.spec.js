@@ -53,7 +53,7 @@ describe('L-ctx component', () => {
   test('Set Evenet listeners', () => {
     const template = `
           <l-ctx message="Hello world"
-                 changemessage="() => { console.log('------ now'); this.ctx.message += ' and the universe'}">
+                 changemessage="() => this.ctx.message += ' and the universe'">
             <l-js>this.ctx.message</l-js>
             <button l-onclick="() => this.ctx.changemessage()">change</button>
           </l-ctx>
