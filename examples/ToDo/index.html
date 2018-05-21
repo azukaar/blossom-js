@@ -25,7 +25,7 @@
             <ul class="todo-list">
               <l-loop l-from="this.ctx.todos" alias-loop="todo">
                 <l-ctx toggle="() => this.ctx.todos[this.ctx.key].done = !this.ctx.todos[this.ctx.key].done"
-                       delete="() => delete this.ctx.todos[this.ctx.key];">
+                       delete="() => this.ctx.todos.splice(this.ctx.key, 1);">
                     <li class="">
                       <div class="view">
                         <input  l-value="this.ctx.todo.done" 
