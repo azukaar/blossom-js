@@ -24,8 +24,8 @@
             <input class="toggle-all" type="checkbox">
             <ul class="todo-list">
               <l-loop l-from="this.ctx.todos" alias-loop="todo">
-                <l-ctx l-toggle="() => this.ctx.todos[this.ctx.key].done = !this.ctx.todos[this.ctx.key].done"
-                        l-delete="() => delete this.ctx.todos[this.ctx.key];">
+                <l-ctx toggle="() => this.ctx.todos[this.ctx.key].done = !this.ctx.todos[this.ctx.key].done"
+                       delete="() => delete this.ctx.todos[this.ctx.key];">
                     <li class="">
                       <div class="view">
                         <input  l-value="this.ctx.todo.done" 

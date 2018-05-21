@@ -1,7 +1,9 @@
 import { contextTrap } from './proxies/ctx';
 
 function _BlossomSerialise(element) {
-  if (typeof element === 'function') {
+  if (element === null) {
+    return null;
+  } else if (typeof element === 'function') {
     return element.toString();
   } else if (typeof element === 'object' && element instanceof Array) {
     return element.map(entry => _BlossomSerialise(entry));
@@ -29,6 +31,10 @@ function BlossomSerialise(element) {
 
 
 function BlossomDeserialise(element, bindTo) {
+  if (element === null) {
+    return null;
+  }
+
   if (typeof element === 'string') {
     element = element.replace(/&quote;/g, '"');
   }
@@ -77,9 +83,9 @@ function BlossomDeserialise(element, bindTo) {
     }
 
     if (bindTo) {
-      // eslint-disable-next-line no-eval      
+      // eslint-disable-next-line no-eval
       const input = eval(tostring);
-      const func = () => contextTrap(bindTo, input.bind(bindTo));
+      const func = (...args) => contextTrap(bindTo, input.bind(bindTo), args);
       func.toString = () => input.toString();
       return func;
     }

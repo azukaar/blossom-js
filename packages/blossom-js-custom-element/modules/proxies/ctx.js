@@ -58,9 +58,9 @@ function setCtx(element, pendingCtx) {
   }
 }
 
-function contextTrap(element, func) {
+function contextTrap(element, func, args = []) {
   const oldContext = BlossomSerialise(element.ctx);
-  const result = func();
+  const result = func(...args);
 
   if (BlossomSerialise(element.ctx) !== oldContext) {
     setCtx(element, element.ctx);
