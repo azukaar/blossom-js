@@ -48,14 +48,23 @@ document.createElement = (element) => {
     }
 }
 
+// TODO re-render if new refresh occured 
+// return number of draw digest for tests
+
 global.BlossomRender = function BlossomRender(template) {
     const domNodes = document.createElement('div');
+    domNodes.setAttribute('SSR_IGNORE_THIS', true);
     const originalContains = document.contains;
     document.contains = (element) => {
         return domNodes.contains(element);
     }
     domNodes.innerHTML = template;
 
+    Array.from(domNodes.children).forEach((child) => {
+        Object.defineProperty(child, 'parentElement', {
+            get: () => undefined,
+        });
+    })
 
     function brelement(domNodes) {
         for(let i = 0; i < domNodes.children.length; i++) {
@@ -69,6 +78,13 @@ global.BlossomRender = function BlossomRender(template) {
 
                 newElement.innerHTML = element.innerHTML;
                 domNodes.replaceChild(newElement, element);
+
+                if (domNodes.getAttribute('SSR_IGNORE_THIS')) {
+                    Object.defineProperty(newElement, 'parentElement', {
+                        get: () => undefined,
+                    });
+                }
+
                 newElement.connectedCallback();
 
                 brelement(newElement);

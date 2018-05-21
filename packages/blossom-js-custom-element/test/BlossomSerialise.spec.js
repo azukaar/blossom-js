@@ -2,6 +2,7 @@
  * @jest-environment node
  */
 
+import 'blossom-js-server-side';
 import { BlossomSerialise, BlossomDeserialise } from '../modules/BlossomSerialise';
 
 describe('BlossomSerialise', () => {

@@ -22,7 +22,7 @@ describe('L-ctx component', () => {
 
     const rendered = BlossomRender(template);
 
-    expect(rendered.children[0].getAttribute('l-ctx')).toMatch('{"hello":"2"}');
+    expect(rendered.children[0].getAttribute('l-ctx')).toMatch('{"hello":2}');
   });
 
   test('Propagate ctx', () => {
@@ -40,7 +40,7 @@ describe('L-ctx component', () => {
 
   test('Can set ctx function', () => {
     const template = `
-        <l-ctx l-message="() => 'hello world'">
+        <l-ctx message="() => 'hello world'">
           <l-js>this.ctx.message()</l-js>
         </l-ctx>
       `;
@@ -53,7 +53,7 @@ describe('L-ctx component', () => {
   test('Set Evenet listeners', () => {
     const template = `
           <l-ctx message="Hello world"
-                    l-changemessage="() => this.ctx.message += ' and the universe'">
+                 changemessage="() => { console.log('------ now'); this.ctx.message += ' and the universe'}">
             <l-js>this.ctx.message</l-js>
             <button l-onclick="() => this.ctx.changemessage()">change</button>
           </l-ctx>

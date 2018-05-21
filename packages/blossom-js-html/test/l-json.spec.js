@@ -53,6 +53,7 @@ describe('L-json component', () => {
         },
       }),
     });
+
     const rendered = BlossomRender(template);
 
     expect(rendered.querySelector('l-js').innerHTML).toMatch(/bar/);

@@ -1,7 +1,7 @@
 import { BlossomConvertElement } from './BlossomConvertElement';
 import HTMLEvents from './../assets/htmlevents.json';
 import getPropProxy from './proxies/props';
-import getCtxProxy from './proxies/ctx';
+import { setCtx, getCtx, contextTrap } from './proxies/ctx';
 
 let BlossomDocumentReady;
 
@@ -63,8 +63,9 @@ const BlossomInterpolate = function BlossomInterpolate(input, from) {
 
     if (typeof input === 'string') {
       const func = new Function(`return ${input}`).bind(from);
+      const result = func();
 
-      return func();
+      return result;
     }
 
     return input;
@@ -105,7 +106,8 @@ const setEventListener = function setEventListener(element) {
   HTMLEvents.forEach(event => {
     if (element.getAttribute(`l-on${event}`) && element.eventCollection.indexOf(event) === -1) {
       element.addEventListener(event, (eventValue) => {
-        BlossomConvertElement(element).props[`on${event}`](eventValue);
+        BlossomConvertElement(element);
+        contextTrap(element, () => element.props[`on${event}`](eventValue));
       }, false);
       BlossomConvertElement(element).eventCollection.push(event);
     }
@@ -121,7 +123,8 @@ const setEventListener = function setEventListener(element) {
       }
       if (subElement.getAttribute(`l-on${event}`) && subElement.eventCollection.indexOf(event) === -1) {
         subElement.addEventListener(event, (eventValue) => {
-          BlossomConvertElement(subElement).props[`on${event}`](eventValue);
+          BlossomConvertElement(subElement);
+          contextTrap(subElement, () => subElement.props[`on${event}`](eventValue));
         }, false);
         subElement.eventCollection.push(event);
       }
@@ -151,7 +154,9 @@ export {
   setEventListener,
   getPropProxy,
   BlossomRegister,
-  getCtxProxy,
+  setCtx,
+  getCtx,
+  contextTrap,
   BlossomInterpolate,
   BlossomCheckParentsAreLoaded,
   BlossomReady,

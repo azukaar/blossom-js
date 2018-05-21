@@ -1,3 +1,5 @@
+import { contextTrap } from './proxies/ctx';
+
 function _BlossomSerialise(element) {
   if (typeof element === 'function') {
     return element.toString();
@@ -10,7 +12,7 @@ function _BlossomSerialise(element) {
       return entry;
     });
     return result;
-  } else if (typeof element === 'number') return String(element);
+  } else if (typeof element === 'number') return element;
 
   return element;
 }
@@ -22,11 +24,15 @@ function BlossomSerialise(element) {
     return JSON.stringify(result);
   }
 
-  return result;
+  return result.replace(/"/g, '&quote;');
 }
 
 
 function BlossomDeserialise(element, bindTo) {
+  if (typeof element === 'string') {
+    element = element.replace(/&quote;/g, '"');
+  }
+
   if (element === 'true') return true;
   else if (element === 'false') return false;
   else if (element.match && element.match(/^{/) && element.match(/}$/)) {
@@ -73,7 +79,7 @@ function BlossomDeserialise(element, bindTo) {
     if (bindTo) {
       // eslint-disable-next-line no-eval      
       const input = eval(tostring);
-      const func = input.bind(bindTo);
+      const func = () => contextTrap(bindTo, input.bind(bindTo));
       func.toString = () => input.toString();
       return func;
     }

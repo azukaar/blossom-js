@@ -1,4 +1,4 @@
-import { BlossomCheckParentsAreLoaded, getPropProxy, setEventListener, setClassNames, getCtxProxy } from './utils';
+import { BlossomCheckParentsAreLoaded, getPropProxy, setEventListener, setClassNames, getCtx, contextTrap } from './utils';
 import { patchDomAccess } from './BlossomConvertElement';
 import * as taskQueue from './taskQueue';
 import { BlossomSerialise, BlossomDeserialise } from './BlossomSerialise';
@@ -8,7 +8,7 @@ class BlossomComponent extends HTMLElement {
   connectedCallback() {
     this.ctx = {};
     this.props = getPropProxy(this);
- 
+
     if (this.parentElement && !BlossomCheckParentsAreLoaded(this.parentElement)) return false;
 
     if (!this.props.children && this.innerHTML) {
@@ -16,12 +16,12 @@ class BlossomComponent extends HTMLElement {
       this.innerHTML = '';
     }
 
-    this.ctx = getCtxProxy(this);
+    this.ctx = getCtx(this);
 
     patchDomAccess(this);
 
     if (this.onMount) {
-      this.onMount();
+      contextTrap(this, () => this.onMount());
     }
 
     this.refresh();
@@ -34,7 +34,7 @@ class BlossomComponent extends HTMLElement {
   }
 
   resolveCtx() {
-    this.ctx = getCtxProxy(this);
+    this.ctx = getCtx(this);
   }
 
   alisableCtxString(value, defaultName) {
@@ -63,11 +63,11 @@ class BlossomComponent extends HTMLElement {
 
   refreshTask() {
     if (document.contains(this)) {
-      const ctx = getCtxProxy(this);
+      const ctx = getCtx(this);
       this.ctx = ctx;
 
       if (this.render) {
-        const result = this.render();
+        const result = contextTrap(this, () => this.render());
         if (result || result === '') {
           this.innerHTML = result;
         }

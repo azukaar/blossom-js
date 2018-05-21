@@ -1,4 +1,4 @@
-import { BlossomReady, BlossomRegister, getCtxProxy, BlossomInterpolate } from './utils';
+import { BlossomReady, BlossomRegister, getCtx, BlossomInterpolate } from './utils';
 import { BlossomConvertElement } from './BlossomConvertElement';
 import BlossomComponent from './BlossomComponent';
 import { BlossomSerialise, BlossomDeserialise } from './BlossomSerialise';
@@ -9,7 +9,7 @@ export {
   BlossomComponent,
   BlossomConvertElement,
   BlossomRegister,
-  getCtxProxy,
+  getCtx,
   BlossomInterpolate,
   BlossomReady,
 };

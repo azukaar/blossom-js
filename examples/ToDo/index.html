@@ -5,40 +5,41 @@
     <title>ToDo</title>
     <script src='/packages/blossom-js/umd/index.js'></script>
   </head>
+
   <body class="learn-bar">
-    <l-set todos='[{"title": "Some test task", "done": "true"}]'></l-set>
+    <l-set todos='[{"title": "Some test task", "done": true}]'></l-set>
     <section class="todoapp">
       <div>
           <header class="header">
             <h1>todos</h1>
               <l-form l-onsubmit="(event) => {
                   event.preventDefault();
-                  this.ctx.todos = [...this.ctx.todos, { title: this.querySelector('input').value, done: false }];
+                  this.ctx.todos.push({title: this.querySelector('input').value, done: false});
                 }">
                   <input class="new-todo" placeholder="What needs to be done?" value="">
               </l-form>
           </header>
 
-          <l-ctx l-toggle="(key) => this.ctx.todos[key].done = !this.ctx.todos[key].done"
-                 l-delete="(key) => delete this.ctx.todos[key];">
-            <section class="main">
-              <input class="toggle-all" type="checkbox">
-              <ul class="todo-list">
-                  <l-loop l-from="this.ctx.todos" alias-loop="todo">
-                      <li class="">
-                        <div class="view">
-                          <input  l-value="this.ctx.todo.done" 
-                                  class="toggle"
-                                  type="checkbox"
-                                  l-onclick="() => this.ctx.toggle(this.ctx.key)">
-                          <label><l-js>this.ctx.todo.title</l-js></label>
-                          <button class="destroy" l-onclick="() => this.ctx.delete(this.ctx.key)"></button>
-                        </div>
-                      </li>
-                  </l-loop>
-              </ul>
-            </section>
-          </l-ctx>
+          <section class="main">
+            <input class="toggle-all" type="checkbox">
+            <ul class="todo-list">
+              <l-loop l-from="this.ctx.todos" alias-loop="todo">
+                <l-ctx l-toggle="() => this.ctx.todos[this.ctx.key].done = !this.ctx.todos[this.ctx.key].done"
+                        l-delete="() => delete this.ctx.todos[this.ctx.key];">
+                    <li class="">
+                      <div class="view">
+                        <input  l-value="this.ctx.todo.done" 
+                                class="toggle"
+                                type="checkbox"
+                                l-onclick="() => this.ctx.toggle()">
+                        <label><l-js>this.ctx.todo.title</l-js></label>
+                        <button class="destroy" l-onclick="() => this.ctx.delete()"></button>
+                      </div>
+                    </li>
+                  </l-ctx>
+              </l-loop>
+            </ul>
+          </section>
 
           <footer class="footer" >
             <span class="todo-count"><strong><l-js>this.ctx.todos.length</l-js></strong> Tasks</span>

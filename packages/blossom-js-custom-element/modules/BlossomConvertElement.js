@@ -1,6 +1,6 @@
 /* eslint-disable no-param-reassign */
 import { BlossomComponent } from './index';
-import { getPropProxy, getCtxProxy, setEventListener, setClassNames } from './utils';
+import { getPropProxy, getCtx, setEventListener, setClassNames } from './utils';
 
 function BlossomConvertElement(elementToPatch) {
   if (elementToPatch && !elementToPatch.setCtx) {
@@ -8,7 +8,7 @@ function BlossomConvertElement(elementToPatch) {
   }
 
   if (elementToPatch && !elementToPatch.ctx) {
-    elementToPatch.ctx = getCtxProxy(elementToPatch);
+    elementToPatch.ctx = getCtx(elementToPatch);
   }
 
   if (elementToPatch && !elementToPatch.props) {
@@ -17,7 +17,7 @@ function BlossomConvertElement(elementToPatch) {
 
   if (elementToPatch && !elementToPatch.resolveCtx) {
     elementToPatch.resolveCtx = () => {
-      elementToPatch.ctx = getCtxProxy(elementToPatch);
+      elementToPatch.ctx = getCtx(elementToPatch);
     };
   }
 
@@ -34,11 +34,14 @@ function BlossomConvertElement(elementToPatch) {
 
 function patchDomAccess(element) {
   ['parentElement'].forEach(acc => {
-    element[`native${acc}`] = element[acc];
+    if (Object.getOwnPropertyDescriptor(element, acc) &&
+        Object.getOwnPropertyDescriptor(element, acc).writable) {
+      element[`native${acc}`] = element[acc];
 
-    Object.defineProperty(element, acc, {
-      get: () => BlossomConvertElement(element[`native${acc}`]),
-    });
+      Object.defineProperty(element, acc, {
+        get: () => BlossomConvertElement(element[`native${acc}`]),
+      });
+    }
   });
 }
 

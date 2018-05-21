@@ -11,6 +11,7 @@ class JsonComponent extends BlossomComponent {
         this.props.loading = false;
       });
   }
+
   render() {
     if (this.props.loading) {
       return `<l-preview>${this.props.children}</l-preview>`;
