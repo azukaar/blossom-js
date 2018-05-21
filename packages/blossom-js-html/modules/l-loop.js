@@ -1,8 +1,20 @@
-import { BlossomComponent, BlossomRegister } from 'blossom-js-custom-element';
+import { BlossomComponent, BlossomRegister, BlossomSerialise } from 'blossom-js-custom-element';
 
 class LoopComponent extends BlossomComponent {
   render() {
-    return this.props.from && this.props.from.map((value) => `<span ${this.alisableCtxString(value, 'loop')}>${this.props.children}</span>`).join('');
+    const contextNames = [
+      this.props['alias-loop'] || 'loop',
+      this.props['alias-key'] || 'key',
+    ];
+
+    return this.props.from && this.props.from.map((value, key) => {
+      const context = {
+        [contextNames[0]]: value,
+        [contextNames[1]]: key,
+      };
+
+      return `<l-ctx l-ctx='${BlossomSerialise(context)}'>${this.props.children}</l-ctx>`;
+    }).join('');
   }
 }
 
