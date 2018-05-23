@@ -1,6 +1,6 @@
 {
   "name": "blossom-js-router",
-  "version": "0.36.2",
+  "version": "0.37.0",
   "description": "🌸 Router for Blossom-js (included in Blossom-js).",
   "main": "modules/index.js",
   "module": "modules/index.js",
@@ -28,7 +28,7 @@
     "template"
   ],
   "dependencies": {
-    "blossom-js-custom-element": "^0.36.2"
+    "blossom-js-custom-element": "^0.37.0"
   },
   "devDependencies": {
     "blossom-js-server-side": "^0.35.0"
