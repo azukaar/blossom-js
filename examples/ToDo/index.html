@@ -4,10 +4,15 @@
     <link rel="stylesheet" href="http://todomvc.com/examples/react/node_modules/todomvc-app-css/index.css"></link>
     <title>ToDo</title>
     <script src='/packages/blossom-js/umd/index.js'></script>
+    <l-meta-route base="/examples/ToDo"></l-meta-route>
   </head>
 
   <body class="learn-bar">
-    <l-set todos='[{"title": "Some test task", "done": true}]'></l-set>
+    <l-set todos='[
+      {"title": "Acces ToDo App", "done": true},
+      {"title": "Add some task", "done": false},
+      {"title": "Mark them done", "done": false}
+    ]'></l-set>
     <section class="todoapp">
       <div>
           <header class="header">
@@ -20,35 +25,45 @@
               </l-form>
           </header>
 
-          <section class="main">
-            <input class="toggle-all" type="checkbox">
-            <ul class="todo-list">
-              <l-loop l-from="this.ctx.todos" alias-loop="todo">
-                <l-ctx toggle="() => this.ctx.todos[this.ctx.key].done = !this.ctx.todos[this.ctx.key].done"
-                       delete="() => this.ctx.todos.splice(this.ctx.key, 1);">
-                    <li class="">
-                      <div class="view">
-                        <input  l-checked="this.ctx.todo.done"
-                                class="toggle"
-                                type="checkbox"
-                                l-onclick="() => this.ctx.toggle()">
-                        <label><l-js>this.ctx.todo.title</l-js></label>
-                        <button class="destroy" l-onclick="() => this.ctx.delete()"></button>
-                      </div>
-                    </li>
-                  </l-ctx>
-              </l-loop>
-            </ul>
-          </section>
+          <l-route path="/">
+              <l-redirect to="/all"></l-redirect>
+          </l-route>
+
+          <l-route path="/{{list}}">
+            <section class="main">
+              <input class="toggle-all" type="checkbox">
+              <ul class="todo-list">
+                <l-loop l-from="this.ctx.todos" alias-loop="todo">
+                  <l-if l-cond="(this.ctx.match.list === 'active' && !this.ctx.todo.done) ||
+                                (this.ctx.match.list === 'completed' && this.ctx.todo.done) ||
+                                (this.ctx.match.list === 'all')">
+                    <l-ctx toggle="() => this.ctx.todos[this.ctx.key].done = !this.ctx.todos[this.ctx.key].done"
+                          delete="() => this.ctx.todos.splice(this.ctx.key, 1);">
+                        <li class="">
+                          <div class="view">
+                            <input  l-checked="this.ctx.todo.done"
+                                    class="toggle"
+                                    type="checkbox"
+                                    l-onclick="() => this.ctx.toggle()">
+                            <label><l-js>this.ctx.todo.title</l-js></label>
+                            <button class="destroy" l-onclick="() => this.ctx.delete()"></button>
+                          </div>
+                        </li>
+                      </l-ctx>
+                    </l-if>
+                </l-loop>
+              </ul>
+            </section>
+          </l-route>
 
           <footer class="footer" >
             <span class="todo-count"><strong><l-js>this.ctx.todos.length</l-js></strong> Tasks</span>
             <ul class="filters">
-                <li ><a href="#/" class="selected">All</a></li>
+                <li ><l-a href="/all" class="selected">All</a></li>
                 <span > </span>
-                <li ><a href="#/active" class="">Active</a></li>
+                <li ><l-a href="/active" class="">Active</a></li>
                 <span > </span>
-                <li ><a href="#/completed" class="">Completed</a></li>
+                <li ><l-a href="/completed" class="">Completed</a></li>
             </ul>
           </footer>
       </div>

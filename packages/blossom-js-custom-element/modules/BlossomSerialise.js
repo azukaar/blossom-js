@@ -28,7 +28,10 @@ function BlossomSerialise(element) {
     return JSON.stringify(result);
   }
 
-  return result.replace(/"/g, '&quote;');
+  return result.replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
 }
 
 
@@ -40,7 +43,10 @@ function BlossomDeserialise(unescapedElement, bindTo) {
   }
 
   if (typeof element === 'string') {
-    element = element.replace(/&quote;/g, '"');
+    element = element.replace(/&amp;/g, '&')
+      .replace(/&lt;/g, '<')
+      .replace(/&gt;/g, '>')
+      .replace(/&quot;/g, '"');
   }
 
   if (element === 'true') return true;
