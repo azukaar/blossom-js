@@ -1,6 +1,6 @@
 {
   "name": "blossom-js",
-  "version": "0.35.1",
+  "version": "0.36.0",
   "description": "🌸 The web framework that will love you as much as you love it. Zero binding and 100% DOM powered.",
   "main": "modules/index.js",
   "module": "modules/index.js",
@@ -16,9 +16,9 @@
   },
   "dependencies": {
     "@webcomponents/webcomponentsjs": "^2.0.0",
-    "blossom-js-custom-element": "^0.35.0",
-    "blossom-js-html": "^0.35.0",
-    "blossom-js-router": "^0.35.1"
+    "blossom-js-custom-element": "^0.36.0",
+    "blossom-js-html": "^0.36.0",
+    "blossom-js-router": "^0.36.0"
   },
   "keywords": [
     "blossom-js",
