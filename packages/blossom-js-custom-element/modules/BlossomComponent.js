@@ -59,7 +59,7 @@ class BlossomComponent extends HTMLElement {
     if (document.contains(this)) {
       if (this.render) {
         const result = contextTrap(this, () => this.render());
-        if (result || result === '') {
+        if (typeof result !== 'undefined') {
           this.innerHTML = result;
         }
       }
