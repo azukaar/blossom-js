@@ -89,6 +89,27 @@ describe('Create component', () => {
     expect(rendered.querySelector('div').className).toMatch(/^red$/);
   });
 
+  test.only('Component should use XPath', () => {
+    const template = `
+            <l-if l-class='"blue"' l-cond="true">
+                <div l-value='"red"'>I am displayed</div>
+                <div>I am displayed</div>
+                <div blossom-component="true">
+                  <div l-value='"blue"'>
+                  </div>
+                </div>
+            </l-if>
+        `;
+
+    const rendered = BlossomRender(template);
+
+    expect(rendered.children[0].className).toBe('blue');
+    expect(rendered.querySelector('div').getAttribute('value')).toBe('red');
+    // TODO
+    // expect(rendered.querySelector('div[blossom-component]')
+    // .querySelector('div').getAttribute('value')).not.toBe('blue');
+  });
+
   test('Allow ctxd ctx names', () => {
     const element = document.createElement('l-if');
     expect(element.alisableCtxString('bar', 'foo')).toContain('foo');

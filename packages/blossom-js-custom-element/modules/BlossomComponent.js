@@ -1,4 +1,4 @@
-import { BlossomCheckParentsAreLoaded, getPropProxy, setEventListener, setClassNames, getCtx, contextTrap } from './utils';
+import { BlossomCheckParentsAreLoaded, getPropProxy, interpolateAttributes, getCtx, contextTrap } from './utils';
 import { patchDomAccess } from './BlossomConvertElement';
 import * as taskQueue from './taskQueue';
 import { BlossomSerialise, BlossomDeserialise } from './BlossomSerialise';
@@ -73,8 +73,7 @@ class BlossomComponent extends HTMLElement {
         }
       }
 
-      setClassNames(this);
-      setEventListener(this);
+      interpolateAttributes(this);
     }
   }
 

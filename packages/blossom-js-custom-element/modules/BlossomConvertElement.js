@@ -1,6 +1,6 @@
 /* eslint-disable no-param-reassign */
 import { BlossomComponent } from './index';
-import { getPropProxy, getCtx, setEventListener, setClassNames } from './utils';
+import { getPropProxy, getCtx, interpolateAttributes } from './utils';
 
 function BlossomConvertElement(elementToPatch) {
   if (elementToPatch && !elementToPatch.setCtx) {
@@ -24,8 +24,7 @@ function BlossomConvertElement(elementToPatch) {
   if (elementToPatch && !elementToPatch.refresh) {
     elementToPatch.refresh = () => {
       elementToPatch.innerHTML = elementToPatch.innerHTML;
-      setClassNames(elementToPatch);
-      setEventListener(elementToPatch);
+      interpolateAttributes(elementToPatch);
     };
   }
 

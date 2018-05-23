@@ -1,7 +1,7 @@
 import { BlossomConvertElement } from './BlossomConvertElement';
-import HTMLEvents from './../assets/htmlevents.json';
 import getPropProxy from './proxies/props';
 import { setCtx, getCtx, contextTrap } from './proxies/ctx';
+import { BlossomDeserialise } from './BlossomSerialise';
 
 let BlossomDocumentReady;
 
@@ -82,54 +82,36 @@ const BlossomInterpolate = function BlossomInterpolate(input, from) {
   /* eslint-enable no-console, no-eval,  no-new-func */
 };
 
-const setClassNames = function setClassNames(element) {
-  if (element.getAttribute('l-class')) {
-    element.setAttribute('class', BlossomInterpolate(element.getAttribute('l-class'), element));
-  }
+const interpolateAttributes = function setClassNames(element) {
+  const it = document.evaluate('.//*[@*[starts-with(name(), "l-")]]', element, null, window.XPathResult.UNORDERED_NODE_ITERATOR_TYPE, null);
+  let current = element;
 
-  Array.from(element.querySelectorAll('*[l-class]')).forEach((subElement) => {
-    if (subElement.parentElement && !BlossomCheckParentsAreLoaded(subElement.parentElement)) {
-      return false;
-    }
-    if (subElement.getAttribute('l-class')) {
-      subElement.setAttribute('class', BlossomInterpolate(subElement.getAttribute('l-class'), subElement));
-    }
-  });
-};
+  const interpolateAtribute = (att) => {
+    const { name, value } = att;
+    const processing = current;
 
-const setEventListener = function setEventListener(element) {
-  if (!element.eventCollection) {
-    // eslint-disable-next-line no-param-reassign
-    element.eventCollection = [];
-  }
-
-  HTMLEvents.forEach(event => {
-    if (element.getAttribute(`l-on${event}`) && element.eventCollection.indexOf(event) === -1) {
-      element.addEventListener(event, (eventValue) => {
-        BlossomConvertElement(element);
-        contextTrap(element, () => element.props[`on${event}`](eventValue));
-      }, false);
-      BlossomConvertElement(element).eventCollection.push(event);
-    }
-
-    Array.from(element.querySelectorAll(`*[l-on${event}]`)).forEach((subElement) => {
-      if (!subElement.eventCollection) {
-        // eslint-disable-next-line no-param-reassign
-        subElement.eventCollection = [];
-      }
-
-      if (subElement.parentElement && !BlossomCheckParentsAreLoaded(subElement.parentElement)) {
-        return false;
-      }
-      if (subElement.getAttribute(`l-on${event}`) && subElement.eventCollection.indexOf(event) === -1) {
-        subElement.addEventListener(event, (eventValue) => {
-          BlossomConvertElement(subElement);
-          contextTrap(subElement, () => subElement.props[`on${event}`](eventValue));
+    if (name.match(/^l-on/)) {
+      const event = name.slice(4);
+      if (!current.eventCollection) current.eventCollection = [];
+      if (current.eventCollection.indexOf(event) === -1) {
+        const func = BlossomInterpolate(BlossomDeserialise(value, processing), processing);
+        current.addEventListener(event, (eventValue) => {
+          BlossomConvertElement(processing);
+          contextTrap(processing, () => func(eventValue));
         }, false);
-        subElement.eventCollection.push(event);
+        current.eventCollection.push(event);
       }
-    });
-  });
+    } else if (name.match(/^l-/)) {
+      current.setAttribute(name.slice(2), BlossomInterpolate(value, current));
+    }
+  };
+
+  do {
+    if (!current.parentElement || BlossomCheckParentsAreLoaded(current.parentElement)) {
+      Array.from(current.attributes).forEach(interpolateAtribute);
+    }
+    current = it.iterateNext();
+  } while (current);
 };
 
 if (typeof window !== 'undefined') {
@@ -137,8 +119,7 @@ if (typeof window !== 'undefined') {
     document.addEventListener('DOMContentLoaded', () => {
       resolve();
 
-      setClassNames(document.querySelector('*'));
-      setEventListener(document.querySelector('*'));
+      interpolateAttributes(document.querySelector('*'));
       BlossomConvertElement(document.querySelector('*'));
 
       if (document.body) {
@@ -150,8 +131,7 @@ if (typeof window !== 'undefined') {
 
 export {
   getStackTrace,
-  setClassNames,
-  setEventListener,
+  interpolateAttributes,
   getPropProxy,
   BlossomRegister,
   setCtx,

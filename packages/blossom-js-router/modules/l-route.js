@@ -3,7 +3,7 @@ import { BlossomComponent, BlossomRegister } from 'blossom-js-custom-element';
 class RouteComponent extends BlossomComponent {
   getFullPath(element) {
     let r = '';
-    if (element.tagName === 'L-ROUTE') r = element.getAttribute('l-path');
+    if (element.tagName === 'L-ROUTE') r = element.getAttribute('path');
 
     if (element.parentElement) { return `${this.getFullPath(element.parentElement)}/${r}`; }
     return '';
@@ -11,7 +11,7 @@ class RouteComponent extends BlossomComponent {
 
   match() {
     const currentPath = window.location.pathname;
-    let fullPath = this.getAttribute('l-path'); // this.getFullPath(this);
+    let fullPath = this.getAttribute('path'); // this.getFullPath(this);
     if (this.ctx.BlossomRouteBase) {
       fullPath = this.ctx.BlossomRouteBase + fullPath;
     }

@@ -14,6 +14,8 @@ describe('L-if component', () => {
 
     const rendered = BlossomRender(template);
 
+    console.log(rendered.innerHTML);
+
     expect(rendered.textContent).toMatch(/I am displayed/);
     expect(rendered.textContent).not.toMatch(/I am not displayed/);
   });
