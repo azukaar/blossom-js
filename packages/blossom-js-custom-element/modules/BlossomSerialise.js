@@ -3,6 +3,8 @@ import { contextTrap } from './proxies/ctx';
 function _BlossomSerialise(element) {
   if (element === null) {
     return null;
+  } else if (typeof element === 'boolean') {
+    return element;
   } else if (typeof element === 'function') {
     return element.toString();
   } else if (typeof element === 'object' && element instanceof Array) {
@@ -30,7 +32,9 @@ function BlossomSerialise(element) {
 }
 
 
-function BlossomDeserialise(element, bindTo) {
+function BlossomDeserialise(unescapedElement, bindTo) {
+  let element = unescapedElement;
+
   if (element === null) {
     return null;
   }
@@ -41,6 +45,7 @@ function BlossomDeserialise(element, bindTo) {
 
   if (element === 'true') return true;
   else if (element === 'false') return false;
+  else if (typeof element === 'boolean') return element;
   else if (element.match && element.match(/^{/) && element.match(/}$/)) {
     let result;
 

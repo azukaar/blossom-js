@@ -60,7 +60,7 @@ describe('Create component', () => {
 
   test('Component should read upper ctx', () => {
     const template = `
-            <div l-ctx='{"someBool": false, "someBool2": true}'>
+            <div ctx='{"someBool": false, "someBool2": true}'>
                 <l-if l-cond="this.ctx.someBool">
                     I am not displayed
                 </l-if>
@@ -89,7 +89,7 @@ describe('Create component', () => {
     expect(rendered.querySelector('div').className).toMatch(/^red$/);
   });
 
-  test.only('Component should use XPath', () => {
+  test('Component should use XPath', () => {
     const template = `
             <l-if l-class='"blue"' l-cond="true">
                 <div l-value='"red"'>I am displayed</div>

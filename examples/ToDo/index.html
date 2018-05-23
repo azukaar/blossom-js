@@ -28,7 +28,7 @@
                        delete="() => this.ctx.todos.splice(this.ctx.key, 1);">
                     <li class="">
                       <div class="view">
-                        <input  l-value="this.ctx.todo.done" 
+                        <input  l-checked="this.ctx.todo.done"
                                 class="toggle"
                                 type="checkbox"
                                 l-onclick="() => this.ctx.toggle()">

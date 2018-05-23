@@ -16,6 +16,10 @@ describe('BlossomSerialise', () => {
     expect(BlossomDeserialise(BlossomSerialise(1 + 1))).toBe(2);
   });
 
+  test('Bool', () => {
+    expect(BlossomDeserialise(BlossomSerialise(true))).toEqual(true);
+  });
+
   test('Arrays', () => {
     expect(BlossomDeserialise(BlossomSerialise([1, 'hey', 2]))).toEqual([1, 'hey', 2]);
   });
@@ -34,7 +38,7 @@ describe('BlossomSerialise', () => {
   });
 
   test('Recursive', () => {
-    expect(BlossomDeserialise(BlossomSerialise({ abc: { a: 1 + 1 }, def: [1, 2, 3] })))
-      .toEqual({ abc: { a: 2 }, def: [1, 2, 3] });
+    expect(BlossomDeserialise(BlossomSerialise({ abc: { a: 1 + 1 }, def: [1, 2, 3], boo: true })))
+      .toEqual({ abc: { a: 2 }, def: [1, 2, 3], boo: true });
   });
 });

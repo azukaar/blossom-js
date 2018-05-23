@@ -12,7 +12,7 @@ describe('L-ctx component', () => {
 
     const rendered = BlossomRender(template);
 
-    expect(rendered.children[0].getAttribute('l-ctx')).toMatch('{"hello":"world"}');
+    expect(rendered.children[0].getAttribute('ctx')).toMatch('{"hello":"world"}');
   });
 
   test('Is able to set interpolate ctx', () => {
@@ -22,7 +22,7 @@ describe('L-ctx component', () => {
 
     const rendered = BlossomRender(template);
 
-    expect(rendered.children[0].getAttribute('l-ctx')).toMatch('{"hello":2}');
+    expect(rendered.children[0].getAttribute('ctx')).toMatch('{"hello":2}');
   });
 
   test('Propagate ctx', () => {
@@ -34,7 +34,7 @@ describe('L-ctx component', () => {
 
     const rendered = BlossomRender(template);
 
-    expect(rendered.children[0].getAttribute('l-ctx')).toMatch('{"message":"hello world"}');
+    expect(rendered.children[0].getAttribute('ctx')).toMatch('{"message":"hello world"}');
     expect(rendered.querySelector('l-js').innerHTML).toMatch('hello world');
   });
 
@@ -65,6 +65,6 @@ describe('L-ctx component', () => {
     evt.initMouseEvent('click');
     rendered.querySelector('button').dispatchEvent(evt);
 
-    expect(rendered.children[0].getAttribute('l-ctx')).toMatch('Hello world and the universe');
+    expect(rendered.children[0].getAttribute('ctx')).toMatch('Hello world and the universe');
   });
 });

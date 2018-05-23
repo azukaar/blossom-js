@@ -8,8 +8,8 @@ function getCtx(element, preventRecursion) {
     ctx = getCtx(element.parentElement);
   }
 
-  if (element.getAttribute('l-ctx')) {
-    const elementCtx = BlossomDeserialise(element.getAttribute('l-ctx'), element);
+  if (element.getAttribute('ctx')) {
+    const elementCtx = BlossomDeserialise(element.getAttribute('ctx'), element);
 
     Object.keys(elementCtx).forEach(va => {
       ctx[va] = elementCtx[va];
@@ -20,7 +20,7 @@ function getCtx(element, preventRecursion) {
 }
 
 function setCtx(element, pendingCtx) {
-  const oldCtx = element.getAttribute('l-ctx');
+  const oldCtx = element.getAttribute('ctx');
   const elementCtx = oldCtx && BlossomDeserialise(oldCtx, element);
   let nextCtx = {};
   let willRefresh = false;
@@ -36,7 +36,7 @@ function setCtx(element, pendingCtx) {
     });
 
     newCtx = BlossomSerialise(elementCtx);
-    element.setAttribute('l-ctx', newCtx);
+    element.setAttribute('ctx', newCtx);
   } else {
     nextCtx = pendingCtx;
   }
@@ -46,7 +46,7 @@ function setCtx(element, pendingCtx) {
   } else {
     willRefresh = newCtx !== oldCtx;
     if (willRefresh) {
-      element.setAttribute('l-ctx', BlossomSerialise(pendingCtx));
+      element.setAttribute('ctx', BlossomSerialise(pendingCtx));
       BlossomConvertElement(element).refresh();
     }
     return willRefresh;
@@ -59,6 +59,7 @@ function setCtx(element, pendingCtx) {
 }
 
 function contextTrap(element, func, args = []) {
+  element.ctx = getCtx(element);
   const oldContext = BlossomSerialise(element.ctx);
   const result = func(...args);
 

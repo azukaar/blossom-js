@@ -6,7 +6,7 @@ import '../modules/l-loop';
 describe('L-loop component', () => {
   test('Is able to repeat from an array', () => {
     const template = `
-            <div l-ctx='{"test":[1,2,3]}'>
+            <div ctx='{"test":[1,2,3]}'>
                 <l-loop l-from="this.ctx.test">
                     hey
                 </l-loop>
@@ -20,7 +20,7 @@ describe('L-loop component', () => {
 
   test('Is able to repeat a value', () => {
     const template = `
-            <div l-ctx='{"test":[1,2,3]}'>
+            <div ctx='{"test":[1,2,3]}'>
                 <l-loop l-from="this.ctx.test">
                     hey <l-js>this.ctx.loop</l-js>
                 </l-loop>

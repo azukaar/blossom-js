@@ -13,7 +13,7 @@ class LoopComponent extends BlossomComponent {
         [contextNames[1]]: key,
       };
 
-      return `<l-ctx l-ctx='${BlossomSerialise(context)}'>${this.props.children}</l-ctx>`;
+      return `<l-ctx ctx='${BlossomSerialise(context)}'>${this.props.children}</l-ctx>`;
     }).join('');
   }
 }

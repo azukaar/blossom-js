@@ -46,7 +46,7 @@ class RouteComponent extends BlossomComponent {
 
     if (match) {
       const matches = JSON.stringify(match);
-      this.setAttribute('l-ctx', matches);
+      this.setAttribute('ctx', matches);
       return this.props.children;
     }
 

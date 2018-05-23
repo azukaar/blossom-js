@@ -14,6 +14,6 @@ describe('L-set component', () => {
 
     const rendered = BlossomRender(template);
 
-    expect(rendered.querySelector('div').getAttribute('l-ctx')).toMatch(/tested/);
+    expect(rendered.querySelector('div').getAttribute('ctx')).toMatch(/tested/);
   });
 });

@@ -15,12 +15,6 @@ function BlossomConvertElement(elementToPatch) {
     elementToPatch.props = getPropProxy(elementToPatch);
   }
 
-  if (elementToPatch && !elementToPatch.resolveCtx) {
-    elementToPatch.resolveCtx = () => {
-      elementToPatch.ctx = getCtx(elementToPatch);
-    };
-  }
-
   if (elementToPatch && !elementToPatch.refresh) {
     elementToPatch.refresh = () => {
       elementToPatch.innerHTML = elementToPatch.innerHTML;

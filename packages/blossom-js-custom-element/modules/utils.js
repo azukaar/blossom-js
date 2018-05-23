@@ -57,8 +57,7 @@ const BlossomInterpolate = function BlossomInterpolate(input, from) {
   /* eslint-disable no-console, no-eval,  no-new-func */
   try {
     if (from && typeof from.nodeName !== 'undefined' && typeof from.nodeType !== 'undefined' && from.nodeType === 1) {
-      BlossomConvertElement(from);
-      from.resolveCtx();
+      from.ctx = getCtx(from);
     }
 
     if (typeof input === 'string') {
@@ -100,7 +99,7 @@ const interpolateAttributes = function setClassNames(element) {
       const event = name.slice(4);
       if (!current.eventCollection) current.eventCollection = [];
       if (current.eventCollection.indexOf(event) === -1) {
-        const func = BlossomInterpolate(BlossomDeserialise(value, processing), processing);
+        const func = BlossomDeserialise(value, processing);
         current.addEventListener(event, (eventValue) => {
           BlossomConvertElement(processing);
           contextTrap(processing, () => func(eventValue));
@@ -108,7 +107,13 @@ const interpolateAttributes = function setClassNames(element) {
         current.eventCollection.push(event);
       }
     } else if (name.match(/^l-/)) {
-      current.setAttribute(name.slice(2), BlossomSerialise(BlossomInterpolate(value, current)));
+      const realName = name.slice(2);
+      const result = BlossomSerialise(BlossomInterpolate(value, current));
+      if (current.tagName === 'INPUT' && realName === 'checked' && result === 'false') {
+        current.removeAttribute(realName);
+      } else {
+        current.setAttribute(realName, result);
+      }
     }
   };
 
