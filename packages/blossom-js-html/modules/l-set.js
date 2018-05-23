@@ -7,8 +7,9 @@ class SetComponent extends BlossomComponent {
         const hasValue = BlossomSerialise(this.props[name]);
 
         if (!this.hasAttribute(`has_set_${name}`) || this.getAttribute(`has_set_${name}`) !== BlossomSerialise(hasValue)) {
-          this.setAttribute(`has_set_${name}`, BlossomSerialise(hasValue));
-          this.ctx[name] = this.props[name];
+          const toSet = BlossomSerialise(this.props[name]);
+          this.setAttribute(`has_set_${name}`, toSet);
+          this.ctx[name] = toSet;
         }
       }
     });
