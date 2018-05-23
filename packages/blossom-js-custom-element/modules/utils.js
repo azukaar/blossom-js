@@ -1,7 +1,7 @@
 import { BlossomConvertElement } from './BlossomConvertElement';
 import getPropProxy from './proxies/props';
 import { setCtx, getCtx, contextTrap } from './proxies/ctx';
-import { BlossomDeserialise } from './BlossomSerialise';
+import { BlossomDeserialise, BlossomSerialise } from './BlossomSerialise';
 
 let BlossomDocumentReady;
 
@@ -84,9 +84,15 @@ const BlossomInterpolate = function BlossomInterpolate(input, from) {
 
 const interpolateAttributes = function setClassNames(element) {
   const it = document.evaluate('.//*[@*[starts-with(name(), "l-")]]', element, null, window.XPathResult.UNORDERED_NODE_ITERATOR_TYPE, null);
-  let current = element;
+  const currents = [element];
 
-  const interpolateAtribute = (att) => {
+  let next = it.iterateNext();
+  while (next) {
+    currents.push(next);
+    next = it.iterateNext();
+  }
+
+  const interpolateAtribute = (current, att) => {
     const { name, value } = att;
     const processing = current;
 
@@ -102,16 +108,15 @@ const interpolateAttributes = function setClassNames(element) {
         current.eventCollection.push(event);
       }
     } else if (name.match(/^l-/)) {
-      current.setAttribute(name.slice(2), BlossomInterpolate(value, current));
+      current.setAttribute(name.slice(2), BlossomSerialise(BlossomInterpolate(value, current)));
     }
   };
 
-  do {
+  currents.forEach((current) => {
     if (!current.parentElement || BlossomCheckParentsAreLoaded(current.parentElement)) {
-      Array.from(current.attributes).forEach(interpolateAtribute);
+      Array.from(current.attributes).forEach((att) => interpolateAtribute(current, att));
     }
-    current = it.iterateNext();
-  } while (current);
+  });
 };
 
 if (typeof window !== 'undefined') {

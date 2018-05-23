@@ -5,7 +5,7 @@
   </head>
   <body>
     <div>
-      <l-ctx message="Hello world" l-changemessage="() => this.ctx.message += ' and the universe'">
+      <l-ctx message="Hello world" changemessage="() => this.ctx.message += ' and the universe'">
         <l-js>this.ctx.message</l-js>
         <button l-onclick="() => this.ctx.changemessage()">change</button>
       </l-ctx>
