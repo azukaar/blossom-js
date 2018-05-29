@@ -17,7 +17,7 @@ npm install blossom-js
 If you're not, simply using a `<script>` tag in the head of your document pointing to the dist file of Blossom is enough (unpkg.com/blossom-js/umd).
 Here a full exemple of a working Hello World. You can play with it on : https://jsfiddle.net/ez792m8k/
 
-```
+```html
 <html>
   <head>
     <title>Hello World</title>
