@@ -16,7 +16,7 @@ npm install blossom-js
 
 And then you can import what you need to use Blossom. Note that this is compatible with in-Browser ES6 modules.
 
-```
+```javascript
 import { Component } from 'blossom-js';
 ```
 
@@ -40,7 +40,7 @@ Here a full exemple of a working Hello World. You can play with it on : https://
 </html>
 ```
 
-See Advanced Usage for more information on possibilities;
+See Advanced Usage for more information on possibilities.
 
 # Features
 
