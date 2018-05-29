@@ -64,6 +64,10 @@ class Component extends HTMLElement {
       }
 
       interpolateAttributes(this);
+
+      if (this.onUpdate) {
+        contextTrap(this, () => this.onUpdate());
+      }
     }
   }
 

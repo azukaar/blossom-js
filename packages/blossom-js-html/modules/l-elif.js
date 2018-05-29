@@ -13,12 +13,12 @@ class ElifComponent extends Component {
           return canDraw(element.previousElementSibling);
         }
         return false;
-      } else if (element.previousElementSibling) {
-        throw new Error(`You can only use L-ELSE after L-IF or L-ELIF, and at least one L-IF, ${element.previousElementSibling.tagName} found instead`);
       }
+      
+      throw new Error(`You can only use L-ELIF after L-IF or L-ELIF, and at least one L-IF, ${element.previousElementSibling.tagName} found instead`);
     }
 
-    if (canDraw(this)) {
+    if (canDraw(this) && this.props.cond) {
       return this.props.children;
     }
 

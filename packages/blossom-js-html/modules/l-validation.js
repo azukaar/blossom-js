@@ -1,21 +1,39 @@
 import { Component, register } from 'blossom-js-custom-element';
 
 class ValidationComponent extends Component {
+  findParentForm() {
+    let parentForm = this.parentElement;
+
+    while (parentForm.parentElement) {
+      if (parentForm.tagName === 'L-FORM') {
+        return parentForm;
+      }
+
+      parentForm = parentForm.parentElement;
+    }
+
+    return parentForm;
+  }
+
   onMount() {
-    const element = document.getElementById(this.props.for);
+    this.parentForm = this.findParentForm();
+    const element = this.parentForm.querySelector(`#${this.props.for}`);
     element.addEventListener('change', () => this.refresh());
     element.addEventListener('input', () => this.refresh());
   }
 
-  render() {
-    if (this.props.for) {
-      const element = document.getElementById(this.props.for);
-      if (this.props.test(element.value || '')) {
-        return '';
-      }
-      return `<l-error>${this.props.children}</l-error>`;
+  onUpdate() {
+    if (this.parentForm.checkChildren) {
+      this.parentForm.checkChildren();
     }
-    return '';
+  }
+
+  render() {
+    const element = this.parentForm.querySelector(`#${this.props.for}`);
+    if (this.props.test(element.value || '')) {
+      return '';
+    }
+    return `<l-error>${this.props.children}</l-error>`;
   }
 }
 

@@ -7,7 +7,7 @@ class IncludeComponent extends Component {
     fetch(this.props.url)
       .then(res => res.text())
       .then((res) => {
-        this.innerHTML = res;
+        this.props.children = res;
         this.props.loading = false;
       });
   }

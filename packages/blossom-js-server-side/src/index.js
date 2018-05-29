@@ -54,6 +54,7 @@ global.BlossomRender = function BlossomRender(template) {
     document.contains = (element) => {
         return domNodes.contains(element);
     }
+
     domNodes.innerHTML = template;
 
     Array.from(domNodes.children).forEach((child) => {

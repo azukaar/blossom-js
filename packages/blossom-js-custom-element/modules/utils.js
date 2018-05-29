@@ -3,6 +3,8 @@ import getPropProxy from './proxies/props';
 import { setCtx, getCtx, contextTrap } from './proxies/ctx';
 import { deserialise, serialise } from './serialise';
 
+// document.createEvent('update');
+
 let BlossomDocumentReady;
 
 let resolveBlossomReady;
