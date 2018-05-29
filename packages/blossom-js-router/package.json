@@ -1,6 +1,6 @@
 {
   "name": "blossom-js-router",
-  "version": "0.39.0",
+  "version": "0.39.1",
   "description": "🌸 Router for Blossom-js (included in Blossom-js).",
   "main": "modules/index.js",
   "module": "modules/index.js",
@@ -28,10 +28,10 @@
     "template"
   ],
   "dependencies": {
-    "blossom-js-custom-element": "^0.39.0"
+    "blossom-js-custom-element": "^0.39.1"
   },
   "devDependencies": {
-    "blossom-js-server-side": "^0.39.0"
+    "blossom-js-server-side": "^0.39.1"
   },
   "author": "Yann Stepienik",
   "license": "Apache-2.0"
