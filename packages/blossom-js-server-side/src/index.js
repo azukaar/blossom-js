@@ -9,10 +9,6 @@ global.HTMLElement = class {
     constructor() {
     }
 
-    attachShadow() {
-        return document.createElement('div');
-    }
-
     __servermock() {}
 };
 

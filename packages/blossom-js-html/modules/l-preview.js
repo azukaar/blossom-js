@@ -8,16 +8,28 @@ class PreviewComponent extends Component {
         toPreview(n);
 
         if (n.nodeType === 3) {
-          // eslint-disable-next-line no-useless-escape
-          node.childNodes[i].textContent = node.childNodes[i].textContent.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()\w]/g, '▌');
+          node.childNodes[i].textContent = node.childNodes[i].textContent.replace(/[.,/)(#!$%^&*;:[\]{}=\-_`~()\w]/g, '▌');
         } else if (n.tagName && n.tagName === 'IMG') {
           n.setAttribute('src', '../assets/placeholder.jpg');
         } else if (n.tagName && n.tagName.indexOf('L-') === 0) {
-          node.removeChild(node.childNodes[i]);
-          // replaceChild // node.childNodes[i].tagName = 'STRONG';
-          // node.childNodes[i].textContent =
-          // node.childNodes[i].textContent.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()\w]/g, '▌');
-          // console.log(node.childNodes[i])
+          const newDoc = document.createElement('span');
+
+          if (n.tagName === 'L-LOOP') {
+            for (let ind = 0; ind < 4; ind += 1) newDoc.innerHTML += node.childNodes[i].innerHTML;
+          } else {
+            newDoc.innerHTML = node.childNodes[i].innerHTML;
+          }
+
+          node.replaceChild(newDoc, node.childNodes[i]);
+        }
+
+        if (n.tagName) {
+          // eslint-disable-next-line no-loop-func
+          Array.from(n.attributes).forEach((att) => {
+            if (att.name !== 'class') {
+              n.removeAttribute(att.name);
+            }
+          });
         }
       }
       return node;
@@ -27,6 +39,7 @@ class PreviewComponent extends Component {
     temp.innerHTML = this.props.children;
     this.props.children = toPreview(temp).innerHTML;
   }
+
   render() {
     return this.props.children;
   }
