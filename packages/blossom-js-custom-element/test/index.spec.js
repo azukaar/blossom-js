@@ -3,9 +3,9 @@
  */
 
 import 'blossom-js-server-side';
-import { BlossomComponent, BlossomRegister } from '../modules/index';
+import { Component, register } from '../modules/index';
 
-class IfComponent extends BlossomComponent {
+class IfComponent extends Component {
   render() {
     if (this.props.cond) {
       return this.props.children;
@@ -14,7 +14,7 @@ class IfComponent extends BlossomComponent {
   }
 }
 
-BlossomRegister({
+register({
   name: 'l-if',
   element: IfComponent,
   attributes: [

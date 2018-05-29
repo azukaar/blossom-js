@@ -1,6 +1,6 @@
-import { BlossomComponent, BlossomRegister } from 'blossom-js-custom-element';
+import { Component, register } from 'blossom-js-custom-element';
 
-class redirectComponent extends BlossomComponent {
+class redirectComponent extends Component {
   render() {
     let url = this.props.base;
     if (!url.match(/\/$/)) {
@@ -11,7 +11,7 @@ class redirectComponent extends BlossomComponent {
   }
 }
 
-BlossomRegister({
+register({
   name: 'l-meta-route',
   element: redirectComponent,
 });

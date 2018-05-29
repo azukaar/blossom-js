@@ -1,6 +1,6 @@
-import { BlossomComponent, BlossomRegister } from 'blossom-js-custom-element';
+import { Component, register } from 'blossom-js-custom-element';
 
-class IntervalComponent extends BlossomComponent {
+class IntervalComponent extends Component {
   onMount() {
     this.timer = setInterval(() => {
       if (this.props.ontick) {
@@ -19,7 +19,7 @@ class IntervalComponent extends BlossomComponent {
   }
 }
 
-BlossomRegister({
+register({
   name: 'l-interval',
   element: IntervalComponent,
 });

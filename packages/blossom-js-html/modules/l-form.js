@@ -1,6 +1,6 @@
-import { BlossomComponent, BlossomRegister } from 'blossom-js-custom-element';
+import { Component, register } from 'blossom-js-custom-element';
 
-class FormComponent extends BlossomComponent {
+class FormComponent extends Component {
   updateChildren() {
     if (this.querySelectorAll('l-error').length > 0) {
       Array.from(this.querySelectorAll('input[type="submit"]')).map(e => e.setAttribute('disabled', true));
@@ -14,7 +14,7 @@ class FormComponent extends BlossomComponent {
   }
 }
 
-BlossomRegister({
+register({
   name: 'l-form',
   element: FormComponent,
 });

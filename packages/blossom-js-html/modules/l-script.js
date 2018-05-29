@@ -1,13 +1,13 @@
-import { BlossomComponent, BlossomDeserialise, BlossomRegister, BlossomInterpolate } from 'blossom-js-custom-element';
+import { Component, deserialise, register, interpolate } from 'blossom-js-custom-element';
 
-class ScriptComponent extends BlossomComponent {
+class ScriptComponent extends Component {
   render() {
-    BlossomInterpolate(BlossomDeserialise(this.props.children), this);
+    interpolate(deserialise(this.props.children), this);
     return '';
   }
 }
 
-BlossomRegister({
+register({
   name: 'l-script',
   element: ScriptComponent,
 });

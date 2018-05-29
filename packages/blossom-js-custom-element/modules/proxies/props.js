@@ -1,5 +1,5 @@
-import { BlossomInterpolate } from '../utils';
-import { BlossomSerialise, BlossomDeserialise } from '../BlossomSerialise';
+import { interpolate } from '../utils';
+import { serialise, deserialise } from '../serialise';
 
 export default function getPropProxy(mainElement) {
   return new Proxy({}, {
@@ -74,10 +74,10 @@ export default function getPropProxy(mainElement) {
       } else if (attr === 'children') return mainElement.getAttribute('children');
       else if (typeof attr === 'string' && attr.length > 0) {
         if (mainElement.getAttribute(`l-${attr}`)) {
-          const result = BlossomInterpolate(BlossomDeserialise(mainElement.getAttribute(`l-${attr}`), mainElement), mainElement);
+          const result = interpolate(deserialise(mainElement.getAttribute(`l-${attr}`), mainElement), mainElement);
           return result;
         } else if (mainElement.getAttribute(attr)) {
-          return BlossomDeserialise(mainElement.getAttribute(attr), mainElement);
+          return deserialise(mainElement.getAttribute(attr), mainElement);
         }
 
         return '';
@@ -86,16 +86,16 @@ export default function getPropProxy(mainElement) {
     /* eslint-disable no-param-reassign */
     set: (obj, attr, value) => {
       if (attr === 'ctx') {
-        const needRefresh = BlossomSerialise(mainElement.ctx) !== BlossomSerialise(value);
+        const needRefresh = serialise(mainElement.ctx) !== serialise(value);
 
         mainElement.ctx = value;
         if (needRefresh) mainElement.refresh();
       } else if (attr === 'children') {
-        mainElement.setAttribute(attr, typeof value !== 'string' ? BlossomSerialise(value) : value);
+        mainElement.setAttribute(attr, typeof value !== 'string' ? serialise(value) : value);
       } else if (typeof attr === 'string') {
-        const needRefresh = mainElement.getAttribute(attr) !== BlossomSerialise(value);
+        const needRefresh = mainElement.getAttribute(attr) !== serialise(value);
 
-        mainElement.setAttribute(attr, BlossomSerialise(value));
+        mainElement.setAttribute(attr, serialise(value));
         if (needRefresh) mainElement.refresh();
       }
       return true;

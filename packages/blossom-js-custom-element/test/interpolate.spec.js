@@ -3,27 +3,27 @@
  */
 
 import 'blossom-js-server-side';
-import { BlossomInterpolate } from '../modules/utils';
+import { interpolate } from '../modules/utils';
 
 describe('Interpolate String', () => {
   test('Allow strings', () => {
-    expect(BlossomInterpolate('"red"')).toBe('red');
-    expect(BlossomInterpolate("'red'")).toBe('red');
+    expect(interpolate('"red"')).toBe('red');
+    expect(interpolate("'red'")).toBe('red');
   });
   test('Allow ctxd var', () => {
-    expect(BlossomInterpolate('this.foo', { foo: 'bar' })).toBe('bar');
+    expect(interpolate('this.foo', { foo: 'bar' })).toBe('bar');
   });
   test('Allow operations', () => {
-    expect(BlossomInterpolate('this.foo + 123', { foo: 123 })).toBe(123 * 2);
+    expect(interpolate('this.foo + 123', { foo: 123 })).toBe(123 * 2);
   });
   test('Allow URL', () => {
-    expect(BlossomInterpolate('"/foo"')).toBe('/foo');
+    expect(interpolate('"/foo"')).toBe('/foo');
   });
   test('Allow JS lib', () => {
-    expect(BlossomInterpolate('new Date(0)+""')).toBe('Thu Jan 01 1970 00:00:00 GMT+0000 (BST)');
+    expect(interpolate('new Date(0)+""')).toBe('Thu Jan 01 1970 00:00:00 GMT+0000 (BST)');
   });
   test('Allow function call', () => {
-    expect(BlossomInterpolate('this.foo.match("123")', { foo: '123' })).toContain('123');
-    expect(BlossomInterpolate('this.foo.match(/123/)', { foo: '123' })).toContain('123');
+    expect(interpolate('this.foo.match("123")', { foo: '123' })).toContain('123');
+    expect(interpolate('this.foo.match(/123/)', { foo: '123' })).toContain('123');
   });
 });

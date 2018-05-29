@@ -1,6 +1,6 @@
-import { BlossomComponent, BlossomRegister } from 'blossom-js-custom-element';
+import { Component, register } from 'blossom-js-custom-element';
 
-class IncludeComponent extends BlossomComponent {
+class IncludeComponent extends Component {
   onMount() {
     this.props.loading = true;
 
@@ -21,7 +21,7 @@ class IncludeComponent extends BlossomComponent {
   }
 }
 
-BlossomRegister({
+register({
   name: 'l-include',
   element: IncludeComponent,
 });

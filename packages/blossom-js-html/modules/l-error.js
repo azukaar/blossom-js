@@ -1,12 +1,12 @@
-import { BlossomComponent, BlossomRegister } from 'blossom-js-custom-element';
+import { Component, register } from 'blossom-js-custom-element';
 
-class ErrorComponent extends BlossomComponent {
+class ErrorComponent extends Component {
   render() {
     return this.props.children;
   }
 }
 
-BlossomRegister({
+register({
   name: 'l-error',
   element: ErrorComponent,
 });

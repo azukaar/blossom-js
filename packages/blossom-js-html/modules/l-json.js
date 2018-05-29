@@ -1,6 +1,6 @@
-import { BlossomComponent, BlossomRegister } from 'blossom-js-custom-element';
+import { Component, register } from 'blossom-js-custom-element';
 
-class JsonComponent extends BlossomComponent {
+class JsonComponent extends Component {
   onMount() {
     this.props.loading = true;
 
@@ -21,7 +21,7 @@ class JsonComponent extends BlossomComponent {
   }
 }
 
-BlossomRegister({
+register({
   name: 'l-json',
   element: JsonComponent,
 });

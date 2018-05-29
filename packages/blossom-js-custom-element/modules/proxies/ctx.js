@@ -1,5 +1,5 @@
-import { BlossomDeserialise, BlossomSerialise } from '../BlossomSerialise';
-import { BlossomConvertElement } from '../BlossomConvertElement';
+import { deserialise, serialise } from '../serialise';
+import { convertElement } from '../convertElement';
 
 function getCtx(element, preventRecursion) {
   let ctx = {};
@@ -9,7 +9,7 @@ function getCtx(element, preventRecursion) {
   }
 
   if (element.getAttribute('ctx')) {
-    const elementCtx = BlossomDeserialise(element.getAttribute('ctx'), element);
+    const elementCtx = deserialise(element.getAttribute('ctx'), element);
 
     Object.keys(elementCtx).forEach(va => {
       ctx[va] = elementCtx[va];
@@ -21,7 +21,7 @@ function getCtx(element, preventRecursion) {
 
 function setCtx(element, pendingCtx) {
   const oldCtx = element.getAttribute('ctx');
-  const elementCtx = oldCtx && BlossomDeserialise(oldCtx, element);
+  const elementCtx = oldCtx && deserialise(oldCtx, element);
   let nextCtx = {};
   let willRefresh = false;
   let newCtx;
@@ -35,7 +35,7 @@ function setCtx(element, pendingCtx) {
       }
     });
 
-    newCtx = BlossomSerialise(elementCtx);
+    newCtx = serialise(elementCtx);
     element.setAttribute('ctx', newCtx);
   } else {
     nextCtx = pendingCtx;
@@ -46,8 +46,8 @@ function setCtx(element, pendingCtx) {
   } else {
     willRefresh = newCtx !== oldCtx;
     if (willRefresh) {
-      element.setAttribute('ctx', BlossomSerialise(pendingCtx));
-      BlossomConvertElement(element).refresh();
+      element.setAttribute('ctx', serialise(pendingCtx));
+      convertElement(element).refresh();
     }
     return willRefresh;
   }
@@ -60,10 +60,10 @@ function setCtx(element, pendingCtx) {
 
 function contextTrap(element, func, args = []) {
   element.ctx = getCtx(element);
-  const oldContext = BlossomSerialise(element.ctx);
+  const oldContext = serialise(element.ctx);
   const result = func(...args);
 
-  if (BlossomSerialise(element.ctx) !== oldContext) {
+  if (serialise(element.ctx) !== oldContext) {
     setCtx(element, element.ctx);
   }
 

@@ -1,10 +1,10 @@
 /* eslint-disable no-param-reassign */
-import { BlossomComponent } from './index';
+import { Component } from './index';
 import { getPropProxy, getCtx, interpolateAttributes } from './utils';
 
-function BlossomConvertElement(elementToPatch) {
+function convertElement(elementToPatch) {
   if (elementToPatch && !elementToPatch.setCtx) {
-    elementToPatch.setCtx = BlossomComponent.prototype.setCtx;
+    elementToPatch.setCtx = Component.prototype.setCtx;
   }
 
   if (elementToPatch && !elementToPatch.ctx) {
@@ -32,10 +32,10 @@ function patchDomAccess(element) {
       element[`native${acc}`] = element[acc];
 
       Object.defineProperty(element, acc, {
-        get: () => BlossomConvertElement(element[`native${acc}`]),
+        get: () => convertElement(element[`native${acc}`]),
       });
     }
   });
 }
 
-export { BlossomConvertElement, patchDomAccess };
+export { convertElement, patchDomAccess };

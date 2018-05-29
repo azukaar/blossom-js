@@ -1,12 +1,12 @@
-import { BlossomComponent, BlossomRegister } from 'blossom-js-custom-element';
+import { Component, register } from 'blossom-js-custom-element';
 
-class redirectComponent extends BlossomComponent {
+class redirectComponent extends Component {
   render() {
     window.navigateTo(this.props.to);
   }
 }
 
-BlossomRegister({
+register({
   name: 'l-redirect',
   element: redirectComponent,
 });

@@ -3,42 +3,42 @@
  */
 
 import 'blossom-js-server-side';
-import { BlossomSerialise, BlossomDeserialise } from '../modules/BlossomSerialise';
+import { serialise, deserialise } from '../modules/serialise';
 
-describe('BlossomSerialise', () => {
+describe('serialise', () => {
   test('Strings', () => {
-    expect(BlossomDeserialise(BlossomSerialise('red'))).toBe('red');
-    expect(BlossomDeserialise(BlossomSerialise('"red"'))).toBe('"red"');
+    expect(deserialise(serialise('red'))).toBe('red');
+    expect(deserialise(serialise('"red"'))).toBe('"red"');
   });
 
   test('Numbers', () => {
-    expect(BlossomDeserialise(BlossomSerialise(1))).toBe(1);
-    expect(BlossomDeserialise(BlossomSerialise(1 + 1))).toBe(2);
+    expect(deserialise(serialise(1))).toBe(1);
+    expect(deserialise(serialise(1 + 1))).toBe(2);
   });
 
   test('Bool', () => {
-    expect(BlossomDeserialise(BlossomSerialise(true))).toEqual(true);
+    expect(deserialise(serialise(true))).toEqual(true);
   });
 
   test('Arrays', () => {
-    expect(BlossomDeserialise(BlossomSerialise([1, 'hey', 2]))).toEqual([1, 'hey', 2]);
+    expect(deserialise(serialise([1, 'hey', 2]))).toEqual([1, 'hey', 2]);
   });
 
   test('Object', () => {
-    expect(BlossomDeserialise(BlossomSerialise({ abc: 123, def: 456 })))
+    expect(deserialise(serialise({ abc: 123, def: 456 })))
       .toEqual({ abc: 123, def: 456 });
   });
 
   test('Function', () => {
-    expect(BlossomDeserialise(BlossomSerialise(() => 'foo')).toString()).toEqual((() => 'foo').toString());
-    expect(BlossomDeserialise(BlossomSerialise(foo => foo)).toString())
+    expect(deserialise(serialise(() => 'foo')).toString()).toEqual((() => 'foo').toString());
+    expect(deserialise(serialise(foo => foo)).toString())
       .toEqual((foo => foo).toString());
-    expect(BlossomDeserialise(BlossomSerialise((foo) => { Math.random(); return foo; })).toString())
+    expect(deserialise(serialise((foo) => { Math.random(); return foo; })).toString())
       .toEqual(((foo) => { Math.random(); return foo; }).toString());
   });
 
   test('Recursive', () => {
-    expect(BlossomDeserialise(BlossomSerialise({ abc: { a: 1 + 1 }, def: [1, 2, 3], boo: true })))
+    expect(deserialise(serialise({ abc: { a: 1 + 1 }, def: [1, 2, 3], boo: true })))
       .toEqual({ abc: { a: 2 }, def: [1, 2, 3], boo: true });
   });
 });

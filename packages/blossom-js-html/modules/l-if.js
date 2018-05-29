@@ -1,6 +1,6 @@
-import { BlossomComponent, BlossomRegister } from 'blossom-js-custom-element';
+import { Component, register } from 'blossom-js-custom-element';
 
-class IfComponent extends BlossomComponent {
+class IfComponent extends Component {
   render() {
     if (this.props.cond) {
       return this.props.children;
@@ -9,7 +9,7 @@ class IfComponent extends BlossomComponent {
   }
 }
 
-BlossomRegister({
+register({
   name: 'l-if',
   element: IfComponent,
 });

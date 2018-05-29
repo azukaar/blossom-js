@@ -1,6 +1,6 @@
-import { BlossomComponent, BlossomRegister } from 'blossom-js-custom-element';
+import { Component, register } from 'blossom-js-custom-element';
 
-class ValidationComponent extends BlossomComponent {
+class ValidationComponent extends Component {
   onMount() {
     const element = document.getElementById(this.props.for);
     element.addEventListener('change', () => this.refresh());
@@ -19,7 +19,7 @@ class ValidationComponent extends BlossomComponent {
   }
 }
 
-BlossomRegister({
+register({
   name: 'l-validation',
   element: ValidationComponent,
 });

@@ -1,6 +1,6 @@
 import { contextTrap } from './proxies/ctx';
 
-function _BlossomSerialise(element) {
+function _serialise(element) {
   if (element === null) {
     return null;
   } else if (typeof element === 'boolean') {
@@ -8,11 +8,11 @@ function _BlossomSerialise(element) {
   } else if (typeof element === 'function') {
     return element.toString();
   } else if (typeof element === 'object' && element instanceof Array) {
-    return element.map(entry => _BlossomSerialise(entry));
+    return element.map(entry => _serialise(entry));
   } else if (typeof element === 'object') {
     const result = {};
     Object.entries(element).map(entry => {
-      result[entry[0]] = _BlossomSerialise(entry[1]);
+      result[entry[0]] = _serialise(entry[1]);
       return entry;
     });
     return result;
@@ -21,8 +21,8 @@ function _BlossomSerialise(element) {
   return element;
 }
 
-function BlossomSerialise(element) {
-  const result = _BlossomSerialise(element);
+function serialise(element) {
+  const result = _serialise(element);
 
   if (typeof result !== 'string') {
     return JSON.stringify(result);
@@ -35,7 +35,7 @@ function BlossomSerialise(element) {
 }
 
 
-function BlossomDeserialise(unescapedElement, bindTo) {
+function deserialise(unescapedElement, bindTo) {
   let element = unescapedElement;
 
   if (element === null) {
@@ -62,7 +62,7 @@ function BlossomDeserialise(unescapedElement, bindTo) {
     }
 
     Object.entries(result).map(entry => {
-      result[entry[0]] = BlossomDeserialise(entry[1], bindTo);
+      result[entry[0]] = deserialise(entry[1], bindTo);
       return entry;
     });
     return result;
@@ -75,7 +75,7 @@ function BlossomDeserialise(unescapedElement, bindTo) {
       return element;
     }
 
-    result = result.map(entry => BlossomDeserialise(entry, bindTo));
+    result = result.map(entry => deserialise(entry, bindTo));
     return result;
   } else if (element.match && (element.match(/^\s*function\s*\(/) || (element.match(/^\(/) && element.match(/=>/)))) {
     let tostring = element.slice();
@@ -104,11 +104,11 @@ function BlossomDeserialise(unescapedElement, bindTo) {
     // eslint-disable-next-line no-eval
     return eval(tostring);
   } else if (typeof element === 'object' && element instanceof Array) {
-    return element.map(entry => BlossomDeserialise(entry, bindTo));
+    return element.map(entry => deserialise(entry, bindTo));
   } else if (typeof element === 'object') {
     const result = {};
     Object.entries(element).map(entry => {
-      result[entry[0]] = BlossomDeserialise(entry[1], bindTo);
+      result[entry[0]] = deserialise(entry[1], bindTo);
       return entry;
     });
     return result;
@@ -119,4 +119,4 @@ function BlossomDeserialise(unescapedElement, bindTo) {
   return element;
 }
 
-export { BlossomSerialise, BlossomDeserialise };
+export { serialise, deserialise };

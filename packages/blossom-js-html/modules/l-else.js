@@ -1,6 +1,6 @@
-import { BlossomComponent, BlossomRegister } from 'blossom-js-custom-element';
+import { Component, register } from 'blossom-js-custom-element';
 
-class ElseComponent extends BlossomComponent {
+class ElseComponent extends Component {
   render() {
     function canDraw(element) {
       if (element.previousElementSibling && element.previousElementSibling.tagName === 'L-IF') {
@@ -26,7 +26,7 @@ class ElseComponent extends BlossomComponent {
   }
 }
 
-BlossomRegister({
+register({
   name: 'l-else',
   element: ElseComponent,
 });

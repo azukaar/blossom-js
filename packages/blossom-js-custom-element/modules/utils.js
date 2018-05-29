@@ -1,7 +1,7 @@
-import { BlossomConvertElement } from './BlossomConvertElement';
+import { convertElement } from './convertElement';
 import getPropProxy from './proxies/props';
 import { setCtx, getCtx, contextTrap } from './proxies/ctx';
-import { BlossomDeserialise, BlossomSerialise } from './BlossomSerialise';
+import { deserialise, serialise } from './serialise';
 
 let BlossomDocumentReady;
 
@@ -32,7 +32,7 @@ const BlossomCheckParentsAreLoaded = function BlossomCheckParentsAreLoaded(eleme
   return true;
 };
 
-const BlossomRegister = function BlossomRegister(settings) {
+const register = function register(settings) {
   if (typeof process !== 'undefined' && process.env.NODE_ENV !== 'production' && (!settings || !settings.name)) {
     throw new Error('Error: please set setting.name.');
   }
@@ -53,7 +53,7 @@ const BlossomRegister = function BlossomRegister(settings) {
   });
 };
 
-const BlossomInterpolate = function BlossomInterpolate(input, from) {
+const interpolate = function interpolate(input, from) {
   /* eslint-disable no-console, no-eval,  no-new-func */
   try {
     if (from && typeof from.nodeName !== 'undefined' && typeof from.nodeType !== 'undefined' && from.nodeType === 1) {
@@ -74,7 +74,7 @@ const BlossomInterpolate = function BlossomInterpolate(input, from) {
       console.error(e.message, '\n', 'STACKTRACE', from.parentElement ? getStackTrace(from) : from);
     } else {
       console.error('Tried to evaluate : ', input);
-      console.error(e.message, 'but no stacktrace available, provide target element to BlossomInterpolate as a third argument to display DOM position');
+      console.error(e.message, 'but no stacktrace available, provide target element to interpolate as a third argument to display DOM position');
     }
     return undefined;
   }
@@ -99,16 +99,16 @@ const interpolateAttributes = function setClassNames(element) {
       const event = name.slice(4);
       if (!current.eventCollection) current.eventCollection = [];
       if (current.eventCollection.indexOf(event) === -1) {
-        const func = BlossomDeserialise(value, processing);
+        const func = deserialise(value, processing);
         current.addEventListener(event, (eventValue) => {
-          BlossomConvertElement(processing);
+          convertElement(processing);
           contextTrap(processing, () => func(eventValue));
         }, false);
         current.eventCollection.push(event);
       }
     } else if (name.match(/^l-/)) {
       const realName = name.slice(2);
-      const result = BlossomSerialise(BlossomInterpolate(value, current));
+      const result = serialise(interpolate(value, current));
       if (current.tagName === 'INPUT' && realName === 'checked' && result === 'false') {
         current.removeAttribute(realName);
       } else {
@@ -130,10 +130,10 @@ if (typeof window !== 'undefined') {
       resolve();
 
       interpolateAttributes(document.querySelector('*'));
-      BlossomConvertElement(document.querySelector('*'));
+      convertElement(document.querySelector('*'));
 
       if (document.body) {
-        BlossomConvertElement(document.body);
+        convertElement(document.body);
       }
     });
   });
@@ -143,11 +143,11 @@ export {
   getStackTrace,
   interpolateAttributes,
   getPropProxy,
-  BlossomRegister,
+  register,
   setCtx,
   getCtx,
   contextTrap,
-  BlossomInterpolate,
+  interpolate,
   BlossomCheckParentsAreLoaded,
   BlossomReady,
 };

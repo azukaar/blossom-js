@@ -1,6 +1,6 @@
-import { BlossomComponent, BlossomRegister } from 'blossom-js-custom-element';
+import { Component, register } from 'blossom-js-custom-element';
 
-class PreviewComponent extends BlossomComponent {
+class PreviewComponent extends Component {
   onMount() {
     /* eslint-disable no-param-reassign */
     const toPreview = (node) => {
@@ -34,7 +34,7 @@ class PreviewComponent extends BlossomComponent {
   }
 }
 
-BlossomRegister({
+register({
   name: 'l-preview',
   element: PreviewComponent,
 });

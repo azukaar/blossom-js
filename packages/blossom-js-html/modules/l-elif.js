@@ -1,6 +1,6 @@
-import { BlossomComponent, BlossomRegister } from 'blossom-js-custom-element';
+import { Component, register } from 'blossom-js-custom-element';
 
-class ElifComponent extends BlossomComponent {
+class ElifComponent extends Component {
   render() {
     function canDraw(element) {
       if (element.previousElementSibling && element.previousElementSibling.tagName === 'L-IF') {
@@ -26,7 +26,7 @@ class ElifComponent extends BlossomComponent {
   }
 }
 
-BlossomRegister({
+register({
   name: 'l-elif',
   element: ElifComponent,
 });

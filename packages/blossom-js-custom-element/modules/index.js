@@ -1,15 +1,15 @@
-import { BlossomReady, BlossomRegister, getCtx, BlossomInterpolate } from './utils';
-import { BlossomConvertElement } from './BlossomConvertElement';
-import BlossomComponent from './BlossomComponent';
-import { BlossomSerialise, BlossomDeserialise } from './BlossomSerialise';
+import { BlossomReady, register, getCtx, interpolate } from './utils';
+import { convertElement } from './convertElement';
+import Component from './Component';
+import { serialise, deserialise } from './serialise';
 
 export {
-  BlossomSerialise,
-  BlossomDeserialise,
-  BlossomComponent,
-  BlossomConvertElement,
-  BlossomRegister,
+  serialise,
+  deserialise,
+  Component,
+  convertElement,
+  register,
   getCtx,
-  BlossomInterpolate,
+  interpolate,
   BlossomReady,
 };

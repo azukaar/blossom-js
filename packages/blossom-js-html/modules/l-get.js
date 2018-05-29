@@ -1,6 +1,6 @@
-import { BlossomComponent, BlossomRegister } from 'blossom-js-custom-element';
+import { Component, register } from 'blossom-js-custom-element';
 
-class GetComponent extends BlossomComponent {
+class GetComponent extends Component {
   render() {
     let result = '';
     Object.keys(this.props).forEach((name) => {
@@ -11,7 +11,7 @@ class GetComponent extends BlossomComponent {
   }
 }
 
-BlossomRegister({
+register({
   name: 'l-get',
   element: GetComponent,
 });

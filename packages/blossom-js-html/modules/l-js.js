@@ -1,12 +1,12 @@
-import { BlossomComponent, BlossomSerialise, BlossomDeserialise, BlossomRegister, BlossomInterpolate } from 'blossom-js-custom-element';
+import { Component, serialise, deserialise, register, interpolate } from 'blossom-js-custom-element';
 
-class JsComponent extends BlossomComponent {
+class JsComponent extends Component {
   render() {
-    return BlossomSerialise(BlossomInterpolate(BlossomDeserialise(this.props.children), this));
+    return serialise(interpolate(deserialise(this.props.children), this));
   }
 }
 
-BlossomRegister({
+register({
   name: 'l-js',
   element: JsComponent,
 });

@@ -1,10 +1,9 @@
 import { BlossomCheckParentsAreLoaded, getPropProxy, interpolateAttributes, contextTrap } from './utils';
-import { patchDomAccess } from './BlossomConvertElement';
+import { patchDomAccess } from './convertElement';
 import * as taskQueue from './taskQueue';
-import { BlossomSerialise, BlossomDeserialise } from './BlossomSerialise';
+import { serialise, deserialise } from './serialise';
 
-
-class BlossomComponent extends HTMLElement {
+class Component extends HTMLElement {
   connectedCallback() {
     if (this.parentElement && !BlossomCheckParentsAreLoaded(this.parentElement)) return false;
 
@@ -40,7 +39,7 @@ class BlossomComponent extends HTMLElement {
     } else {
       ctx.value = value;
     }
-    return `ctx='${BlossomSerialise(ctx)}'`;
+    return `ctx='${serialise(ctx)}'`;
   }
 
   setAliasableCtx(defaultName, value) {
@@ -72,13 +71,13 @@ class BlossomComponent extends HTMLElement {
     let willNeedRefresh = false;
 
     if (this.getAttribute('ctx')) {
-      const temp = BlossomDeserialise(this.getAttribute('ctx'), this);
-      willNeedRefresh = BlossomSerialise(temp[key]) !== BlossomSerialise(value);
+      const temp = deserialise(this.getAttribute('ctx'), this);
+      willNeedRefresh = serialise(temp[key]) !== serialise(value);
       temp[key] = value;
-      this.setAttribute('ctx', BlossomSerialise(temp));
+      this.setAttribute('ctx', serialise(temp));
     } else {
-      willNeedRefresh = BlossomSerialise(this.ctx[key]) !== BlossomSerialise(value);
-      this.setAttribute('ctx', BlossomSerialise({ [key]: value }));
+      willNeedRefresh = serialise(this.ctx[key]) !== serialise(value);
+      this.setAttribute('ctx', serialise({ [key]: value }));
     }
 
     if (willNeedRefresh) {
@@ -87,4 +86,4 @@ class BlossomComponent extends HTMLElement {
   }
 }
 
-export default BlossomComponent;
+export default Component;

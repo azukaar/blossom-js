@@ -1,6 +1,6 @@
-import { BlossomComponent, BlossomRegister } from 'blossom-js-custom-element';
+import { Component, register } from 'blossom-js-custom-element';
 
-class RouteComponent extends BlossomComponent {
+class RouteComponent extends Component {
   getFullPath(element) {
     let r = '';
     if (element.tagName === 'L-ROUTE') r = element.getAttribute('path');
@@ -54,7 +54,7 @@ class RouteComponent extends BlossomComponent {
   }
 }
 
-BlossomRegister({
+register({
   name: 'l-route',
   element: RouteComponent,
 });
