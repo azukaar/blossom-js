@@ -2,7 +2,6 @@ import { Component, register } from 'blossom-js-custom-element';
 
 class PreviewComponent extends Component {
   onMount() {
-    /* eslint-disable no-param-reassign */
     const toPreview = (node) => {
       for (let i = 0; i < node.childNodes.length; i += 1) {
         const n = node.childNodes[i];
@@ -24,10 +23,9 @@ class PreviewComponent extends Component {
       return node;
     };
 
-    const _temp = document.createElement('div');
-    _temp.innerHTML = this.props.children;
-    this.props.children = toPreview(_temp).innerHTML;
-    /* eslint-enable no-param-reassign */
+    const temp = document.createElement('div');
+    temp.innerHTML = this.props.children;
+    this.props.children = toPreview(temp).innerHTML;
   }
   render() {
     return this.props.children;

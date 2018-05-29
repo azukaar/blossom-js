@@ -10,7 +10,7 @@ export default function getPropProxy(mainElement) {
         .filter(e => e.name !== 'children' && e.name !== 'ctx' && e.name !== 'l-ctx' &&
                 e.name !== 'l-class' && e.name !== 'class' &&
                 e.name !== 'l-style' && e.name !== 'style')
-        .forEach(e => {
+        .forEach((e) => {
           if (e.name.match(/^l-/)) {
             const realName = e.name.slice(2);
             if (attrs.indexOf(realName === -1)) attrs.push(realName);
@@ -50,7 +50,7 @@ export default function getPropProxy(mainElement) {
             .filter(e => e.name !== 'children' && e.name !== 'ctx' && e.name !== 'l-ctx' &&
                     e.name !== 'l-class' && e.name !== 'class' &&
                     e.name !== 'l-style' && e.name !== 'style')
-            .forEach(e => {
+            .forEach((e) => {
               if (e.name.match(/^l-/)) {
                 const realName = e.name.slice(2);
                 if (attrs.indexOf(realName === -1)) attrs[realName] = mainElement.props[realName];
@@ -60,14 +60,14 @@ export default function getPropProxy(mainElement) {
             });
 
           if (filterin) {
-            Object.keys(attrs).forEach(att => {
+            Object.keys(attrs).forEach((att) => {
               if (filterin.indexOf(att) === -1) {
                 delete attrs[att];
               }
             });
           }
 
-          return Object.keys(attrs).map((key) => `${key}="${attrs[key]}"`).join(' ');
+          return Object.keys(attrs).map(key => `${key}="${attrs[key]}"`).join(' ');
         };
       } else if (attr === 'ctx') {
         return mainElement.ctx;
@@ -83,7 +83,6 @@ export default function getPropProxy(mainElement) {
         return '';
       }
     },
-    /* eslint-disable no-param-reassign */
     set: (obj, attr, value) => {
       if (attr === 'ctx') {
         const needRefresh = serialise(mainElement.ctx) !== serialise(value);
@@ -100,6 +99,5 @@ export default function getPropProxy(mainElement) {
       }
       return true;
     },
-    /* eslint-enable no-param-reassign */
   });
 }

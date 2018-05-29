@@ -5,7 +5,7 @@ class JsonComponent extends Component {
     this.props.loading = true;
 
     fetch(this.props.url)
-      .then((res) => res.json())
+      .then(res => res.json())
       .then((json) => {
         this.setAliasableCtx('json', json);
         this.props.loading = false;

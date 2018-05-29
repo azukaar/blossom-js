@@ -5,9 +5,9 @@ import { deserialise, serialise } from './serialise';
 
 let BlossomDocumentReady;
 
-let _BlossomReady;
+let resolveBlossomReady;
 const BlossomReady = new Promise((resolve) => {
-  _BlossomReady = resolve;
+  resolveBlossomReady = resolve;
 });
 
 const unloaded = {};
@@ -41,20 +41,19 @@ const register = function register(settings) {
 
   BlossomDocumentReady.then(() => {
     const { element } = settings;
-    // eslint-disable-next-line no-param-reassign
     delete settings.element;
     element.prototype.settings = settings;
     unloaded[settings.name] = false;
     customElements.define(settings.name, element, {});
 
-    if (Object.values(unloaded).filter(e => e).length === 0) _BlossomReady();
+    if (Object.values(unloaded).filter(e => e).length === 0) resolveBlossomReady();
 
     return element;
   });
 };
 
 const interpolate = function interpolate(input, from) {
-  /* eslint-disable no-console, no-eval,  no-new-func */
+  /* eslint-disable no-console */
   try {
     if (from && typeof from.nodeName !== 'undefined' && typeof from.nodeType !== 'undefined' && from.nodeType === 1) {
       from.ctx = getCtx(from);
@@ -78,7 +77,7 @@ const interpolate = function interpolate(input, from) {
     }
     return undefined;
   }
-  /* eslint-enable no-console, no-eval,  no-new-func */
+  /* eslint-enable no-console */
 };
 
 const interpolateAttributes = function setClassNames(element) {
@@ -119,12 +118,13 @@ const interpolateAttributes = function setClassNames(element) {
 
   currents.forEach((current) => {
     if (!current.parentElement || BlossomCheckParentsAreLoaded(current.parentElement)) {
-      Array.from(current.attributes).forEach((att) => interpolateAtribute(current, att));
+      Array.from(current.attributes).forEach(att => interpolateAtribute(current, att));
     }
   });
 };
 
 if (typeof window !== 'undefined') {
+  // eslint-disable-next-line no-underscore-dangle
   BlossomDocumentReady = window.__SERVERSIDE ? Promise.resolve() : new Promise((resolve) => {
     document.addEventListener('DOMContentLoaded', () => {
       resolve();

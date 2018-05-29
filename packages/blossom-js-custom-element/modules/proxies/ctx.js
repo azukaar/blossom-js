@@ -11,7 +11,7 @@ function getCtx(element, preventRecursion) {
   if (element.getAttribute('ctx')) {
     const elementCtx = deserialise(element.getAttribute('ctx'), element);
 
-    Object.keys(elementCtx).forEach(va => {
+    Object.keys(elementCtx).forEach((va) => {
       ctx[va] = elementCtx[va];
     });
   }
@@ -27,7 +27,7 @@ function setCtx(element, pendingCtx) {
   let newCtx;
 
   if (oldCtx && element.parentElement && element.parentElement.tagName !== 'HTML') {
-    Object.keys(pendingCtx).forEach(va => {
+    Object.keys(pendingCtx).forEach((va) => {
       if (elementCtx[va]) {
         elementCtx[va] = pendingCtx[va];
       } else {

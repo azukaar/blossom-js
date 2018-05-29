@@ -9,7 +9,6 @@ describe('L-route component', () => {
     <l-route path="/girl">cute</l-route>
     <l-route path="/boy">cool</l-route>`;
 
-    // eslint-disable-next-line no-undef
     const rendered = BlossomRender(template);
 
     expect(rendered.textContent).not.toMatch(/cute/);

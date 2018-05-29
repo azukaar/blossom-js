@@ -4,11 +4,10 @@
     "browser": true
   },
   "rules": {
-    "import/no-unresolved" : 0,
-    "import/extensions" : 0,
+    "no-param-reassign" : 0,
+    "no-eval" : 0,
+    "no-new-func" : 0,
     "consistent-return" : 0,
-    "no-underscore-dangle" : 0,
-    "arrow-parens" : 0,
     "no-bitwise" : 0
   }
 }

@@ -1,9 +1,9 @@
-import { Component } from './index';
+import { BlossomComponent } from './index';
 import { getPropProxy, getCtx, interpolateAttributes } from './utils';
 
-function convertElement(elementToPatch) {
+function BlossomConvertElement(elementToPatch) {
   if (elementToPatch && !elementToPatch.setCtx) {
-    elementToPatch.setCtx = Component.prototype.setCtx;
+    elementToPatch.setCtx = BlossomComponent.prototype.setCtx;
   }
 
   if (elementToPatch && !elementToPatch.ctx) {
@@ -31,10 +31,10 @@ function patchDomAccess(element) {
       element[`native${acc}`] = element[acc];
 
       Object.defineProperty(element, acc, {
-        get: () => convertElement(element[`native${acc}`]),
+        get: () => BlossomConvertElement(element[`native${acc}`]),
       });
     }
   });
 }
 
-export { convertElement, patchDomAccess };
+export { BlossomConvertElement, patchDomAccess };

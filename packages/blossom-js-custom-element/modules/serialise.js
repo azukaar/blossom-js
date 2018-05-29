@@ -1,6 +1,6 @@
 import { contextTrap } from './proxies/ctx';
 
-function _serialise(element) {
+function subSerialise(element) {
   if (element === null) {
     return null;
   } else if (typeof element === 'boolean') {
@@ -8,11 +8,11 @@ function _serialise(element) {
   } else if (typeof element === 'function') {
     return element.toString();
   } else if (typeof element === 'object' && element instanceof Array) {
-    return element.map(entry => _serialise(entry));
+    return element.map(entry => subSerialise(entry));
   } else if (typeof element === 'object') {
     const result = {};
-    Object.entries(element).map(entry => {
-      result[entry[0]] = _serialise(entry[1]);
+    Object.entries(element).map((entry) => {
+      result[entry[0]] = subSerialise(entry[1]);
       return entry;
     });
     return result;
@@ -22,7 +22,7 @@ function _serialise(element) {
 }
 
 function serialise(element) {
-  const result = _serialise(element);
+  const result = subSerialise(element);
 
   if (typeof result !== 'string') {
     return JSON.stringify(result);
@@ -61,7 +61,7 @@ function deserialise(unescapedElement, bindTo) {
       return element;
     }
 
-    Object.entries(result).map(entry => {
+    Object.entries(result).map((entry) => {
       result[entry[0]] = deserialise(entry[1], bindTo);
       return entry;
     });
@@ -94,24 +94,23 @@ function deserialise(unescapedElement, bindTo) {
     }
 
     if (bindTo) {
-      // eslint-disable-next-line no-eval
       const input = eval(tostring);
       const func = (...args) => contextTrap(bindTo, input.bind(bindTo), args);
       func.toString = () => input.toString();
       return func;
     }
 
-    // eslint-disable-next-line no-eval
     return eval(tostring);
   } else if (typeof element === 'object' && element instanceof Array) {
     return element.map(entry => deserialise(entry, bindTo));
   } else if (typeof element === 'object') {
     const result = {};
-    Object.entries(element).map(entry => {
+    Object.entries(element).map((entry) => {
       result[entry[0]] = deserialise(entry[1], bindTo);
       return entry;
     });
     return result;
+  // eslint-disable-next-line no-restricted-globals
   } else if (!isNaN(element)) {
     return Number(element);
   }

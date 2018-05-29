@@ -1,4 +1,3 @@
-/* eslint-disable no-param-reassign */
 import { Component } from './index';
 import { getPropProxy, getCtx, interpolateAttributes } from './utils';
 
@@ -26,7 +25,7 @@ function convertElement(elementToPatch) {
 }
 
 function patchDomAccess(element) {
-  ['parentElement'].forEach(acc => {
+  ['parentElement'].forEach((acc) => {
     if (Object.getOwnPropertyDescriptor(element, acc) &&
         Object.getOwnPropertyDescriptor(element, acc).writable) {
       element[`native${acc}`] = element[acc];
