@@ -14,6 +14,12 @@ If you're using NPM, install Blossom with :
 npm install blossom-js
 ```
 
+And then you can import what you need to use Blossom. Note that this is compatible with in-Browser ES6 modules.
+
+```
+import { Component } from 'blossom-js';
+```
+
 If you're not, simply using a `<script>` tag in the head of your document pointing to the dist file of Blossom is enough (unpkg.com/blossom-js/umd).
 Here a full exemple of a working Hello World. You can play with it on : https://jsfiddle.net/ez792m8k/
 
@@ -24,7 +30,8 @@ Here a full exemple of a working Hello World. You can play with it on : https://
   </head>
   <body>
     <div>
-      <l-ctx message="Hello world" changemessage="() => this.ctx.message += ' and the universe'">
+      <l-ctx message="Hello world"
+             changemessage="() => this.ctx.message += ' and the universe'">
         <l-js>this.ctx.message</l-js>
         <button l-onclick="() => this.ctx.changemessage()">change</button>
       </l-ctx>
@@ -32,6 +39,8 @@ Here a full exemple of a working Hello World. You can play with it on : https://
   </body>
 </html>
 ```
+
+See Advanced Usage for more information on possibilities;
 
 # Features
 
