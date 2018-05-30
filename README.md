@@ -1,4 +1,4 @@
-![alt text](https://github.com/azukaar/blossom-js/raw/master/text.png "Blossom JS")
+![alt text](https://github.com/azukaar/blossom-js/raw/master/header.png "Blossom JS")
 
 # Introduction
 
