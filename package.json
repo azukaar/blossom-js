@@ -10,7 +10,7 @@
     "test-build": "lerna run test-build",
     "copy-readme": "lerna run copy-readme",
     "build": "lerna run build",
-    "publish": "npm run build; npm run copy-readme; lerna publish",
+    "publish": "yarn build; yarn copy-readme; lerna publish",
     "lint": "lerna run lint",
     "examples": "browser-sync start --server --files \"**/**.*\"",
     "clean": "rimraf packages/**/lib"
