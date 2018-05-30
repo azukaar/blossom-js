@@ -8,6 +8,7 @@
     "test": "jest",
     "lint": "eslint --fix ./modules ./test",
     "test-build": "webpack",
+    "copy-readme": "cpy ../../README.md ./",
     "build": "webpack -p"
   },
   "repository": {

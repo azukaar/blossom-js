@@ -5,6 +5,7 @@
   "main": "src/index.js",
   "scripts": {
     "test": "jest",
+    "copy-readme": "cpy ../../README.md ./",
     "lint": "eslint --fix ./modules ./test"
   },
   "repository": {
