@@ -1,5 +1,4 @@
-![alt text](https://github.com/azukaar/blossom-js/raw/master/header.png "Blossom JS")
-
+![alt text](https://github.com/azukaar/blossom-js/raw/master/doc-header.png "Blossom JS")
 # Introduction
 
 Blossom JS is introduced as a web framework allowing developper to provide fully featured application of small size, without the hassle of setting up a huge stack (sometime more complex than the app itself). Blossom is self contained (provides all you need: Server side rendering, router, testing, etc...) without needing additional tools, not even any build step. As your application grows, Blossom grows with it as it also allow you to create custom components to work with.
