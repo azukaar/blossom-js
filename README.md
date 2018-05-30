@@ -49,13 +49,13 @@ Here is an example of component written in Blossom. Sounds familiar doesn't it ?
 
 ```javascript
 class Hello extends Blossom.Component {
-	render() {
-  	return `<div>Hello, ${this.props.name} !</div>`;
+  render() {
+    return `<div>Hello, ${this.props.name} !</div>`;
   }
 }
 
 Blossom.register({
-	name: 'l-hello',
+  name: 'l-hello',
   element: Hello
 })
 ```
