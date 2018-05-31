@@ -26,6 +26,10 @@ if (typeof window !== 'undefined') {
       Array.from(document.querySelectorAll('l-route')).forEach((route) => {
         route.refresh();
       });
+
+      Array.from(document.querySelectorAll('l-a')).forEach((link) => {
+        link.refresh();
+      });
     });
   };
 
