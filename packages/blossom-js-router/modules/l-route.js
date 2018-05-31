@@ -11,7 +11,7 @@ class RouteComponent extends Component {
 
   match() {
     const currentPath = window.location.pathname;
-    let fullPath = this.getAttribute('path'); // this.getFullPath(this);
+    let fullPath = this.getAttribute('path');
     if (window.BlossomRouteBase) {
       fullPath = window.BlossomRouteBase + fullPath;
     }
@@ -24,7 +24,9 @@ class RouteComponent extends Component {
     })}`;
 
     // eslint-disable-next-line no-useless-escape
-    fullPath = `${fullPath.replace(/\/+/g, '\/')}$`;
+    fullPath = fullPath.replace(/\/+/g, '\/');
+    if (fullPath.match(/\/$/)) fullPath = `${fullPath}?`;
+    fullPath = `${fullPath}$`;
 
     const matches = currentPath.match(new RegExp(fullPath));
 
