@@ -1,0 +1,109 @@
+body, html {
+  padding:0;
+  margin:0;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  color: #444;
+}
+
+#main-container {
+  display:flex;
+}
+
+header {
+  height:80px;
+  line-height:80px;
+  border-bottom: 1px solid #d4dadf;
+  box-shadow: 0 1px 1px 0 rgba(116, 129, 141, 0.1);
+  z-index: 20;
+  padding-left:100px;
+}
+
+header .title {
+  font-size: 28px;
+  font-weight: 500;
+}
+
+h1 {
+  border-left: 2px solid rgb(230, 166, 201);
+  padding-left: 15px;
+  margin-bottom:50px;
+}
+
+#body a {
+  text-decoration: none;
+  color: rgb(230, 166, 201);
+}
+
+a:hover {
+  cursor:pointer;
+  text-decoration: underline;
+}
+
+#menu {
+  padding:30px 10px;
+  background-color:rgb(247, 245, 245);
+  height:100%;
+  border-right:1px solid #eee;
+  flex-grow:1;
+  max-width:400px;
+}
+
+#menu #menu-container {
+  float:right;
+  width:200px;
+}
+
+#menu a {
+  margin:15px 0px;
+  display:block;
+  text-decoration: none;
+  color: #222;
+}
+
+#menu a:hover {
+  cursor:pointer;
+  text-decoration: underline;
+}
+
+#menu .link a {
+  margin-left:20px;
+  color: #666;
+}
+
+#menu a.active {
+  color: rgb(230, 166, 201);
+}
+
+#body {
+  width: 830px;
+  padding:20px 70px;
+}
+
+d-cp {
+  color:rgb(230, 166, 201);
+  background-color:rgb(247, 247, 247);
+  border:1px solid rgb(230, 166, 201);
+}
+
+d-code {
+  width:700px;
+  display:flex;
+  border:1px solid grey;
+  justify-content: left;
+  margin:30px auto;
+}
+
+d-code div {
+  width:350px;
+  min-height:100px;
+}
+
+d-code .code {
+  font-family:courier;
+  font-size: 10pt;
+  margin: 5px;
+  white-space: pre;
+}

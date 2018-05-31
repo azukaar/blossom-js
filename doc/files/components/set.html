@@ -1,0 +1,29 @@
+<div id="container">
+  <h1>L-SET</h1>
+
+  <p>
+    The component <d-cp c="set"></d-cp> is a made to set a context's value. the most simple case is to change an existing context.
+  </p>
+
+  <p>
+    <d-code>
+      <l-ctx foo="bar">
+        <l-set foo="surprise"></l-set>
+        <l-js>this.ctx</l-js>
+      </l-ctx>
+    </d-code>
+  </p>
+
+  <p>
+    You can notice if you inspect the DOM that l-set keep track of the set, by setting an additional prop `has_set_foo`, in order not to repeat the setting. This is useful to initialise context.
+    You might be unfamiliar with the system of context, you might want to read this to learn more.
+  </p>
+
+  <p>
+    <d-code DOM="true">
+      <l-ctx foo="bar">
+        <l-set foo="surprise"></l-set>
+      </l-ctx>
+    </d-code>
+  </p>
+</div>
