@@ -1,6 +1,6 @@
 {
   "name": "blossom-js-html",
-  "version": "0.39.6",
+  "version": "0.39.9",
   "description": "🌸 Blossom-js addition DOM element for basic usage of data flow and network (included in Blossom-js).",
   "main": "modules/index.js",
   "module": "modules/index.js",
@@ -29,7 +29,7 @@
     "modules"
   ],
   "dependencies": {
-    "blossom-js-custom-element": "^0.39.6"
+    "blossom-js-custom-element": "^0.39.9"
   },
   "devDependencies": {
     "blossom-js-server-side": "^0.39.6"
