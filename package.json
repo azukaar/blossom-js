@@ -13,7 +13,7 @@
     "publish": "yarn build; yarn copy-readme; lerna publish",
     "publish-only": "lerna publish",
     "lint": "lerna run lint",
-    "examples": "browser-sync start --server --files \"**/**.*\"",
+    "serve": "node bs.js",
     "clean": "rimraf packages/**/lib"
   },
   "repository": {
@@ -44,6 +44,8 @@
     "@webcomponents/webcomponentsjs": "^2.0.0",
     "babel-jest": "^22.4.3",
     "babel-preset-env": "^1.6.1",
+    "browser-sync": "^2.24.4",
+    "connect-history-api-fallback": "^1.5.0",
     "cpy-cli": "^2.0.0",
     "eslint": "^4.19.1",
     "eslint-config-airbnb-base": "^12.1.0",
