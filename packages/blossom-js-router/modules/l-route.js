@@ -17,7 +17,7 @@ class RouteComponent extends Component {
     }
     const listMatch = [];
 
-    fullPath = `^${fullPath.replace(/\{\{(.*)\}\}/g, (match) => {
+    fullPath = `^${fullPath.replace(/\{\{(.*?)\}\}/g, (match) => {
       const cleanMatch = match.replace(/^\{\{/, '').replace(/\}\}$/, '');
       listMatch.push(cleanMatch);
       return '(\\w+)';
