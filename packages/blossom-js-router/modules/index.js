@@ -12,10 +12,12 @@ if (typeof window !== 'undefined') {
   window.navigateTo = function navigateTo(url) {
     BlossomReady.then(() => {
       if (url.match(/^\//)) {
-        let fullPath = url.slice(1);
-        if (document.querySelector('*').ctx.BlossomRouteBase) {
-          fullPath = document.querySelector('*').ctx.BlossomRouteBase + fullPath;
+        let fullPath = url;
+
+        if (window.BlossomRouteBase) {
+          fullPath = window.BlossomRouteBase + fullPath.slice(1);
         }
+
         window.history.pushState({}, '', fullPath);
       } else {
         window.history.pushState({}, '', window.location.pathname + url);

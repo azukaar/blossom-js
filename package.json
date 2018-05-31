@@ -11,6 +11,7 @@
     "copy-readme": "lerna run copy-readme",
     "build": "lerna run build",
     "publish": "yarn build; yarn copy-readme; lerna publish",
+    "publish-only": "lerna publish",
     "lint": "lerna run lint",
     "examples": "browser-sync start --server --files \"**/**.*\"",
     "clean": "rimraf packages/**/lib"

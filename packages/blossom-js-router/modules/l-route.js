@@ -12,8 +12,8 @@ class RouteComponent extends Component {
   match() {
     const currentPath = window.location.pathname;
     let fullPath = this.getAttribute('path'); // this.getFullPath(this);
-    if (this.ctx.BlossomRouteBase) {
-      fullPath = this.ctx.BlossomRouteBase + fullPath;
+    if (window.BlossomRouteBase) {
+      fullPath = window.BlossomRouteBase + fullPath;
     }
     const listMatch = [];
 

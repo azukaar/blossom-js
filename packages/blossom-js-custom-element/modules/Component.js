@@ -80,7 +80,7 @@ class Component extends HTMLElement {
       temp[key] = value;
       this.setAttribute('ctx', serialise(temp));
     } else {
-      willNeedRefresh = serialise(this.ctx[key]) !== serialise(value);
+      willNeedRefresh = true;
       this.setAttribute('ctx', serialise({ [key]: value }));
     }
 
