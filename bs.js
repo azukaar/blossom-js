@@ -8,7 +8,7 @@ browserSync.init({
     server: {
         middleware: [ historyApiFallback({
           rewrites: [
-            { from: /(css|jpg|png|gif)$/, to: (context) => context.parsedUrl.pathname },
+            { from: /(css|jpg|png|gif|js|html)$/, to: (context) => context.parsedUrl.pathname },
             { from: /\/doc/, to: '/doc/index.html' },
             { from: /\/examples\/ToDo/, to: '/examples/ToDo/index.html' },
             { from: /\/examples\/weather/, to: '/examples/weather/index.html' },

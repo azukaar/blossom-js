@@ -3,8 +3,7 @@ import { convertElement } from '../convertElement';
 
 function getCtx(element, preventRecursion) {
   let ctx = {};
-
-  if (element.parentElement && !preventRecursion) {
+  if (element.parentElement && !preventRecursion && element.parentElement.tagName !== 'L-CLOSURE') {
     ctx = getCtx(element.parentElement);
   }
 
@@ -26,7 +25,7 @@ function setCtx(element, pendingCtx) {
   let willRefresh = false;
   let newCtx;
 
-  if (oldCtx && element.parentElement && element.parentElement.tagName !== 'HTML') {
+  if (oldCtx && element.parentElement && element.parentElement.tagName !== 'HTML' && element.parentElement.tagName !== 'L-CLOSURE') {
     Object.keys(pendingCtx).forEach((va) => {
       if (elementCtx[va]) {
         elementCtx[va] = pendingCtx[va];
@@ -41,7 +40,7 @@ function setCtx(element, pendingCtx) {
     nextCtx = pendingCtx;
   }
 
-  if (element.parentElement && element.parentElement.tagName !== 'HTML') {
+  if (element.parentElement && element.parentElement.tagName !== 'HTML' && element.parentElement.tagName !== 'L-CLOSURE') {
     willRefresh = setCtx(element.parentElement, nextCtx);
   } else {
     willRefresh = newCtx !== oldCtx;

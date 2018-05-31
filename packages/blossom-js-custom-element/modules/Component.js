@@ -5,8 +5,6 @@ import { serialise, deserialise } from './serialise';
 
 class Component extends HTMLElement {
   connectedCallback() {
-    if (this.parentElement && !BlossomCheckParentsAreLoaded(this.parentElement)) return false;
-
     this.ctx = {};
     this.props = getPropProxy(this);
 
@@ -14,6 +12,8 @@ class Component extends HTMLElement {
       this.setAttribute('children', this.innerHTML);
       this.innerHTML = '';
     }
+
+    if (this.parentElement && !BlossomCheckParentsAreLoaded(this.parentElement)) return false;
 
     patchDomAccess(this);
 
