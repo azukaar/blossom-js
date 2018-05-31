@@ -1,6 +1,6 @@
 {
   "name": "blossom-js-router",
-  "version": "0.39.9",
+  "version": "0.39.10",
   "description": "🌸 Router for Blossom-js (included in Blossom-js).",
   "main": "modules/index.js",
   "module": "modules/index.js",
