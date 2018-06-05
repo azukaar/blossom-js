@@ -15,23 +15,25 @@
     <div id="main-container">
       <div id="menu">
         <div id="menu-container">
-          <div class="group"><l-a href="/" >Introduction</l-a></div>
-          <div class="group"><l-a href="/context/index" >Context</l-a></div>
-          <div class="group"><l-a href="/context/index" >Props</l-a></div>  
-          <div class="group"><l-a href="/create/index" >Components Creation</l-a></div>        
+          <div class="group"><l-a href="/" >Introduction</l-a></div>     
+          <div class="link"><l-a href="/create/props" >Props</l-a></div>  
+          <div class="link"><l-a href="/create/context" >Context</l-a></div>
+          <div class="link"><l-a href="/create/index" >Components Creation</l-a></div>  
+          <div class="link"><l-a href="/create/ssr" >Server-side Rendering</l-a></div>  
+
           <div class="group"><l-a href="/router/index" >Blossom-Router</l-a></div>
           <div class="link"><l-a href="/router/meta" >L-meta-route</l-a></div>
           <div class="link"><l-a href="/router/route" >L-route</l-a></div>
-          <div class="link"><l-a href="/router/a" >L-a</l-a></div>
           <div class="link"><l-a href="/router/redirect" >L-redirect</l-a></div>
-          <div class="group"><l-a href="/serverside/index" >Router</l-a></div>
+          <div class="link"><l-a href="/router/a" >L-a</l-a></div>
+
           <div class="group"><l-a href="/components/index" >Blossom-HTML</l-a></div>
           <div class="link"><l-a href="/components/ctx" >L-ctx</l-a></div>
           <div class="link"><l-a href="/components/get" >L-get</l-a></div>
           <div class="link"><l-a href="/components/set" >L-set</l-a></div>
           <div class="link"><l-a href="/components/if" >L-if</l-a></div>
-          <div class="link"><l-a href="/components/elif" >L-elif</l-a></div>
-          <div class="link"><l-a href="/components/else" >L-else</l-a></div>
+          <div class="link"><l-a href="/components/if" >L-elif</l-a></div>
+          <div class="link"><l-a href="/components/if" >L-else</l-a></div>
           <div class="link"><l-a href="/components/loop" >L-loop</l-a></div>
           <div class="link"><l-a href="/components/error" >L-error</l-a></div>
           <div class="link"><l-a href="/components/form" >L-form</l-a></div>
@@ -46,7 +48,7 @@
 
       <div id="body">
         <l-route path="/">
-          <h1>Blossom-JS documentation</h1>
+          <l-include url="/doc/files/index.html"></l-include>
         </l-route>
 
         <l-route path="/{{group}}/{{page}}">

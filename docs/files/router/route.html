@@ -1,0 +1,37 @@
+<div id="container">
+    <h1>L-ROUTE</h1>
+
+    <p>
+      <d-cp c="route"></d-cp> is the "multiplex" component of the router. It will cut your code into chunks associated with URLs.
+    </p>
+
+    <d-code>
+      <route path="/login">
+        login
+      </route>
+      <route path="/signup">
+        signup
+      </route>
+    </d-code>
+
+
+    <p>
+      you can use {{someValue}} to match certain pattern. Matched pattern will be saved in ctx.match.
+    </p>
+
+    <p>
+      <div class="code">
+        <route path="/{{name}}">
+          <l-js>this.ctx.match</l-js>
+        </route>
+      </div>
+    </p>
+
+    <p>
+      <div class="code">
+        <route path="/{{file}}">
+          <l-include l-url="`/myFolder/${this.ctx.match.file}`"></l-include>
+        </route>
+      </div>
+    </p>
+</div>

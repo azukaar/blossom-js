@@ -1,0 +1,33 @@
+<div id="container">
+    <h1>SERVER SIDE RENDERING</h1>
+
+    <p>
+      Using the package blossom-js-server-side, you can easily render a Blossom page on Node environment. This is useful to provide server-side-rendering,
+      as well as for unit testing. Warning : if performing any Ajax in your app, <strong>always</strong> use the fetch() methods to do it.
+    </p>
+
+    <pre>
+      npm install blossom-js-server-side.
+    </pre>
+
+    <div class="code">
+      /**
+      * @jest-environment node
+      */
+      
+      import 'blossom-js-server-side';
+      import 'blossom-js';
+
+      const template = `
+        <l-if l-cond="true">
+            Hello World
+        </l-if>
+        <l-if l-cond="false">
+            Goodbye
+        </l-if>
+      `;
+
+      const rendered = BlossomRender(template);
+
+      console.log(rendered.innerText) // Hello World
+    </div>

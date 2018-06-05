@@ -1,0 +1,76 @@
+<div id="container">
+    <h1>BASIC COMPONENT CREATION</h1>
+
+    <p>
+        In Blossom-js, the package `blossom-js-custom-element` allow you to define custom web element, like you would define a React-like component.
+        In order to create a component you must create an object extending Blossom.Components.
+    </p>
+
+    <d-code>
+        class MyComponent extends Blossom.Component {
+            render() {
+                return 'hello world';
+            }
+        }
+    </d-code>
+
+    <p>
+        Then, you can proceed to register your component to the global registry. To do so, you must provide the class, and a name for it. The name is used
+         to asociate the component to the DOM. Exemple if the name is mysite-link, you will have to do <d-cp c="mysite-link"></d-cp> to use it. The name must  :
+         <ul>
+            <li>Use lower case characters</li>
+            <li>follow the pattern ` namespace-name`</li>
+         </ul>
+    </p>
+
+    <d-code>
+        class MyComponent extends Blossom.Component {
+            render() {
+                return 'hello world';
+            }
+        }
+
+        Blossom.register({
+            name: 'mysite-link',
+            element: MyComponent
+        })
+    </d-code>
+
+    <p>
+        Here the list of available data. Remember that `this` is also the HTML element in the DOM itself, therefore any HTMLElement attributes/methods are available.
+    </p>
+
+    <ul>
+        <dt>this.ctx</dt>
+        <dd>Access the context of the element. Warning: You should avoid reading/setting the context from a component unless that it is the point of it. Instead, 
+            read props and set local context via setCtx (local context means that the ctx will be set on the component itself instead 
+            of being set somewhere in the parent elements)
+        </dd>
+
+        <dt>this.props</dt>
+        <dd>
+            Access the props of the component. Those are basically HTML attributes on your component.
+        </dd>
+    </ul>  
+
+    <p>
+        Here is a list of the methods implentable.
+    </p>
+
+    <ul>
+        <dt>render</dt>
+        <dd>Called on render, return a string of the content</dd>
+
+        <dt>setCtx</dt>
+        <dd>Set the context on this particular component.</dd>
+
+        <dt>onUpdate</dt>
+        <dd>Called after render, use as post-hook</dd>
+
+        <dt>onMount</dt>
+        <dd>Called every time the element is attached to the DOM. Note that a re-render of the parent element will cause children to unmount / mount again.</dd>
+        
+        <dt>onUnmount</dt>
+        <dd>Called every time the element is dettached from the DOM.</dd>
+    </ul>
+</div>

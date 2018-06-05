@@ -1,0 +1,58 @@
+<div id="container">
+    <h1>PROPS</h1>
+
+    <p>
+      Props are attributes that are attached on a individual level for each components. 
+      They mainly serve one purpose, to allow prop user to manipulate the content of the component at will.
+      They mostly act the same way as React's props.
+    </p>
+
+    <d-code>
+      <script>
+        class HelloWorld extends Blossom.Component {
+          render() {
+            return `hello ${this.props.name} !`
+          }
+        }
+
+        Blossom.register({
+          name: 'my-hello',
+          element: HelloWorld
+        });
+      </script>
+
+      <my-hello name="little blossoming flower"></my-hello>
+    </d-code>
+
+    <p>
+      You can spread the props of a component to another one using the spread() method. The optionnal parameter allow you to filter-in what you want to spread.
+    </p>
+  
+    <d-code>
+        <script>
+          class HelloWorldA extends Blossom.Component {
+            render() {
+              return `hello ${this.props.name} !`
+            }
+          }
+  
+          Blossom.register({
+            name: 'my-hello-a',
+            element: HelloWorld
+          });
+
+          class HelloWorldB extends Blossom.Component {
+            render() {
+              return `<my-hello-a ${this.props.spread(['name'])} ></my-hello-a>`
+            }
+          }
+  
+          Blossom.register({
+            name: 'my-hello-b',
+            element: HelloWorld
+          });
+        </script>
+  
+        <my-hello-b name="little blossoming flower"></my-hello-b>
+      </d-code>
+</div>

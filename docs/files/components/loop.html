@@ -1,0 +1,60 @@
+<div id="container">
+  <h1>L-LOOP</h1>
+
+  <p>
+    The component <d-cp c="loop"></d-cp> is your every day `while/for` / `ng-repeat` equivalent (except it is a component and not an attribute).
+    The value looped is set with the attribute `for`.
+  </p>
+
+  <p>
+    <d-code>
+      <l-loop for="[1,2,3]">
+        Hello World !
+      </l-loop>
+    </d-code>
+  </p>
+
+  <p>
+      Like any attribute you can use the l-* syntax to interpolate it :
+  </p>
+
+  <p>
+    <d-code>
+      <l-ctx foo="[1,2,3]">
+          <l-loop l-for="foo">
+              Hello World !
+          </l-loop>
+      </l-ctx>
+    </d-code>
+  </p>
+
+  <p>
+      <d-cp c="loop"></d-cp> set two values on the context : `loop` containing the current value, and `key` containing the current key.
+  </p>
+
+  <p>
+    <d-code>
+      <l-ctx foo="['a', 'b', 'c']">
+          <l-loop l-for="foo">
+              <!-- or <l-js>this.ctx.loop</l-js>  -->
+              <l-get loop key></l-get> <!-- a 1, b 2, c 3  -->
+          </l-loop>
+      </l-ctx>
+    </d-code>
+  </p>
+
+  <p>
+      Those two context's names can be overwritten with aliases
+  </p>
+
+  <p>
+    <d-code>
+      <l-ctx foo="['a', 'b', 'c']">
+          <l-loop l-for="foo" alias-loop="letter" alias-key="number">
+              <!-- or <l-js>this.ctx.letter</l-js>  -->
+              <l-get letter number></l-get> <!-- a 1, b 2, c 3  -->
+          </l-loop>
+      </l-ctx>
+    </d-code>
+  </p>
+</div>

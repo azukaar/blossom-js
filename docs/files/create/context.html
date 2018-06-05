@@ -1,0 +1,50 @@
+<div id="container">
+    <h1>CONTEXT</h1>
+
+    <p>
+        The context is the most basic concept to use Blossom. It is your to-go way to store any volatile data, like request responses, arrays of users' objects, etc...
+        Two things need to be considered when manipulating your context :
+        <p>Does it need to be in the context ? If no, you will induce additonal pointless render cycles</p>
+        <p>
+          Where ? this is crucial. Setting your ctx too deep in the DOM will cause issues, setting it too high will reduce performance.
+          Basically most of the case the easy to solve this is :
+          <ul>
+            <li>
+              if this is a user related data (like a todo list) it will be accessed from a lot of different places,
+              therefore, set it on the default scope (the body). Or some place high
+              <d-code DOM="true">
+                <div>
+                  <l-set foo="bar"></l-set> <!-- this will be set on the highest scope (here the div, by default it's body) -->
+                </div>
+              </d-code>
+            </li>
+            <li>
+              if this is directly correlated to a component, set it directly on this component : example, a request response, a processing result. (See : l-json)
+            </li>
+          </ul>
+        </p>
+    </p>
+
+    <p>
+      In order to give maximum control on your scope, you will need to use <d-cp c="context"></d-cp>. This component will allow you to set a context and limit its scope.
+
+      <d-code>
+        <l-ctx foo="bar">
+          <l-js>this.ctx</l-js>
+        </l-ctx>
+        <l-js>this.ctx</l-js>
+      </d-code>
+    </p>
+    
+    <p>
+      Note that in special cases you can sandbox the context with <d-cp c="closure"></d-cp>. Only use this if you know what you are doing.
+
+      <d-code>
+        <l-closure>
+          <l-set foo="bar"></l-set>
+          <l-js>this.ctx</l-js>
+        </l-closure>
+        <l-js>this.ctx</l-js>
+      </d-code>
+    </p>
+</div>
