@@ -2,10 +2,10 @@
   <head>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/js-beautify/1.7.5/beautify-html.min.js'></script>
     <script src='/packages/blossom-js/umd/index.js'></script>
-    <script src='/doc/modules/d-cp.js'></script>
-    <script src='/doc/modules/d-code.js'></script>
+    <script src='/modules/d-cp.js'></script>
+    <script src='/modules/d-code.js'></script>
     <!-- <script src="https://unpkg.com/blossom-js@0.39.7/umd/index.js"></script> -->
-    <link rel="stylesheet" type="text/css" href="/doc/style.css">
+    <link rel="stylesheet" type="text/css" href="/style.css">
   </head>
   <body>
     <l-meta-route base="/doc"></l-meta-route>
@@ -48,11 +48,11 @@
 
       <div id="body">
         <l-route path="/">
-          <l-include url="/doc/files/index.html"></l-include>
+          <l-include url="/files/index.html"></l-include>
         </l-route>
 
         <l-route path="/{{group}}/{{page}}">
-          <l-include l-url="`/doc/files/${this.ctx.match.group}/${this.ctx.match.page}.html`"></l-include>
+          <l-include l-url="`/files/${this.ctx.match.group}/${this.ctx.match.page}.html`"></l-include>
         </l-route>
       </div>
     </div>
