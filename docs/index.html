@@ -48,11 +48,11 @@
 
       <div id="body">
         <l-route path="/">
-          <l-include url="/files/index.html"></l-include>
+          <l-include url="files/index.html"></l-include>
         </l-route>
 
         <l-route path="/{{group}}/{{page}}">
-          <l-include l-url="`/files/${this.ctx.match.group}/${this.ctx.match.page}.html`"></l-include>
+          <l-include l-url="`files/${this.ctx.match.group}/${this.ctx.match.page}.html`"></l-include>
         </l-route>
       </div>
     </div>
