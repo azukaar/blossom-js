@@ -95,6 +95,7 @@ d-cp {
 
 d-code {
   width:700px;
+  height:300px;
   display:flex;
   border:1px solid grey;
   justify-content: left;
@@ -103,17 +104,13 @@ d-code {
 
 d-code div {
   width:350px;
+}
+
+d-code .preview {
   height:300px;
   overflow:scroll;
 }
 
-d-code .code:nth-child(2), .preview {
-  border-left: 1px solid grey;
-}
-
-d-code .code {
-  font-family:courier;
-  font-size: 10pt;
-  margin: 5px;
-  white-space: pre;
+d-code .code.single {
+  width:700px;
 }

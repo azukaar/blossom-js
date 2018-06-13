@@ -1,4 +1,16 @@
 class CodeComponent extends Blossom.Component {
+  onUpdate() {
+    if (this.randomId && this.codeToDisplay) {
+      setTimeout(() => 
+        require(["vs/editor/editor.main"], () => {
+          let editor = monaco.editor.create(document.getElementById(this.randomId), {
+            value: this.codeToDisplay,
+            language: 'html',
+            theme: 'vs-dark'
+          });
+        }), 500);
+    }
+  }
   render() {
     let code = this.props.children.replace(/^\n/, '').replace(/\n\s+$/, '');
     let minSpace = 99;
@@ -18,23 +30,18 @@ class CodeComponent extends Blossom.Component {
       code = res.join('\n');
     }
 
-    const randomId = parseInt(Math.random() * 100000, 10);
+    this.randomId = parseInt(Math.random() * 100000, 10);
 
     if (this.props.codeonly) {
+      this.codeToDisplay = code;
       return `
-        <div id="${randomId}" class="code"></div>
-        require(["vs/editor/editor.main"], function () {
-          let editor = monaco.editor.create(document.getElementById('${randomId}'), {
-            value: ${JSON.stringify(Blossom.serialise(code))},
-            language: 'javascript',
-            theme: 'vs-dark'
-          });
-        });
+        <div id="${this.randomId}" class="code single"></div>
       `;
     }
 
     if (!this.props.DOM) {
-      return `<div class="code">${Blossom.serialise(code)}</div>
+      this.codeToDisplay = code;
+      return `<div id="${this.randomId}" class="code"></div>
       <div class="preview">
 <l-closure>
 ${this.props.children}
@@ -42,13 +49,16 @@ ${this.props.children}
       </div>`;
     }
 
-    return `<div class="code">${Blossom.serialise(code)}</div>
+    this.randomId2 = parseInt(Math.random() * 100000, 10);
+    this.codeToDisplay = code;
+
+    return `<div id="${this.randomId}" class="code"></div>
       <div class="hidden">
         <l-closure>
           ${this.props.children}
         </l-closure>
       </div>
-      <div class="code"><l-js>html_beautify(this.parentElement.parentElement.querySelector('.hidden').innerHTML)</l-js></div>`;
+      <div id="${this.randomId2}" class="code"></div>`;
   }
 }
 
