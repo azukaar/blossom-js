@@ -51,8 +51,6 @@ class Component extends HTMLElement {
   }
 
   refresh() {
-    // console.log(this.tagName)
-    // console.trace();
     taskQueue.add(() => this.refreshTask());
   }
 
@@ -60,6 +58,7 @@ class Component extends HTMLElement {
     if (document.contains(this)) {
       if (this.render) {
         const result = contextTrap(this, () => this.render());
+
         if (typeof result !== 'undefined') {
           const temp = document.createElement('div');
           temp.innerHTML = result;

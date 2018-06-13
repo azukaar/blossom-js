@@ -111,7 +111,9 @@ function deserialise(unescapedElement, bindTo) {
       return entry;
     });
     return result;
-  // eslint-disable-next-line no-restricted-globals
+  } else if (element === '') {
+    return '';
+    // eslint-disable-next-line no-restricted-globals
   } else if (!isNaN(element)) {
     return Number(element);
   }
