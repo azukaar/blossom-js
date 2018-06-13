@@ -18,8 +18,19 @@ class CodeComponent extends Blossom.Component {
       code = res.join('\n');
     }
 
+    const randomId = parseInt(Math.random() * 100000, 10);
+
     if (this.props.codeonly) {
-      return `<div class="code">${Blossom.serialise(code)}</div>`;
+      return `
+        <div id="${randomId}" class="code"></div>
+        require(["vs/editor/editor.main"], function () {
+          let editor = monaco.editor.create(document.getElementById('${randomId}'), {
+            value: ${JSON.stringify(Blossom.serialise(code))},
+            language: 'javascript',
+            theme: 'vs-dark'
+          });
+        });
+      `;
     }
 
     if (!this.props.DOM) {
