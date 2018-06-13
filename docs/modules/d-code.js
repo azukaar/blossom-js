@@ -5,10 +5,24 @@ class CodeComponent extends Blossom.Component {
         require(["vs/editor/editor.main"], () => {
           let editor = monaco.editor.create(document.getElementById(this.randomId), {
             value: this.codeToDisplay,
-            language: 'html',
+            language: this.props.lang || 'html',
             theme: 'vs-dark'
           });
         }), 500);
+    }
+
+    if (this.randomId2) {
+      console.log(document.getElementById(this.randomId2),
+                  document.getElementById(this.randomId2).parentElement.querySelector('.hidden'),
+                  document.getElementById(this.randomId2).parentElement.querySelector('.hidden').innerHTML)
+      setTimeout(() => 
+        require(["vs/editor/editor.main"], () => {
+          let editor = monaco.editor.create(document.getElementById(this.randomId2), {
+            value: document.getElementById(this.randomId2).parentElement.querySelector('.hidden').innerHTML,
+            language: 'html',
+            theme: 'vs-dark'
+          });
+        }), 1000);
     }
   }
   render() {
