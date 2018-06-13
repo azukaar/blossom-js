@@ -5,7 +5,7 @@
       <d-cp c="route"></d-cp> is the "multiplex" component of the router. It will cut your code into chunks associated with URLs.
     </p>
 
-    <d-code>
+    <d-code codeonly="true">
       <route path="/login">
         login
       </route>
@@ -20,18 +20,18 @@
     </p>
 
     <p>
-      <div class="code">
+      <d-code codeonly="true">
         <route path="/{{name}}">
           <l-js>this.ctx.match</l-js>
         </route>
-      </div>
+      </d-code>
     </p>
 
     <p>
-      <div class="code">
+      <d-code codeonly="true">
         <route path="/{{file}}">
           <l-include l-url="`/myFolder/${this.ctx.match.file}`"></l-include>
         </route>
-      </div>
+      </d-code>
     </p>
 </div>

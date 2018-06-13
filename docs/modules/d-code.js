@@ -18,6 +18,10 @@ class CodeComponent extends Blossom.Component {
       code = res.join('\n');
     }
 
+    if (this.props.codeonly) {
+      return `<div class="code">${Blossom.serialise(code)}</div>`;
+    }
+
     if (!this.props.DOM) {
       return `<div class="code">${Blossom.serialise(code)}</div>
       <div class="preview">

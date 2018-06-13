@@ -20,7 +20,7 @@ import { Component } from 'blossom-js';
 ```
 
 If you're not, simply using a `<script>` tag in the head of your document pointing to the dist file of Blossom is enough (unpkg.com/blossom-js/umd).
-Here a full exemple of a working Hello World. You can play with it on : https://jsfiddle.net/ez792m8k/2
+Here a full exemple of a working Hello World. You can play with it on : https://jsfiddle.net/ez792m8k/3
 
 ```html
 <html>
@@ -60,7 +60,7 @@ Blossom.register({
 })
 ```
 
-More informations on writting components here : (...)
+More informations on writting components in the doc.
 
 ## Make custom element great ~~again~~
 

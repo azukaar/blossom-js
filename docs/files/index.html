@@ -19,9 +19,9 @@
   </pre>
 
   If you're not, simply using a script tag in the head of your document pointing to the dist file of Blossom is enough (unpkg.com/blossom-js/umd).
-  Here a full exemple of a working Hello World. You can play with it on : <a href="https://jsfiddle.net/ez792m8k/2">https://jsfiddle.net/ez792m8k/2</a>
+  Here a full exemple of a working Hello World. You can play with it on : <a href="https://jsfiddle.net/ez792m8k/3">https://jsfiddle.net/ez792m8k/3</a>
 
-  <pre>
+  <d-code codeonly="true">
     <html>
       <head>
         <title>Hello World</title>
@@ -33,7 +33,7 @@
         </div>
       </body>
     </html>
-  </pre>
+  </d-code>
 
   <h1>Features</h1>
 
@@ -44,7 +44,7 @@
 
   Here is an example of component written in Blossom. Sounds familiar doesn't it ?
 
-  <pre>
+  <d-code codeonly="true">
     class Hello extends Blossom.Component {
       render() {
         return `<div>Hello, ${this.props.name} !</div>`;
@@ -55,7 +55,7 @@
       name: 'l-hello',
       element: Hello
     })
-  </pre>
+  </d-code>
 
   More informations on writting components here : <l-a href="/create/index"></l-a>
 
