@@ -1,27 +1,27 @@
 import { BlossomCheckParentsAreLoaded, getPropProxy, interpolateAttributes, contextTrap } from './utils';
-import { patchDomAccess } from './convertElement';
 import * as taskQueue from './taskQueue';
 import { serialise, deserialise } from './serialise';
+import { renderDiff } from './renderDiff';
 
 class Component extends HTMLElement {
   connectedCallback() {
-    this.ctx = {};
-    this.props = getPropProxy(this);
+    if (document.contains(this)) {
+      this.ctx = {};
+      this.props = getPropProxy(this);
+      if (!this.props.children && this.innerHTML) {
+        this.setAttribute('children', this.innerHTML);
+        this.innerHTML = '';
+      }
+      if (this.parentElement && !BlossomCheckParentsAreLoaded(this.parentElement)) return false;
 
-    if (!this.props.children && this.innerHTML) {
-      this.setAttribute('children', this.innerHTML);
-      this.innerHTML = '';
+      if (this.onMount) {
+        contextTrap(this, () => this.onMount());
+      }
+
+      this.isMounted = true;
+
+      this.refresh();
     }
-
-    if (this.parentElement && !BlossomCheckParentsAreLoaded(this.parentElement)) return false;
-
-    patchDomAccess(this);
-
-    if (this.onMount) {
-      contextTrap(this, () => this.onMount());
-    }
-
-    this.refresh();
   }
 
   disconnectedCallback() {
@@ -51,6 +51,8 @@ class Component extends HTMLElement {
   }
 
   refresh() {
+    // console.log(this.tagName)
+    // console.trace();
     taskQueue.add(() => this.refreshTask());
   }
 
@@ -59,7 +61,11 @@ class Component extends HTMLElement {
       if (this.render) {
         const result = contextTrap(this, () => this.render());
         if (typeof result !== 'undefined') {
-          this.innerHTML = result;
+          const temp = document.createElement('div');
+          temp.innerHTML = result;
+          const changes = renderDiff(temp, this);
+
+          changes.forEach(change => change());
         }
       }
 

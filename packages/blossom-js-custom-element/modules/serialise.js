@@ -1,4 +1,5 @@
 import { contextTrap } from './proxies/ctx';
+import { BlossomProxyElement } from './convertElement';
 
 function subSerialise(element) {
   if (element === null) {
@@ -95,7 +96,7 @@ function deserialise(unescapedElement, bindTo) {
 
     if (bindTo) {
       const input = eval(tostring);
-      const func = (...args) => contextTrap(bindTo, input.bind(bindTo), args);
+      const func = (...args) => contextTrap(bindTo, input.bind(BlossomProxyElement(bindTo)), args);
       func.toString = () => input.toString();
       return func;
     }

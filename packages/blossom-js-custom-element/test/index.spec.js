@@ -89,7 +89,7 @@ describe('Create component', () => {
     expect(rendered.querySelector('div').className).toMatch(/^red$/);
   });
 
-  test('Component should use XPath', () => {
+  test.only('Component should use XPath', () => {
     const template = `
             <l-if l-class='"blue"' l-cond="true">
                 <div l-value='"red"'>I am displayed</div>

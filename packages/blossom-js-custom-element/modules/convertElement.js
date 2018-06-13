@@ -1,40 +1,49 @@
 import { Component } from './index';
 import { getPropProxy, getCtx, interpolateAttributes } from './utils';
 
-function convertElement(elementToPatch) {
-  if (elementToPatch && !elementToPatch.setCtx) {
-    elementToPatch.setCtx = Component.prototype.setCtx;
-  }
+function BlossomElement(elementToPatch) {
+  return {
+    setCtx: (elementToPatch.setCtx) ?
+      elementToPatch.setCtx :
+      Component.prototype.setCtx,
 
-  if (elementToPatch && !elementToPatch.ctx) {
-    elementToPatch.ctx = getCtx(elementToPatch);
-  }
+    ctx: (elementToPatch.ctx) ?
+      elementToPatch.ctx :
+      getCtx(elementToPatch),
 
-  if (elementToPatch && !elementToPatch.props) {
-    elementToPatch.props = getPropProxy(elementToPatch);
-  }
+    props: (elementToPatch.props) ?
+      elementToPatch.props :
+      getPropProxy(elementToPatch),
 
-  if (elementToPatch && !elementToPatch.refresh) {
-    elementToPatch.refresh = () => {
-      elementToPatch.innerHTML = elementToPatch.innerHTML;
-      interpolateAttributes(elementToPatch);
-    };
-  }
+    refresh: (...args) => {
+      if (elementToPatch.refresh) {
+        elementToPatch.refresh(...args);
+      } else {
+        const elements = elementToPatch.childNodes;
 
-  return elementToPatch;
+        for (let i = 0; i < elements.length; i += 1) {
+          const n = elements[i];
+          if (n.nodeType === Node.ELEMENT_NODE) {
+            BlossomElement(n).refresh();
+          }
+        }
+
+        interpolateAttributes(elementToPatch);
+      }
+    },
+  };
 }
 
-function patchDomAccess(element) {
-  ['parentElement'].forEach((acc) => {
-    if (Object.getOwnPropertyDescriptor(element, acc) &&
-        Object.getOwnPropertyDescriptor(element, acc).writable) {
-      element[`native${acc}`] = element[acc];
-
-      Object.defineProperty(element, acc, {
-        get: () => convertElement(element[`native${acc}`]),
-      });
-    }
+function BlossomProxyElement(elementToPatch) {
+  return new Proxy(elementToPatch, {
+    // eslint-disable-next-line no-confusing-arrow
+    get: (obj, prop) => {
+      if (prop in obj) {
+        return obj[prop].bind ? obj[prop].bind(obj) : obj[prop];
+      }
+      return BlossomElement(obj)[prop];
+    },
   });
 }
 
-export { convertElement, patchDomAccess };
+export { BlossomElement, BlossomProxyElement };

@@ -14,7 +14,7 @@ class ElifComponent extends Component {
         }
         return false;
       }
-      
+
       throw new Error(`You can only use L-ELIF after L-IF or L-ELIF, and at least one L-IF, ${element.previousElementSibling.tagName} found instead`);
     }
 

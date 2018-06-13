@@ -3,7 +3,6 @@ import '../modules/l-ctx';
 import '../modules/l-js';
 import '../modules/l-set';
 
-
 describe('L-set component', () => {
   test('set the proper scope', () => {
     const template = `

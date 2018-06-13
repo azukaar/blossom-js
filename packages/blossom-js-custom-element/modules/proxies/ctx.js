@@ -1,9 +1,9 @@
 import { deserialise, serialise } from '../serialise';
-import { convertElement } from '../convertElement';
+import { BlossomElement } from '../convertElement';
 
 function getCtx(element, preventRecursion) {
   let ctx = {};
-  if (element.parentElement && !preventRecursion && element.parentElement.tagName !== 'L-CLOSURE') {
+  if (element.parentElement && !preventRecursion && element.parentElement.tagName !== 'L-CLOSURE' && element.parentElement.tagName !== 'HTML') {
     ctx = getCtx(element.parentElement);
   }
 
@@ -27,7 +27,7 @@ function setCtx(element, pendingCtx) {
 
   if (oldCtx && element.parentElement && element.parentElement.tagName !== 'HTML' && element.parentElement.tagName !== 'L-CLOSURE') {
     Object.keys(pendingCtx).forEach((va) => {
-      if (elementCtx[va]) {
+      if (typeof elementCtx[va] !== 'undefined') {
         elementCtx[va] = pendingCtx[va];
       } else {
         nextCtx[va] = pendingCtx[va];
@@ -43,10 +43,11 @@ function setCtx(element, pendingCtx) {
   if (element.parentElement && element.parentElement.tagName !== 'HTML' && element.parentElement.tagName !== 'L-CLOSURE') {
     willRefresh = setCtx(element.parentElement, nextCtx);
   } else {
-    willRefresh = newCtx !== oldCtx;
+    const bodyCtx = serialise(pendingCtx);
+    willRefresh = bodyCtx !== oldCtx;
     if (willRefresh) {
-      element.setAttribute('ctx', serialise(pendingCtx));
-      convertElement(element).refresh();
+      element.setAttribute('ctx', serialise(bodyCtx));
+      BlossomElement(element).refresh();
     }
     return willRefresh;
   }

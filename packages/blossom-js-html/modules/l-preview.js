@@ -1,7 +1,7 @@
 import { Component, register } from 'blossom-js-custom-element';
 
 class PreviewComponent extends Component {
-  onMount() {
+  render() {
     const toPreview = (node) => {
       for (let i = 0; i < node.childNodes.length; i += 1) {
         const n = node.childNodes[i];
@@ -37,11 +37,7 @@ class PreviewComponent extends Component {
 
     const temp = document.createElement('div');
     temp.innerHTML = this.props.children;
-    this.props.children = toPreview(temp).innerHTML;
-  }
-
-  render() {
-    return this.props.children;
+    return toPreview(temp).innerHTML;
   }
 }
 

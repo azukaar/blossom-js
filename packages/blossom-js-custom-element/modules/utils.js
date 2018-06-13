@@ -1,4 +1,4 @@
-import { convertElement } from './convertElement';
+import { BlossomElement } from './convertElement';
 import getPropProxy from './proxies/props';
 import { setCtx, getCtx, contextTrap } from './proxies/ctx';
 import { deserialise, serialise } from './serialise';
@@ -102,7 +102,6 @@ const interpolateAttributes = function setClassNames(element) {
       if (current.eventCollection.indexOf(event) === -1) {
         const func = deserialise(value, processing);
         current.addEventListener(event, (eventValue) => {
-          convertElement(processing);
           contextTrap(processing, () => func(eventValue));
         }, false);
         current.eventCollection.push(event);
@@ -120,6 +119,7 @@ const interpolateAttributes = function setClassNames(element) {
 
   currents.forEach((current) => {
     if (!current.parentElement || BlossomCheckParentsAreLoaded(current.parentElement)) {
+      current.ctx = getCtx(current);
       Array.from(current.attributes).forEach(att => interpolateAtribute(current, att));
     }
   });
@@ -130,13 +130,7 @@ if (typeof window !== 'undefined') {
   BlossomDocumentReady = window.__SERVERSIDE ? Promise.resolve() : new Promise((resolve) => {
     document.addEventListener('DOMContentLoaded', () => {
       resolve();
-
       interpolateAttributes(document.querySelector('*'));
-      convertElement(document.querySelector('*'));
-
-      if (document.body) {
-        convertElement(document.body);
-      }
     });
   });
 }

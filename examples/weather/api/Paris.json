@@ -1,0 +1,72 @@
+{  
+  "query":{  
+     "count":1,
+     "created":"2018-06-11T15:17:26Z",
+     "lang":"fr-FR",
+     "results":{  
+        "channel":{  
+           "astronomy":{  
+              "sunrise":"5:47 am",
+              "sunset":"9:54 pm"
+           },
+           "item":{  
+              "condition":{  
+                 "text":"Scattered Thunderstorms"
+              },
+              "forecast":[  
+                 {  
+                    "date":"11 Jun 2018",
+                    "high":"71",
+                    "text":"Scattered Thunderstorms"
+                 },
+                 {  
+                    "date":"12 Jun 2018",
+                    "high":"65",
+                    "text":"Showers"
+                 },
+                 {  
+                    "date":"13 Jun 2018",
+                    "high":"65",
+                    "text":"Mostly Cloudy"
+                 },
+                 {  
+                    "date":"14 Jun 2018",
+                    "high":"67",
+                    "text":"Mostly Cloudy"
+                 },
+                 {  
+                    "date":"15 Jun 2018",
+                    "high":"71",
+                    "text":"Mostly Cloudy"
+                 },
+                 {  
+                    "date":"16 Jun 2018",
+                    "high":"68",
+                    "text":"Partly Cloudy"
+                 },
+                 {  
+                    "date":"17 Jun 2018",
+                    "high":"68",
+                    "text":"Partly Cloudy"
+                 },
+                 {  
+                    "date":"18 Jun 2018",
+                    "high":"72",
+                    "text":"Partly Cloudy"
+                 },
+                 {  
+                    "date":"19 Jun 2018",
+                    "high":"71",
+                    "text":"Partly Cloudy"
+                 },
+                 {  
+                    "date":"20 Jun 2018",
+                    "high":"75",
+                    "text":"Partly Cloudy"
+                 }
+              ]
+           }
+        }
+     }
+  }
+}

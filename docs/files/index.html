@@ -63,6 +63,23 @@
 
   All informations in Blossom are self contained in the DOM itself. There is nothing else needed to run it! That makes Blossom a very good candidate for various technologies : Hot reloading (to come !), Server Side Rendering, it makes testing and debugging easier as nothing is hidden from you. Alternatively, it also allow you to write websites falling back to static rendered. And finally, if your grand'ma wants to see your new website, her Internet Explorer 6 will at least display what your server rendered instead of a white page ! 
 
+  <h2>Make custom element great ~~again~~</h2>
+
+  BlossomJS is a massive effort into making custom element work properly in the browser. It fixes a lot of issues, adds
+  a more intuitive API with a render() method, and a polyfill for older browsers.
+  
+  here an example of native custom Element on Chrome 66 vs Blossom JS. As you can see, the native API is very limited and is stuck on simple code :
+  
+  ![alt text](https://github.com/azukaar/blossom-js/raw/master/docs/doc-issue1.png "Chrome Version")
+  ![alt text](https://github.com/azukaar/blossom-js/raw/master/docs/doc-issue2.png "Blossom Version")
+  
+  <h2>Powerful to the core</h2>
+  
+  BlossomJS brings to the DOM advanced features, like the core dependency management that won't let componenent try to load
+  before their parent are properly registered in the list of component (By default custom element load in an order that will
+  mess up your resulting application if your components depends on each others). it also implements a DOM merge algorithm similar to what React does (By only updating relevant piece of code instead of using innerHTML like you would with classic
+  Custom Elements).
+
   <h1>Disclaimer</h1>
 
   Blossom JS is still an early stage framework and should not be considered if you're planning to write the next Facebook.

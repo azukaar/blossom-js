@@ -1,23 +1,24 @@
-import { Component, register } from 'blossom-js-custom-element';
+import { Component, register, serialise } from 'blossom-js-custom-element';
 
 class JsonComponent extends Component {
   onMount() {
-    this.props.loading = true;
+    this.loading = true;
 
     fetch(this.props.url)
       .then(res => res.json())
       .then((json) => {
-        this.setAliasableCtx('json', json);
-        this.props.loading = false;
+        this.loading = false;
+        this.json = json;
+        this.refresh();
       });
   }
 
   render() {
-    if (this.props.loading) {
+    if (this.loading) {
       return `<l-preview>${this.props.children}</l-preview>`;
     }
 
-    return this.props.children;
+    return `<l-ctx json='${serialise(this.json)}'>${this.props.children}</l-ctx>`;
   }
 }
 
