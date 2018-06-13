@@ -107,8 +107,12 @@ d-code div {
 }
 
 d-code .preview {
-  height:300px;
-  overflow:scroll;
+  height: 300px;
+  font-family: monospace;
+  overflow: scroll;
+  padding: 0px 10px;
+  color: #bbb;
+  background: #1e1e1e;
 }
 
 d-code .code.single {

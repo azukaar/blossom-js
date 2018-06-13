@@ -12,17 +12,17 @@ class CodeComponent extends Blossom.Component {
     }
 
     if (this.randomId2) {
-      console.log(document.getElementById(this.randomId2),
-                  document.getElementById(this.randomId2).parentElement.querySelector('.hidden'),
-                  document.getElementById(this.randomId2).parentElement.querySelector('.hidden').innerHTML)
-      setTimeout(() => 
+      const codeParent = document.getElementById(this.randomId2).parentElement.querySelector('.hidden');
+
+      setTimeout(() => {
         require(["vs/editor/editor.main"], () => {
           let editor = monaco.editor.create(document.getElementById(this.randomId2), {
-            value: document.getElementById(this.randomId2).parentElement.querySelector('.hidden').innerHTML,
+            value: codeParent.innerHTML,
             language: 'html',
             theme: 'vs-dark'
           });
-        }), 1000);
+        })
+      }, 1000);
     }
   }
   render() {
