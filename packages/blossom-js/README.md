@@ -69,8 +69,8 @@ a more intuitive API with a render() method, and a polyfill for older browsers.
 
 here an example of native custom Element on Chrome 66 vs Blossom JS. As you can see, the native API is very limited and is stuck on simple code :
 
-![alt text](https://github.com/azukaar/blossom-js/raw/master/docs/doc-issue1.png "Chrome Version" | height=300)
-![alt text](https://github.com/azukaar/blossom-js/raw/master/docs/doc-issue2.png "Blossom Version" | height=300)
+<img src="https://github.com/azukaar/blossom-js/raw/master/docs/doc-issue1.png" height="250px" width="auto"/>
+<img src="https://github.com/azukaar/blossom-js/raw/master/docs/doc-issue2.png" height="328px" width="auto"/>
 
 ## Powerful to the core
 
