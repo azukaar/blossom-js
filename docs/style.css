@@ -103,8 +103,12 @@ d-code {
 
 d-code div {
   width:350px;
-  min-height:100px;
+  height:300px;
   overflow:scroll;
+}
+
+d-code .code:nth-child(2), .preview {
+  border-left: 1px solid grey;
 }
 
 d-code .code {

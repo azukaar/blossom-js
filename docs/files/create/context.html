@@ -32,6 +32,7 @@
         <l-ctx foo="bar">
           <l-js>this.ctx</l-js>
         </l-ctx>
+
         <l-js>this.ctx</l-js>
       </d-code>
     </p>
@@ -41,8 +42,10 @@
 
       <d-code>
         <l-closure>
-          <l-set foo="bar"></l-set>
-          <l-js>this.ctx</l-js>
+          <div>
+            <l-set foo="bar"></l-set>
+            <l-js>this.ctx</l-js>
+          </div>
         </l-closure>
         <l-js>this.ctx</l-js>
       </d-code>
