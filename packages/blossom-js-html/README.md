@@ -3,7 +3,7 @@
 
 Blossom JS is introduced as a web framework allowing developper to provide fully featured application of small size, without the hassle of setting up a huge stack (sometime more complex than the app itself). Blossom is self contained (provides all you need: Server side rendering, router, testing, etc...) without needing additional tools, not even any build step. As your application grows, Blossom grows with it as it also allow you to create custom components to work with.
 
-getting stated and full documentation here : (...)
+getting stated and full documentation here : https://azukaar.github.io/blossom-js/
 
 # Installation and basic usage
 
@@ -49,18 +49,35 @@ Here is an example of component written in Blossom. Sounds familiar doesn't it ?
 
 ```javascript
 class Hello extends Blossom.Component {
-	render() {
-  	return `<div>Hello, ${this.props.name} !</div>`;
+  render() {
+    return `<div>Hello, ${this.props.name} !</div>`;
   }
 }
 
 Blossom.register({
-	name: 'l-hello',
+  name: 'l-hello',
   element: Hello
 })
 ```
 
 More informations on writting components here : (...)
+
+## Make custom element great ~~again~~
+
+BlossomJS is a massive effort into making custom element work properly in the browser. It fixes a lot of issues, adds
+a more intuitive API with a render() method, and a polyfill for older browsers.
+
+here an example of native custom Element on Chrome 66 vs Blossom JS. As you can see, the native API is very limited and is stuck on simple code :
+
+![alt text](https://github.com/azukaar/blossom-js/raw/master/docs/doc-issue1.png "Chrome Version")
+![alt text](https://github.com/azukaar/blossom-js/raw/master/docs/doc-issue2.png "Blossom Version")
+
+## Powerful to the core
+
+BlossomJS brings to the DOM advanced features, like the core dependency management that won't let componenent try to load
+before their parent are properly registered in the list of component (By default custom element load in an order that will
+mess up your resulting application if your components depends on each others). it also implements a DOM merge algorithm similar to what React does (By only updating relevant piece of code instead of using innerHTML like you would with classic
+Custom Elements).
 
 ## DOM powered
 
