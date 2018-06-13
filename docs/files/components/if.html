@@ -11,7 +11,7 @@
         <l-if cond="true">
           I am displayed
         </l-if>
-        <l-if cond="true">
+        <l-if cond="false">
           I am not
         </l-if>
     </d-code>
@@ -24,10 +24,10 @@
   <p>
     <d-code>
       <l-ctx foo="bar">
-        <l-if l-cond="foo === 'bar'">
+        <l-if l-cond="this.ctx.foo === 'bar'">
             I am displayed
         </l-if>
-        <l-if l-cond="foo === 'rab'">
+        <l-if l-cond="this.ctx.foo === 'rab'">
             I am not
         </l-if>
       </l-ctx>
@@ -56,8 +56,8 @@
 
   <p>
     <d-code>
-      <l-ctx test="2">
-        <l-if l-cond="foo === 1">
+      <l-ctx foo="2">
+        <l-if l-cond="this.ctx.foo === 1">
             I am not
         </l-if>
         <l-elif cond="true">
@@ -72,11 +72,11 @@
 
   <p>
     <d-code>
-      <l-ctx test="2">
-        <l-if l-cond="foo === 1">
+      <l-ctx foo="2">
+        <l-if l-cond="this.ctx.foo === 1">
             I am not
         </l-if>
-        <l-elif cond="false">
+        <l-elif l-cond="false">
             I am not
         </l-elif>
         <l-else>
