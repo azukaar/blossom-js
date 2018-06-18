@@ -1,6 +1,6 @@
 {
   "name": "blossom-js-html",
-  "version": "0.40.1",
+  "version": "0.40.2",
   "description": "🌸 Blossom-js addition DOM element for basic usage of data flow and network (included in Blossom-js).",
   "main": "modules/index.js",
   "module": "modules/index.js",
@@ -29,10 +29,10 @@
     "modules"
   ],
   "dependencies": {
-    "blossom-js-custom-element": "^0.40.1"
+    "blossom-js-custom-element": "^0.40.2"
   },
   "devDependencies": {
-    "blossom-js-server-side": "^0.40.1"
+    "blossom-js-server-side": "^0.40.2"
   },
   "author": "Yann Stepienik",
   "license": "Apache-2.0"
