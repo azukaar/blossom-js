@@ -4,6 +4,7 @@
 Blossom JS is introduced as a web framework allowing developper to provide fully featured application of small size, without the hassle of setting up a huge stack (sometime more complex than the app itself). Blossom is self contained (provides all you need: Server side rendering, router, testing, etc...) without needing additional tools, not even any build step. As your application grows, Blossom grows with it as it also allow you to create custom components to work with.
 
 getting started and full documentation here : https://azukaar.github.io/blossom-js/
+
 some examples here : https://github.com/azukaar/blossom-js/tree/master/examples
 
 # Installation and basic usage
@@ -79,6 +80,28 @@ BlossomJS brings to the DOM advanced features, like the core dependency manageme
 before their parent are properly registered in the list of component (By default custom element load in an order that will
 mess up your resulting application if your components depends on each others). it also implements a DOM merge algorithm similar to what React does (By only updating relevant piece of code instead of using innerHTML like you would with classic
 Custom Elements).
+
+## JSX
+
+Starting 0.41.0 Blossom also supports JSX. Use Babel with JSX plugin (babel-plugin-transform-react-jsx) to make it work. Don't forget to use the JSX pragma to tell it to use Blossom !
+
+```json
+{
+  "plugins": [
+    ["transform-react-jsx", {
+      "pragma": "Blossom.createElement"
+    }]
+  ]
+}
+```
+
+```javascript
+class myComp extends Blossom.Component {
+  render() {
+    return <div>Hello World !</div>;
+  }
+}
+```
 
 ## DOM powered
 
