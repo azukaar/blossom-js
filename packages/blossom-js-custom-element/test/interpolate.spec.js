@@ -20,7 +20,7 @@ describe('Interpolate String', () => {
     expect(interpolate('"/foo"')).toBe('/foo');
   });
   test('Allow JS lib', () => {
-    expect(interpolate('new Date(0)+""')).toBe('Thu Jan 01 1970 00:00:00 GMT+0000 (BST)');
+    expect(interpolate('new Date(0)+""')).toMatch('Thu Jan 01 1970 00:00:00 GMT+0000');
   });
   test('Allow function call', () => {
     expect(interpolate('this.foo.match("123")', { foo: '123' })).toContain('123');
