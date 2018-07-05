@@ -1,5 +1,6 @@
 import 'blossom-js-server-side';
 import '../modules/l-js';
+import '../modules/l-ctx';
 import '../modules/l-json';
 
 describe('L-json component', () => {
