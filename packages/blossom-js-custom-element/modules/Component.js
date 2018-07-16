@@ -2,16 +2,19 @@ import { BlossomCheckParentsAreLoaded, getPropProxy, interpolateAttributes, cont
 import * as taskQueue from './taskQueue';
 import { serialise, deserialise } from './serialise';
 import { renderDiff } from './renderDiff';
+import { nativeSetAttribute } from './convertElement';
 
 class Component extends HTMLElement {
   connectedCallback() {
     if (document.contains(this)) {
       this.ctx = {};
       this.props = getPropProxy(this);
+
       if (!this.props.children && this.innerHTML) {
         this.setAttribute('children', this.innerHTML);
         this.innerHTML = '';
       }
+
       if (this.parentElement && !BlossomCheckParentsAreLoaded(this.parentElement)) return false;
 
       if (this.onMount) {
@@ -19,6 +22,22 @@ class Component extends HTMLElement {
       }
 
       this.isMounted = true;
+
+      this.nativeSetAttribute = this.setAttribute;
+      this.setAttribute = (name, value) => {
+        if(this.getAttribute(name) !== value ) {
+          this.nativeSetAttribute(name, value);
+          this.refresh();
+        }
+      };
+
+      this.nativeRemoveAttribute = this.removeAttribute;
+      this.removeAttribute = (name) => {
+        if (this.getAttribute(name)) {
+          this.nativeRemoveAttribute(name);
+          this.refresh();
+        }
+      };
 
       this.refresh();
     }
@@ -83,10 +102,10 @@ class Component extends HTMLElement {
       const temp = deserialise(this.getAttribute('ctx'), this);
       willNeedRefresh = serialise(temp[key]) !== serialise(value);
       temp[key] = value;
-      this.setAttribute('ctx', serialise(temp));
+      nativeSetAttribute(this, 'ctx', serialise(temp));
     } else {
       willNeedRefresh = true;
-      this.setAttribute('ctx', serialise({ [key]: value }));
+      nativeSetAttribute(this, 'ctx', serialise({ [key]: value }));
     }
 
     if (willNeedRefresh) {

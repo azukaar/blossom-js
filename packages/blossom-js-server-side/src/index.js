@@ -70,7 +70,11 @@ global.BlossomRender = function BlossomRender(template) {
                 let newElement = document.createElement(element.tagName.toLowerCase());
 
                 Array.from(element.attributes).map((attr) => {
-                    newElement.setAttribute(attr.name, element.getAttribute(attr.name))
+                    if (newElement.nativeSetAttribute) {
+                        newElement.nativeSetAttribute(attr.name, element.getAttribute(attr.name))
+                    } else {
+                        newElement.setAttribute(attr.name, element.getAttribute(attr.name))
+                    }
                 });
 
                 newElement.innerHTML = element.innerHTML;

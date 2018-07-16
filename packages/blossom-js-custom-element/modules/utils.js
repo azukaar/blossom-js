@@ -1,4 +1,4 @@
-import { BlossomElement } from './convertElement';
+import { nativeSetAttribute } from './convertElement';
 import getPropProxy from './proxies/props';
 import { setCtx, getCtx, contextTrap } from './proxies/ctx';
 import { deserialise, serialise } from './serialise';
@@ -112,7 +112,7 @@ const interpolateAttributes = function setClassNames(element) {
       if (current.tagName === 'INPUT' && realName === 'checked' && result === 'false') {
         current.removeAttribute(realName);
       } else {
-        current.setAttribute(realName, result);
+        nativeSetAttribute(current, realName, result);
       }
     }
   };

@@ -46,4 +46,25 @@ function BlossomProxyElement(elementToPatch) {
   });
 }
 
-export { BlossomElement, BlossomProxyElement };
+function nativeSetAttribute(el, name, value) {
+  if (el.nativeSetAttribute) {
+    el.nativeSetAttribute(name, value);
+  } else {
+    el.setAttribute(name, value);
+  }
+}
+
+function nativeRemoveAttribute(el, name) {
+  if (el.nativeRemoveAttribute) {
+    el.nativeRemoveAttribute(name);
+  } else {
+    el.removeAttribute(name);
+  }
+}
+
+export {
+  BlossomElement,
+  BlossomProxyElement,
+  nativeSetAttribute,
+  nativeRemoveAttribute
+};

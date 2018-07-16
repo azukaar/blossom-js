@@ -1,5 +1,5 @@
 import { deserialise, serialise } from '../serialise';
-import { BlossomElement } from '../convertElement';
+import { BlossomElement, nativeSetAttribute } from '../convertElement';
 
 function getCtx(element, preventRecursion) {
   let ctx = {};
@@ -35,7 +35,7 @@ function setCtx(element, pendingCtx) {
     });
 
     newCtx = serialise(elementCtx);
-    element.setAttribute('ctx', newCtx);
+    nativeSetAttribute(element, 'ctx', newCtx);
   } else {
     nextCtx = pendingCtx;
   }
@@ -46,7 +46,7 @@ function setCtx(element, pendingCtx) {
     const bodyCtx = serialise(pendingCtx);
     willRefresh = bodyCtx !== oldCtx;
     if (willRefresh) {
-      element.setAttribute('ctx', serialise(bodyCtx));
+      nativeSetAttribute(element, 'ctx', serialise(bodyCtx));
       BlossomElement(element).refresh();
     }
     return willRefresh;

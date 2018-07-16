@@ -21,6 +21,7 @@ export default function getPropProxy(mainElement) {
 
       return attrs;
     },
+
     deleteProperty(target, attr) {
       if (attr !== 'ctx' && typeof attr === 'string') {
         if (mainElement.hasAttribute(attr)) {
@@ -85,17 +86,11 @@ export default function getPropProxy(mainElement) {
     },
     set: (obj, attr, value) => {
       if (attr === 'ctx') {
-        const needRefresh = serialise(mainElement.ctx) !== serialise(value);
-
         mainElement.ctx = value;
-        if (needRefresh) mainElement.refresh();
       } else if (attr === 'children') {
         mainElement.setAttribute(attr, typeof value !== 'string' ? serialise(value) : value);
       } else if (typeof attr === 'string') {
-        const needRefresh = mainElement.getAttribute(attr) !== serialise(value);
-
         mainElement.setAttribute(attr, serialise(value));
-        if (needRefresh) mainElement.refresh();
       }
       return true;
     },

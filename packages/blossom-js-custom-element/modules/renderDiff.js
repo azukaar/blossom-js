@@ -1,3 +1,5 @@
+import { nativeSetAttribute, nativeRemoveAttribute } from './convertElement';
+
 function renderAttr(newDom, destination) {
   const changes = [];
   const length = Math.max(
@@ -11,9 +13,9 @@ function renderAttr(newDom, destination) {
     const destAttr = destination.attributes[i];
 
     if (typeof destAttr !== 'undefined' && newAttrList.indexOf(destAttr.name) === -1 && destAttr.name !== 'children') {
-      changes.push(() => destination.removeAttribute(destAttr.name));
+      changes.push(() => nativeRemoveAttribute(destination, destAttr.name));
     } else if (typeof newAttr !== 'undefined' && destination.getAttribute(newAttr.name) !== newAttr.value) {
-      changes.push(() => destination.setAttribute(newAttr.name, newAttr.value));
+      changes.push(() => nativeSetAttribute(destination, newAttr.name, newAttr.value));
     }
   }
 
