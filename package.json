@@ -1,32 +1,23 @@
 {
-  "name": "blossom-js-monorepo",
-  "version": "0.0.1",
-  "description": "🌸 The web framework that will love you as much as you love it. Zero binding and 100% DOM powered.",
-  "main": "index.js",
+  "name": "blossom-js",
+  "version": "0.43.0",
+  "description": "🌸 The web framework that will love you as much as you love it. Zero binding and 100% DOM powered. Create custom elements effortlessly.",
+  "main": "modules/index.js",
+  "module": "modules/index.js",
   "scripts": {
-    "bootstrap": "lerna bootstrap --use-workspaces",
-    "test": "lerna run lint; jest --coverage; cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js",
-    "jest": "jest",
-    "prepare": "lerna run prepare",
-    "test-build": "lerna run test-build",
-    "copy-readme": "lerna run copy-readme",
-    "build": "lerna run build",
-    "publish": "yarn build; yarn copy-readme; lerna publish",
-    "publish-only": "lerna publish",
-    "lint": "lerna run lint",
-    "serve": "node bs.js",
-    "clean": "rimraf packages/**/lib"
+    "test": "jest",
+    "lint": "eslint --fix ./modules ./test",
+    "test-build": "webpack",
+    "build": "webpack -p",
+    "serve": "webpack-serve",
+    "prepublish": "yarn build"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/azukaar/blossom-js.git"
   },
-  "private": true,
-  "workspaces": [
-    "packages/*"
-  ],
   "keywords": [
-    "web",
+    "blossom-js",
     "javascript",
     "html",
     "css",
@@ -34,27 +25,24 @@
     "data",
     "template"
   ],
-  "babel": {
-    "presets": [
-      "env"
-    ]
-  },
-  "author": "Yann Stepienik",
-  "license": "Apache-2.0",
+  "files": [
+    "umd",
+    "modules"
+  ],
   "devDependencies": {
-    "@webcomponents/webcomponentsjs": "^2.0.0",
+    "@webcomponents/webcomponentsjs": "^2.0.2",
     "babel-jest": "^22.4.3",
     "babel-preset-env": "^1.6.1",
-    "browser-sync": "^2.24.4",
-    "connect-history-api-fallback": "^1.5.0",
-    "cpy-cli": "^2.0.0",
+    "blossom-js-server-side": "^0.42.0",
     "eslint": "^4.19.1",
     "eslint-config-airbnb-base": "^12.1.0",
     "eslint-plugin-import": "^2.10.0",
     "eslint-plugin-jest": "^21.15.0",
     "jest": "^22.4.2",
-    "lerna": "^2.9.0",
     "webpack": "^4.3.0",
-    "webpack-cli": "^2.0.13"
-  }
+    "webpack-cli": "^2.0.13",
+    "webpack-serve": "^2.0.2"
+  },
+  "author": "Yann Stepienik",
+  "license": "Apache-2.0"
 }
