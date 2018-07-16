@@ -29,6 +29,11 @@
     "umd",
     "modules"
   ],
+  "babel": {
+    "presets": [
+      "env"
+    ]
+  },
   "dependencies": {
     "@webcomponents/webcomponentsjs": "^2.0.2"
   },

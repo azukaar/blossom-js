@@ -41,7 +41,7 @@ describe('Create component', () => {
     expect(element.innerHTML).toBe('I am displayed');
   });
 
-  test('Component should render recursively', () => {
+  test.only('Component should render recursively', () => {
     const template = `
             <l-if l-cond="true">
                 I am displayed
