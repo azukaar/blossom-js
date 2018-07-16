@@ -44,7 +44,7 @@ See Advanced Usage for more information on possibilities.
 
 ## Web Components
 
-You can think of Blossom either of a way to bring React/Angular's infamous concept to native web component, or a React without shadow DOM.
+You can think of Blossom either of a way to bring React/Angular's infamous concept to native web component, or a React without virtual DOM.
 This position allow it to bring effortless components to play with.
 
 Here is an example of component written in Blossom. Sounds familiar doesn't it ?
@@ -52,7 +52,7 @@ Here is an example of component written in Blossom. Sounds familiar doesn't it ?
 ```javascript
 class Hello extends Blossom.Component {
   render() {
-    return `<div>Hello, ${this.props.name} !</div>`;
+    return <div>Hello, {this.props.name} !</div>;
   }
 }
 
