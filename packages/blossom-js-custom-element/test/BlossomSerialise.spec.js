@@ -11,7 +11,7 @@ describe('serialise', () => {
     expect(deserialise(serialise('"red"'))).toBe('"red"');
   });
 
-  test.only('Empty', () => {
+  test('Empty', () => {
     expect(deserialise(serialise(''))).toBe('');
   });
 
