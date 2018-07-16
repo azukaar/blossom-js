@@ -22,7 +22,7 @@ import { Component } from 'blossom-js';
 ```
 
 If you're not, simply using a `<script>` tag in the head of your document pointing to the dist file of Blossom is enough (unpkg.com/blossom-js/umd).
-Here a full exemple of a working Hello World. You can play with it on : https://jsfiddle.net/ez792m8k/3
+Here a full exemple of a working Hello World. You can play with it on : https://jsfiddle.net/ez792m8k/13/
 
 ```html
 <html>
@@ -30,10 +30,7 @@ Here a full exemple of a working Hello World. You can play with it on : https://
     <title>Hello World</title>
   </head>
   <body>
-    <div>
-        <l-set message="Hello World"></l-set>
-        <l-get message></l-get>
-    </div>
+    <l-hello name="you beautiful future flower"></l-hello>
   </body>
 </html>
 ```
@@ -44,8 +41,7 @@ See Advanced Usage for more information on possibilities.
 
 ## Web Components
 
-You can think of Blossom either of a way to bring React/Angular's infamous concept to native web component, or a React without virtual DOM.
-This position allow it to bring effortless components to play with.
+You can think of Blossom either of a way to bring modern web development to custom elements (or a React without virtual DOM).
 
 Here is an example of component written in Blossom. Sounds familiar doesn't it ?
 
@@ -62,6 +58,7 @@ Blossom.register({
 })
 ```
 
+Once created, those component are usable anywhere in the real DOM, either in vanilla JS, or from another framework (React / Angular / Vue, etc...)
 More informations on writting components in the doc.
 
 ## Make custom element great ~~again~~
