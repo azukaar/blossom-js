@@ -1,6 +1,6 @@
 {
   "name": "blossom-js",
-  "version": "0.45.0",
+  "version": "0.46.0",
   "description": "🌸 The web framework that will love you as much as you love it. Zero binding and 100% DOM powered. Create custom elements effortlessly.",
   "main": "modules/index.js",
   "module": "modules/index.js",
@@ -29,38 +29,47 @@
     "umd",
     "modules"
   ],
-  "babel":  {
+  "babel": {
     "presets": [
       "stage-2"
     ],
     "env": {
       "production": {
         "presets": [
-          ["env", {
-            "targets": {
-              "node": "last 2 versions",
-              "browsers": "last 2 versions"
+          [
+            "env",
+            {
+              "targets": {
+                "node": "last 2 versions",
+                "browsers": "last 2 versions"
+              }
             }
-          }]
+          ]
         ]
       },
       "development": {
         "presets": [
-          ["env", {
-            "targets": {
-              "node": "current",
-              "browsers": "last 1 chrome version"
+          [
+            "env",
+            {
+              "targets": {
+                "node": "current",
+                "browsers": "last 1 chrome version"
+              }
             }
-          }]
+          ]
         ]
       },
       "test": {
         "presets": [
-          ["env", {
-            "targets": {
-              "node": "current"
+          [
+            "env",
+            {
+              "targets": {
+                "node": "current"
+              }
             }
-          }]
+          ]
         ]
       }
     }
