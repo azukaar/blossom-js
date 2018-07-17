@@ -1,5 +1,5 @@
-import { deserialise, serialise } from '../serialise';
-import { BlossomElement, nativeSetAttribute } from '../convertElement';
+import { deserialise, serialise } from './serialise';
+import { BlossomElement, nativeSetAttribute } from './convertElement';
 
 function getCtx(element, preventRecursion) {
   let ctx = {};

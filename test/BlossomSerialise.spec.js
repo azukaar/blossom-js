@@ -34,7 +34,7 @@ describe('serialise', () => {
   });
 
   test('Function', () => {
-    expect(deserialise(serialise(() => 'foo')).toString()).toEqual((() => 'foo').toString());
+    expect(deserialise(serialise(() => 'foo')).toString()).toEqual('function () {return  \'foo\'}');
     expect(deserialise(serialise(foo => foo)).toString())
       .toEqual((foo => foo).toString());
     expect(deserialise(serialise((foo) => { Math.random(); return foo; })).toString())

@@ -1,5 +1,5 @@
-import { interpolate } from '../utils';
-import { serialise, deserialise } from '../serialise';
+import { interpolate } from './utils';
+import { serialise, deserialise } from './serialise';
 
 export default function getPropProxy(mainElement) {
   return new Proxy({}, {

@@ -25,7 +25,7 @@ class Component extends HTMLElement {
 
       this.nativeSetAttribute = this.setAttribute;
       this.setAttribute = (name, value) => {
-        if(this.getAttribute(name) !== value ) {
+        if (this.getAttribute(name) !== value) {
           this.nativeSetAttribute(name, value);
           this.refresh();
         }
@@ -46,26 +46,6 @@ class Component extends HTMLElement {
   disconnectedCallback() {
     if (this.onUnmount) {
       this.onUnmount();
-    }
-  }
-
-  alisableCtxString(value, defaultName) {
-    const ctx = {};
-    if (this.getAttribute('l-alias')) {
-      ctx[this.getAttribute('l-alias')] = value;
-    } else if (defaultName) {
-      ctx[defaultName] = value;
-    } else {
-      ctx.value = value;
-    }
-    return `ctx='${serialise(ctx)}'`;
-  }
-
-  setAliasableCtx(defaultName, value) {
-    if (this.getAttribute('l-alias')) {
-      this.setCtx(this.getAttribute('l-alias'), value);
-    } else {
-      this.setCtx(defaultName, value);
     }
   }
 
@@ -103,9 +83,12 @@ class Component extends HTMLElement {
       willNeedRefresh = serialise(temp[key]) !== serialise(value);
       temp[key] = value;
       nativeSetAttribute(this, 'ctx', serialise(temp));
+      this.ctx = temp;
     } else {
       willNeedRefresh = true;
-      nativeSetAttribute(this, 'ctx', serialise({ [key]: value }));
+      const temp = { [key]: value };
+      nativeSetAttribute(this, 'ctx', serialise(temp));
+      this.ctx = temp;
     }
 
     if (willNeedRefresh) {

@@ -1,5 +1,6 @@
-if (process.env.NODE_ENV === 'production')
+if (process.env.NODE_ENV === 'production') {
   require('@webcomponents/webcomponentsjs/bundles/webcomponents-ce');
+}
 
 import { BlossomReady, register, getCtx, interpolate } from './utils';
 import { BlossomElement } from './convertElement';

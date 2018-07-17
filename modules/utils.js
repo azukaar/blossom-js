@@ -1,6 +1,6 @@
 import { nativeSetAttribute } from './convertElement';
-import getPropProxy from './proxies/props';
-import { setCtx, getCtx, contextTrap } from './proxies/ctx';
+import getPropProxy from './props';
+import { setCtx, getCtx, contextTrap } from './ctx';
 import { deserialise, serialise } from './serialise';
 
 // document.createEvent('update');

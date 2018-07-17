@@ -29,10 +29,41 @@
     "umd",
     "modules"
   ],
-  "babel": {
+  "babel":  {
     "presets": [
-      "env"
-    ]
+      "stage-2"
+    ],
+    "env": {
+      "production": {
+        "presets": [
+          ["env", {
+            "targets": {
+              "node": "last 2 versions",
+              "browsers": "last 2 versions"
+            }
+          }]
+        ]
+      },
+      "development": {
+        "presets": [
+          ["env", {
+            "targets": {
+              "node": "current",
+              "browsers": "last 1 chrome version"
+            }
+          }]
+        ]
+      },
+      "test": {
+        "presets": [
+          ["env", {
+            "targets": {
+              "node": "current"
+            }
+          }]
+        ]
+      }
+    }
   },
   "dependencies": {
     "@webcomponents/webcomponentsjs": "^2.0.2"

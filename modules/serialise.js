@@ -1,4 +1,4 @@
-import { contextTrap } from './proxies/ctx';
+import { contextTrap } from './ctx';
 import { BlossomProxyElement } from './convertElement';
 
 function subSerialise(element) {
