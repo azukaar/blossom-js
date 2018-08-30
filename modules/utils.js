@@ -135,9 +135,16 @@ if (typeof window !== 'undefined') {
   });
 }
 
+const displayName = function (value) {
+  return function (target) {
+     target.displayName = value;
+  }
+}
+
 export {
   getStackTrace,
   interpolateAttributes,
+  displayName,
   getPropProxy,
   register,
   setCtx,

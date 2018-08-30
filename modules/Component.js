@@ -1,4 +1,4 @@
-import { BlossomCheckParentsAreLoaded, getPropProxy, interpolateAttributes, contextTrap } from './utils';
+import { BlossomCheckParentsAreLoaded, getPropProxy, interpolateAttributes, contextTrap, register } from './utils';
 import * as taskQueue from './taskQueue';
 import { serialise, deserialise } from './serialise';
 import { renderDiff } from './renderDiff';
@@ -94,6 +94,16 @@ class Component extends HTMLElement {
     if (willNeedRefresh) {
       this.refresh();
     }
+  }
+
+  static register(name) {
+    const willRegister = name || this.displayName || 'no-name';
+    register({
+      element: this,
+      name: willRegister
+    });
+
+    return willRegister;
   }
 }
 

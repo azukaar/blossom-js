@@ -1,4 +1,5 @@
 import createElement from '../modules/jsx';
+import Component from '../modules/Component';
 
 describe('JSX', () => {
   it('can create a div', () => {

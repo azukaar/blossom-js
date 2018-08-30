@@ -6,6 +6,7 @@ import 'blossom-js-server-side';
 import {
   Component,
   register,
+  displayName,
 } from '../modules/index';
 import {
   IfComponent,
@@ -17,7 +18,6 @@ import {
   mockSetAttribute,
   mockRemoveAttribute,
   WithUpdateLifeCycleMock,
-  MockRefresh,
   mockRefresh,
 } from './mocks';
 
@@ -37,6 +37,31 @@ describe('Blossom JS', () => {
 
     test('Component inherit from HTMLElement', () => {
       expect(Component.prototype instanceof HTMLElement).toBe(true);
+    });
+
+    test('has registration management', () => {
+
+      // no name
+      class test1 extends Component {}
+      expect(test1.register()).toBe('no-name');
+
+      // override
+      class test2 extends Component {
+      }
+      test2.displayName = 'test-name';
+      expect(test2.register()).toBe('test-name');
+      
+      // default
+      class test3 extends Component {
+      }
+      test3.displayName = 'test-name';
+      expect(test3.register('another-name')).toBe('another-name');
+
+      // decorators
+      @displayName('test-decorator') 
+      class test4 extends Component {
+      }
+      expect(test4.register()).toBe('test-decorator');
     });
 
     test('Component should register', () => {
