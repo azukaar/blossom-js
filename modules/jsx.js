@@ -1,4 +1,5 @@
 import { serialise } from './serialise';
+import { elementregistered } from './utils';
 
 const processProp = function (index, value) {
   let realIndex = index;
@@ -37,7 +38,28 @@ const createElement = function (tag, props = {}, ...children) {
     propsString += `${processProp(index, props[index])} `;
   }
 
-  return `<${tag} ${propsString}>${children.join('')}</${tag}>`;
+  if(typeof tag === 'string') {
+    return `<${tag} ${propsString}>${children.join('')}</${tag}>`;
+  }
+  else {
+    const element = elementregistered(tag.willRegisterAs);
+    const registeredName = element.registeredName;
+    let tagName = tag.willRegisterAs;
+
+    if(typeof tag.willRegisterAs === 'undefined' || !tag.willRegisterAs.length) {
+      tagName = tag.register('no-name-' + parseInt(Math.random() * 10000));
+    }
+    else if(registeredName && element !== tag) {
+      const name = tag.willRegisterAs;
+      tagName = tag.register(name + '-' + parseInt(Math.random() * 100));
+    }
+    else if (!registeredName) {
+      const name = tag.willRegisterAs;
+      tagName = tag.register(name);
+    }
+
+    return `<${tagName} ${propsString}>${children.join('')}</${tagName}>`;
+  }
 };
 
 

@@ -7,7 +7,7 @@ import {
   Component,
   register,
   registerAs,
-  defaultName,
+  willRegisterAs,
 } from '../modules/index';
 import {
   IfComponent,
@@ -49,17 +49,17 @@ describe('Blossom JS', () => {
       // override
       class test2 extends Component {
       }
-      test2.defaultName = 'test-name';
+      test2.willRegisterAs = 'test-name';
       expect(test2.register()).toBe('test-name');
       
       // default
       class test3 extends Component {
       }
-      test3.defaultName = 'test-name';
+      test3.willRegisterAs = 'test-name';
       expect(test3.register('another-name')).toBe('another-name');
 
       // decorators
-      @defaultName('test-decorator') 
+      @willRegisterAs('test-decorator') 
       class test4 extends Component {
       }
       expect(test4.register()).toBe('test-decorator');
@@ -68,7 +68,7 @@ describe('Blossom JS', () => {
       @registerAs('test-decorator') 
       class test5 extends Component {
       }
-      expect(test5.defaultName).toBe('test-decorator');
+      expect(test5.willRegisterAs).toBe('test-decorator');
       expect(test5.register()).toBe('test-decorator');
       expect(test5.register('test-decorator-2')).toBe('test-decorator-2');
     });

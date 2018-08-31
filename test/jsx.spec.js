@@ -1,5 +1,6 @@
 import createElement from '../modules/jsx';
 import Component from '../modules/Component';
+import { willRegisterAs } from '../modules/utils';
 
 describe('JSX', () => {
   it('can create a div', () => {
@@ -44,5 +45,31 @@ describe('JSX', () => {
 
   it.skip('rebind functions', () => {
     expect(createElement('div', { onClick: () => console.log(123) })).toBe('<div ></div>');
+  });
+
+  it('can render unregistered', () => {
+    class test extends Component {
+      render() {
+        return '123';
+      }
+    }
+    expect(createElement(test)).toMatch(/^<no-name/);
+  });
+
+  it('can render clashing names', () => {
+    @willRegisterAs('test-element')
+    class test extends Component {
+      render() {
+        return '123';
+      }
+    }
+    @willRegisterAs('test-element')
+    class test2 extends Component {
+      render() {
+        return '456';
+      }
+    }
+    expect(createElement(test)).toMatch(/^<test-element >/);
+    expect(createElement(test2)).toMatch(/^<test-element-/);
   });
 });

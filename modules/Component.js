@@ -97,7 +97,7 @@ class Component extends HTMLElement {
   }
 
   static register(name) {
-    const willRegister = name || this.defaultName || 'no-name';
+    const willRegister = name || this.willRegisterAs || 'no-name';
     register({
       element: this,
       name: willRegister

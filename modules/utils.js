@@ -39,7 +39,8 @@ const register = function register(settings) {
     throw new Error('Error: please set setting.name.');
   }
 
-  unloaded[settings.name] = true;
+  settings.element.registeredName = settings.name; 
+  unloaded[settings.name] = settings.element;
 
   BlossomDocumentReady.then(() => {
     const { element } = settings;
@@ -53,6 +54,10 @@ const register = function register(settings) {
     return element;
   });
 };
+
+const elementregistered = (name) => {
+  return unloaded[name] || document.createElement(name);
+}
 
 const interpolate = function interpolate(input, from) {
   /* eslint-disable no-console */
@@ -135,15 +140,15 @@ if (typeof window !== 'undefined') {
   });
 }
 
-const defaultName = function (value) {
+const willRegisterAs = function (value) {
   return function (target) {
-     target.defaultName = value;
+     target.willRegisterAs = value;
   }
 }
 
 const registerAs = function (value) {
   return function (target) {
-     target.defaultName = value;
+     target.willRegisterAs = value;
      target.register();
   }
 }
@@ -151,10 +156,11 @@ const registerAs = function (value) {
 export {
   getStackTrace,
   interpolateAttributes,
-  defaultName,
+  willRegisterAs,
   getPropProxy,
   register,
   registerAs,
+  elementregistered,
   setCtx,
   getCtx,
   contextTrap,
