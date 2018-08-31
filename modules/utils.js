@@ -135,18 +135,26 @@ if (typeof window !== 'undefined') {
   });
 }
 
-const displayName = function (value) {
+const defaultName = function (value) {
   return function (target) {
-     target.displayName = value;
+     target.defaultName = value;
+  }
+}
+
+const registerAs = function (value) {
+  return function (target) {
+     target.defaultName = value;
+     target.register();
   }
 }
 
 export {
   getStackTrace,
   interpolateAttributes,
-  displayName,
+  defaultName,
   getPropProxy,
   register,
+  registerAs,
   setCtx,
   getCtx,
   contextTrap,

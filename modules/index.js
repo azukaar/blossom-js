@@ -2,7 +2,7 @@ if (process.env.NODE_ENV === 'production') {
   require('@webcomponents/webcomponentsjs/bundles/webcomponents-ce');
 }
 
-import { BlossomReady, register, getCtx, interpolate, displayName } from './utils';
+import { BlossomReady, register, getCtx, interpolate, defaultName, registerAs } from './utils';
 import { BlossomElement } from './convertElement';
 import createElement from './jsx';
 import Component from './Component';
@@ -13,7 +13,8 @@ export {
   deserialise,
   createElement,
   Component,
-  displayName,
+  registerAs,
+  defaultName,
   BlossomElement,
   register,
   getCtx,

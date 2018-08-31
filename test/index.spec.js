@@ -6,7 +6,8 @@ import 'blossom-js-server-side';
 import {
   Component,
   register,
-  displayName,
+  registerAs,
+  defaultName,
 } from '../modules/index';
 import {
   IfComponent,
@@ -48,20 +49,28 @@ describe('Blossom JS', () => {
       // override
       class test2 extends Component {
       }
-      test2.displayName = 'test-name';
+      test2.defaultName = 'test-name';
       expect(test2.register()).toBe('test-name');
       
       // default
       class test3 extends Component {
       }
-      test3.displayName = 'test-name';
+      test3.defaultName = 'test-name';
       expect(test3.register('another-name')).toBe('another-name');
 
       // decorators
-      @displayName('test-decorator') 
+      @defaultName('test-decorator') 
       class test4 extends Component {
       }
       expect(test4.register()).toBe('test-decorator');
+      
+      // decorators
+      @registerAs('test-decorator') 
+      class test5 extends Component {
+      }
+      expect(test5.defaultName).toBe('test-decorator');
+      expect(test5.register()).toBe('test-decorator');
+      expect(test5.register('test-decorator-2')).toBe('test-decorator-2');
     });
 
     test('Component should register', () => {
