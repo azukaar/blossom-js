@@ -9,16 +9,12 @@
 
     <d-code codeonly="true">
       <script>
+        @registerAs('my-hello')
         class HelloWorld extends Blossom.Component {
           render() {
             return `hello ${this.props.name} !`
           }
         }
-
-        Blossom.register({
-          name: 'my-hello',
-          element: HelloWorld
-        });
       </script>
 
       <my-hello name="little blossoming flower"></my-hello>
@@ -30,29 +26,41 @@
   
     <d-code codeonly="true">
         <script>
+          @registerAs('my-hello-a')
           class HelloWorldA extends Blossom.Component {
+            render() {
+              return `hello ${this.props.name} !`
+            }
+          }
+
+          @registerAs('my-hello-b')
+          class HelloWorldB extends Blossom.Component {
+            render() {
+              return `<my-hello-a ${this.props.spread(['name'])} ></my-hello-a>`
+            }
+          }
+        </script>
+  
+        <my-hello-b name="little blossoming flower"></my-hello-b>
+      </d-code>
+
+      <p>
+        Note if you are not using decorators :
+      </p>
+  
+      <d-code codeonly="true">
+        <script>
+          class HelloWorld extends Blossom.Component {
             render() {
               return `hello ${this.props.name} !`
             }
           }
   
           Blossom.register({
-            name: 'my-hello-a',
-            element: HelloWorld
-          });
-
-          class HelloWorldB extends Blossom.Component {
-            render() {
-              return `<my-hello-a ${this.props.spread(['name'])} ></my-hello-a>`
-            }
-          }
-  
-          Blossom.register({
-            name: 'my-hello-b',
+            name: 'my-hello',
             element: HelloWorld
           });
         </script>
-  
-        <my-hello-b name="little blossoming flower"></my-hello-b>
       </d-code>
+    
 </div>

@@ -31,16 +31,49 @@
   Here is an example of component written in Blossom. Sounds familiar doesn't it ?
 
   <d-code lang="javascript" codeonly="true">
+    @registerAs('l-hello')
     class Hello extends Blossom.Component {
       render() {
         return `<div>Hello, ${this.props.name} !</div>`;
       }
     }
+  </d-code>
 
-    Blossom.register({
-      name: 'l-hello',
-      element: Hello
-    })
+  <h2>JSX</h2>
+
+  Starting 0.41.0 Blossom also supports JSX. Use Babel with JSX plugin (babel-plugin-transform-react-jsx) to make it work.
+  Don't forget to use the JSX pragma to tell it to use Blossom ! JSX also allow you to import libs without registering them manually in order to avoid name clashing.
+  
+  <d-code lang="json" codeonly="true">
+    {
+      "plugins": [
+        ["transform-react-jsx", {
+          "pragma": "Blossom.createElement"
+        }]
+      ]
+    }
+  </d-code>
+  
+  <d-code lang="javascript" codeonly="true">
+    class myComp extends Blossom.Component {
+      render() {
+        return <div>Hello World !</div>;
+      }
+    }
+  </d-code>
+
+  
+  <d-code lang="javascript" codeonly="true">
+    // for libs
+    
+    import { ButtonComponent } from 'pollen-ui';
+    
+    class myComp extends Blossom.Component {
+      render() {
+        // here the JSX engine will check for name clashing and auto register the component for you
+        return <ButtonComponent>Click me !</ButtonComponent>;
+      }
+    }
   </d-code>
 
   <h2>DOM powered</h2>

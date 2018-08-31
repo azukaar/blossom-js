@@ -22,7 +22,7 @@ import { Component } from 'blossom-js';
 ```
 
 If you're not, simply using a `<script>` tag in the head of your document pointing to the dist file of Blossom is enough (unpkg.com/blossom-js/umd).
-Here a full exemple of a working Hello World. You can play with it on : https://jsfiddle.net/ez792m8k/13/
+Here a full exemple of a working Hello World. You can play with it on : https://jsfiddle.net/ez792m8k/24/
 
 ```html
 <html>
@@ -46,16 +46,14 @@ You can think of Blossom either of a way to bring modern web development to cust
 Here is an example of component written in Blossom. Sounds familiar doesn't it ?
 
 ```javascript
-class Hello extends Blossom.Component {
-  render() {
-    return <div>Hello, {this.props.name} !</div>;
+const {registerAs, Component} = Blossom;
+
+@registerAs('l-hello')
+class Hello extends Component {
+	render() {
+  	return <div>Hello, {this.props.name} !</div>;
   }
 }
-
-Blossom.register({
-  name: 'l-hello',
-  element: Hello
-})
 ```
 
 Once created, those component are usable anywhere in the real DOM, either in vanilla JS, or from another framework (React / Angular / Vue, etc...)
@@ -80,7 +78,7 @@ Custom Elements).
 
 ## JSX
 
-Starting 0.41.0 Blossom also supports JSX. Use Babel with JSX plugin (babel-plugin-transform-react-jsx) to make it work. Don't forget to use the JSX pragma to tell it to use Blossom !
+Starting 0.41.0 Blossom also supports JSX. Use Babel with JSX plugin (babel-plugin-transform-react-jsx) to make it work. Don't forget to use the JSX pragma to tell it to use Blossom ! JSX also allow you to import libs without registering them manually in order to avoid name clashing.
 
 ```json
 {
@@ -96,6 +94,19 @@ Starting 0.41.0 Blossom also supports JSX. Use Babel with JSX plugin (babel-plug
 class myComp extends Blossom.Component {
   render() {
     return <div>Hello World !</div>;
+  }
+}
+```
+
+```javascript
+// for libs
+
+import { ButtonComponent } from 'pollen-ui';
+
+class myComp extends Blossom.Component {
+  render() {
+    // here the JSX engine will check for name clashing and auto register the component for you
+    return <ButtonComponent>Click me !</ButtonComponent>;
   }
 }
 ```

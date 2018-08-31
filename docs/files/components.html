@@ -24,16 +24,12 @@
     </p>
 
     <d-code lang="javascript" codeonly="true">
+        @registerAs('mysite-link')
         class MyComponent extends Blossom.Component {
             render() {
                 return 'hello world';
             }
         }
-
-        Blossom.register({
-            name: 'mysite-link',
-            element: MyComponent
-        })
     </d-code>
 
     <p>
