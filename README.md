@@ -50,8 +50,8 @@ const {registerAs, Component} = Blossom;
 
 @registerAs('l-hello')
 class Hello extends Component {
-	render() {
-  	return <div>Hello, {this.props.name} !</div>;
+  render() {
+    return <div>Hello, {this.props.name} !</div>;
   }
 }
 ```
