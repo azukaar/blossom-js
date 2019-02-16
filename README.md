@@ -5,8 +5,6 @@ Blossom JS is introduced as a web framework allowing developper to provide fully
 
 getting started and full documentation here : https://azukaar.github.io/blossom-js/
 
-some examples here : https://github.com/azukaar/blossom-js/tree/master/examples
-
 # Installation and basic usage
 
 If you're using NPM, install Blossom with : 
